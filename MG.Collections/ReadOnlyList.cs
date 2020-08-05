@@ -169,6 +169,9 @@ namespace MG.Collections
         ///     by <paramref name="match"/> if found; otherwise, -1.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="startIndex"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
+        /// </exception>
         public int FindIndex(int startIndex, Predicate<T> match) => this.InnerList.FindIndex(startIndex, match);
 
         /// <summary>
@@ -184,13 +187,92 @@ namespace MG.Collections
         ///     by <paramref name="match"/> if found; otherwise, -1.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="startIndex"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
+        ///     -or-
+        ///     <paramref name="count"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="startIndex"/> and <paramref name="count"/> do not specify a valid section of the list.
+        /// </exception>
         public int FindIndex(int startIndex, int count, Predicate<T> match) => this.InnerList.FindIndex(startIndex, count, match);
 
-
+        /// <summary>
+        /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the last occurrence within the
+        /// entire <see cref="ReadOnlyList{T}"/>.
+        /// </summary>
+        /// <param name="match">The <see cref="Predicate{T}"/> delegate the defines the conditions of the elements to search for.</param>
+        /// <returns>
+        ///     The last elements that matches the conditions defined by the specified predicate, if found; otherwise, the default value for
+        ///     type <typeparamref name="T"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
         public T FindLast(Predicate<T> match) => this.InnerList.FindLast(match);
+
+        /// <summary>
+        /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
+        /// lat occurrence within the entire <see cref="ReadOnlyList{T}"/>.
+        /// </summary>
+        /// <param name="match">The <see cref="Predicate{T}"/> delegate the defines the conditions of the elements to search for.</param>
+        /// <returns>
+        ///     The zero-based index of the last occurrence of an element that matches the conditions defined by
+        ///     <paramref name="match"/>, if found; otherwise, -1.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
         public int FindLastIndex(Predicate<T> match) => this.InnerList.FindLastIndex(match);
+
+        /// <summary>
+        /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
+        /// lat occurrence within the range of elements in the <see cref="ReadOnlyList{T}"/> that extends from the first element to the 
+        /// specified index.
+        /// </summary>
+        /// <param name="startIndex">The zero-based starting index of the backward search.</param>
+        /// <param name="match">The <see cref="Predicate{T}"/> delegate the defines the conditions of the elements to search for.</param>
+        /// <returns>
+        ///     The zero-based index of the last occurrence of an element that matches the conditions defined by
+        ///     <paramref name="match"/>, if found; otherwise, -1.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="startIndex"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
+        /// </exception>
         public int FindLastIndex(int startIndex, Predicate<T> match) => this.InnerList.FindLastIndex(startIndex, match);
+
+        /// <summary>
+        /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
+        /// lat occurrence within the range of elements in the <see cref="ReadOnlyList{T}"/> that contains the specified number
+        /// of elements and ends at the specified index.
+        /// </summary>
+        /// <param name="startIndex">The zero-based starting index of the backward search.</param>
+        /// <param name="count">The number of elements in the section to search.</param>
+        /// <param name="match">The <see cref="Predicate{T}"/> delegate the defines the conditions of the elements to search for.</param>
+        /// <returns>
+        ///     The zero-based index of the last occurrence of an element that matches the conditions defined by
+        ///     <paramref name="match"/>, if found; otherwise, -1.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="startIndex"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
+        ///     -or-
+        ///     <paramref name="count"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="startIndex"/> and <paramref name="count"/> do not specify a valid section of the list.
+        /// </exception>
         public int FindLastIndex(int startIndex, int count, Predicate<T> match) => this.InnerList.FindLastIndex(startIndex, count, match);
+
+        /// <summary>
+        /// Creates a shallow copy of a range of elements in the source <see cref="ReadOnlyList{T}"/>.
+        /// </summary>
+        /// <param name="index">The zero-based index at which the range starts.</param>
+        /// <param name="count">The number of elements in the range.</param>
+        /// <returns>A shallow copy of a range of elements in the <see cref="ReadOnlyList{T}"/>.</returns>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="index"/> and <paramref name="count"/> do not denote a valid range of elements.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="count"/> is less than 0.
+        /// </exception>
         public IList<T> GetRange(int index, int count) => this.InnerList.GetRange(index, count);
 
         /// <summary>
@@ -206,15 +288,193 @@ namespace MG.Collections
         ///     <see cref="ReadOnlyList{T}"/>, if found; otherwise -1.
         /// </returns>
         public int IndexOf(T item) => this.InnerList.IndexOf(item);
+
+        /// <summary>
+        /// Searches for the specified object and returns the zero-based index of the first occurrence
+        /// within the range of elements in the <see cref="ReadOnlyList{T}"/> that extends from the specified index to the last element.
+        /// </summary>
+        /// <param name="item">
+        ///     The object to locate in the <see cref="ReadOnlyList{T}"/>.  
+        ///     The value can be <see langword="null"/> for reference types.
+        /// </param>
+        /// <param name="index">The zero-based starting index of the search.  0 (zero) is valid in an empty list.</param>
+        /// <returns>
+        ///     The zero-based index of the first occurrence of <paramref name="item"/> within the range of elements in the
+        ///     <see cref="ReadOnlyList{T}"/>, if found; otherwise -1.
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
+        /// </exception>
         public int IndexOf(T item, int index) => this.InnerList.IndexOf(item, index);
+
+        /// <summary>
+        /// Searches for the specified object and returns the zero-based index of the first occurrence
+        /// within the range of elements in the <see cref="ReadOnlyList{T}"/> that extends from the specified index to the last element.
+        /// </summary>
+        /// <param name="item">
+        ///     The object to locate in the <see cref="ReadOnlyList{T}"/>.  
+        ///     The value can be <see langword="null"/> for reference types.
+        /// </param>
+        /// <param name="index">The zero-based starting index of the search.  0 (zero) is valid in an empty list.</param>
+        /// <param name="count">The number of elements in the section to search.</param>
+        /// <returns>
+        ///     The zero-based index of the first occurrence of <paramref name="item"/> within the range of elements in the
+        ///     <see cref="ReadOnlyList{T}"/>, if found; otherwise -1.
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
+        ///     -or-
+        ///     <paramref name="count"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="index"/> and <paramref name="count"/> do not specify a vliad section in the list.
+        /// </exception>
         public int IndexOf(T item, int index, int count) => this.InnerList.IndexOf(item, index, count);
+
+        /// <summary>
+        /// Searches for the specified object and returns the zero-based index of the last occurrence
+        /// within the entire <see cref="ReadOnlyList{T}"/>.
+        /// </summary>
+        /// <param name="item">
+        ///     The object to locate in the <see cref="ReadOnlyList{T}"/>.  
+        ///     The value can be <see langword="null"/> for reference types.
+        /// </param>
+        /// <returns>
+        ///     The zero-based index of the last occurrence of <paramref name="item"/> within the entire
+        ///     <see cref="ReadOnlyList{T}"/>, if found; otherwise -1.
+        /// </returns>
         public int LastIndexOf(T item) => this.InnerList.LastIndexOf(item);
+
+        /// <summary>
+        /// Searches for the specified object and returns the zero-based index of the last occurrence
+        /// within the range of elements in the <see cref="ReadOnlyList{T}"/> that extends from the first element to the specified index.
+        /// </summary>
+        /// <param name="item">
+        ///     The object to locate in the <see cref="ReadOnlyList{T}"/>.  
+        ///     The value can be <see langword="null"/> for reference types.
+        /// </param>
+        /// <param name="index">The zero-based starting index of the backward search.</param>
+        /// <returns>
+        ///     The zero-based index of the last occurrence of <paramref name="item"/> within the range of elements in the
+        ///     <see cref="ReadOnlyList{T}"/>, if found; otherwise -1.
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
+        /// </exception>
         public int LastIndexOf(T item, int index) => this.InnerList.LastIndexOf(item, index);
+
+        /// <summary>
+        /// Searches for the specified object and returns the zero-based index of the last occurrence
+        /// within the range of elements in the <see cref="ReadOnlyList{T}"/> that contains the specified number
+        /// of elements and ends at the specified index.
+        /// </summary>
+        /// <param name="item">
+        ///     The object to locate in the <see cref="ReadOnlyList{T}"/>.  
+        ///     The value can be <see langword="null"/> for reference types.
+        /// </param>
+        /// <param name="index">The zero-based starting index of the backward search.</param>
+        /// <param name="count">The number of elements in the section to search.</param>
+        /// <returns>
+        ///     The zero-based index of the last occurrence of <paramref name="item"/> within the range of elements in the
+        ///     <see cref="ReadOnlyList{T}"/> that contains <paramref name="count"/> number of elements and ends at
+        ///     <paramref name="index"/>, if found; otherwise, -1;
+        /// </returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
+        ///     -or-
+        ///     <paramref name="count"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="index"/> and <paramref name="count"/> do not specify a vliad section in the list.
+        /// </exception>
         public int LastIndexOf(T item, int index, int count) => this.InnerList.LastIndexOf(item, index, count);
+
+        /// <summary>
+        /// Reverses the order of the elements in the entire <see cref="ReadOnlyList{T}"/>.
+        /// </summary>
         public void Reverse() => this.InnerList.Reverse();
+
+        /// <summary>
+        /// Reverse the order of the elements starting the specified index and extends to the last element.
+        /// </summary>
+        /// <param name="index">The zero-based starting index of the range to reverse.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0 or is <see cref="ReadOnlyList{T}.Count"/> or greater.
+        /// </exception>
+        public void Reverse(int index) => this.Reverse(index, this.Count - index);
+
+        /// <summary>
+        /// Reverses the order of the elements in the specified range.
+        /// </summary>
+        /// <param name="index">The zero-based starting index of the range to reverse.</param>
+        /// <param name="count">The number of elements in the range to reverse.</param>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="index"/> and <paramref name="count"/> do not denote a valid range of elements in the <see cref="ReadOnlyList{T}"/>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="count"/> is less than 0.
+        /// </exception>
         public void Reverse(int index, int count) => this.InnerList.Reverse(index, count);
+
+        /// <summary>
+        /// Sorts the elements in the entire <see cref="ReadOnlyList{T}"/> using the default comparer.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        ///     The default comparer <see cref="Comparer{T}"/> cannot find an implementation of the <see cref="IComparable{T}"/>
+        ///     generic interface of the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
+        /// </exception>
         public void Sort() => this.InnerList.Sort();
+
+        /// <summary>
+        /// Sorts the elements in the entire <see cref="ReadOnlyList{T}"/> using the specified <see cref="Comparison{T}"/>.
+        /// </summary>
+        /// <param name="comparison">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
+        /// <exception cref="ArgumentException">
+        ///     The implementation of <paramref name="comparer"/> caused an error during the sort.  For example, <paramref name="comparer"/>
+        ///     might not return 0 when comparing an item with itself.
+        /// </exception>
+        /// <exception cref="ArgumentNullException"><paramref name="comparison"/> is <see langword="null"/>.</exception>
+        public void Sort(Comparison<T> comparison) => this.InnerList.Sort(comparison);
+
+        /// <summary>
+        /// Sorts the elements in the entire <see cref="ReadOnlyList{T}"/> using the specified comparer.
+        /// </summary>
+        /// <param name="comparer">
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or null to use the default comparer
+        ///     <see cref="Comparer{T}.Default"/>.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        ///     The implementation of <paramref name="comparer"/> caused an error during the sort.  For example, <paramref name="comparer"/>
+        ///     might not return 0 when comparing an item with itself.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     The default comparer <see cref="Comparer{T}"/> cannot find an implementation of the <see cref="IComparable{T}"/>
+        ///     generic interface of the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
+        /// </exception>
         public void Sort(IComparer<T> comparer) => this.InnerList.Sort(comparer);
+
+        /// <summary>
+        /// Sorts the elements in the range of elements in <see cref="ReadOnlyList{T}"/> using the specified comparer.
+        /// </summary>
+        /// <param name="index">The zero-based starting index of the range to sort.</param>
+        /// <param name="count">The length of the range to sort.</param>
+        /// <param name="comparer">
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or null to use the default comparer
+        ///     <see cref="Comparer{T}.Default"/>.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        ///     The implementation of <paramref name="comparer"/> caused an error during the sort.  For example, <paramref name="comparer"/>
+        ///     might not return 0 when comparing an item with itself.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0 -or- <paramref name="count"/> is less than 0.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     The default comparer <see cref="Comparer{T}"/> cannot find an implementation of the <see cref="IComparable{T}"/>
+        ///     generic interface of the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
+        /// </exception>
+        public void Sort(int index, int count, IComparer<T> comparer) => this.InnerList.Sort(index, count, comparer);
+
         public T[] ToArray() => this.InnerList.ToArray();
         public bool TrueForAll(Predicate<T> match) => this.InnerList.TrueForAll(match);
 
