@@ -10,8 +10,10 @@ namespace MG.Collections
     /// searching and sorting through its contents.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ReadOnlyList<T> : ICollection, ISearchableList<T>, ISortableList<T>
+    public class ReadOnlyList<T> : IEnumerable<T>, IReadOnlyCollection<T>, IReadOnlyList<T>, ISearchableList<T>, ISortableList<T>, ICollection
     {
+        #region PROPERTIES
+
         /// <summary>
         /// The internal backing <see cref="List{T}"/> that all methods of <see cref="ReadOnlyList{T}"/> invoke against.
         /// </summary>
@@ -23,8 +25,9 @@ namespace MG.Collections
         /// <returns>The number of elements contained within the <see cref="ReadOnlyList{T}"/>.</returns>
         public int Count => this.InnerList.Count;
 
-        bool ICollection.IsSynchronized => false;
-        object ICollection.SyncRoot => ((ICollection)this.InnerList).SyncRoot;
+        #endregion
+
+        #region INDEXER
 
         /// <summary>
         /// Gets the element at the specified index.  If <paramref name="index"/> is negative, then searching is done in reverse order.
@@ -46,6 +49,10 @@ namespace MG.Collections
             }
         }
 
+        #endregion
+
+        #region CONSTRUCTORS
+
         /// <summary>
         /// Initializes a new instance of <see cref="ReadOnlyList{T}"/> that is empty
         /// and has the default capacity.
@@ -64,12 +71,14 @@ namespace MG.Collections
         /// <param name="items">The collection whose elements are copied to the new list.</param>
         public ReadOnlyList(IEnumerable<T> items) => this.InnerList = new List<T>(items);
 
-        #region METHODS
+        #endregion
+
+        #region LIST METHODS
         /// <summary>
         /// Searches the entire sorted <see cref="ReadOnlyList{T}"/> for an element using the default comparer
         /// and returns the zero-based index of the element.
         /// </summary>
-        /// <param name="item">The object to locate.  The value can be null for reference types.</param>
+        /// <param name="item">The object to locate.  The value can be <see langword="null"/> for reference types.</param>
         /// <returns>
         ///     The zero-based index of <paramref name="item"/> in the sorted <see cref="ReadOnlyList{T}"/>, if
         ///     <paramref name="item"/> is found; otherwise, a negative number that is the bitwise complement of the index of
@@ -81,6 +90,56 @@ namespace MG.Collections
         ///     interface or the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
         /// </exception>
         public int BinarySearch(T item) => this.InnerList.BinarySearch(item);
+
+        /// <summary>
+        /// Searches the entire sorted <see cref="ReadOnlyList{T}"/> for an element using the specified comparer
+        /// and returns the zero-based index of the element.
+        /// </summary>
+        /// <param name="item">The object to locate.  The value can be <see langword="null"/> for reference types.</param>
+        /// <param name="comparer">
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements,
+        ///     or <see langword="null"/> to use the default comparer <see cref="Comparer{T}.Default"/>.
+        /// </param>
+        /// <returns>
+        ///     The zero-based index of <paramref name="item"/> in the sorted <see cref="ReadOnlyList{T}"/>, if
+        ///     <paramref name="item"/> is found; otherwise, a negative number that is the bitwise complement of the index of
+        ///     the next element that is larger than <paramref name="item"/> or, if there is no larger element, the bitwise
+        ///     complement of <see cref="ReadOnlyList{T}.Count"/>.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        ///     The default comparer <see cref="Comparer{T}.Default"/> cannot find an implementation of the <see cref="IComparable{T}"/>
+        ///     interface or the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
+        /// </exception>
+        public int BinarySearch(T item, IComparer<T> comparer) => this.InnerList.BinarySearch(item, comparer);
+
+        /// <summary>
+        /// Searches a range of elements in the sorted <see cref="ReadOnlyList{T}"/> for an element using the specified comparer
+        /// and returns the zero-based index of the element.
+        /// </summary>
+        /// <param name="index">The zero-based starting index of the range to search.</param>
+        /// <param name="count">The length of the range to search.</param>
+        /// <param name="item">The object to locate.  The value can be <see langword="null"/> for reference types.</param>
+        /// <param name="comparer">
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements,
+        ///     or <see langword="null"/> to use the default comparer <see cref="Comparer{T}.Default"/>.
+        /// </param>
+        /// <returns>
+        ///     The zero-based index of <paramref name="item"/> in the sorted <see cref="ReadOnlyList{T}"/>, if
+        ///     <paramref name="item"/> is found; otherwise, a negative number that is the bitwise complement of the index of
+        ///     the next element that is larger than <paramref name="item"/> or, if there is no larger element, the bitwise
+        ///     complement of <see cref="ReadOnlyList{T}.Count"/>.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="index"/> and <paramref name="count"/> do not denote a valid range in the <see cref="ReadOnlyList{T}"/>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0 -or- <paramref name="count"/> is less than 0.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     The default comparer <see cref="Comparer{T}.Default"/> cannot find an implementation of the <see cref="IComparable{T}"/>
+        ///     interface or the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
+        /// </exception>
+        public int BinarySearch(int index, int count, T item, IComparer<T> comparer) => this.InnerList.BinarySearch(index, count, item, comparer);
 
         /// <summary>
         /// Determines whether an element is in the <see cref="ReadOnlyList{T}"/>.
@@ -475,14 +534,47 @@ namespace MG.Collections
         /// </exception>
         public void Sort(int index, int count, IComparer<T> comparer) => this.InnerList.Sort(index, count, comparer);
 
+        /// <summary>
+        /// Copies the elements of the <see cref="ReadOnlyList{T}"/> to a new array.
+        /// </summary>
+        /// <returns>
+        ///     An array containing copies of the elements of the <see cref="ReadOnlyList{T}"/>.
+        /// </returns>
         public T[] ToArray() => this.InnerList.ToArray();
+
+        /// <summary>
+        /// Determines whether every element in the <see cref="ReadOnlyList{T}"/> matches the conditions
+        /// defined by the specified predicate.
+        /// </summary>
+        /// <param name="match">The <see cref="Predicate{T}"/> delegate that defines the conditions to check against the elements.</param>
+        /// <returns>
+        ///     <see langword="true"/>: if every element in the list matches the conditions defined; 
+        ///     otherwise, <see langword="false"/>.
+        ///     If the list has no elements, the return value is <see langword="true"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
         public bool TrueForAll(Predicate<T> match) => this.InnerList.TrueForAll(match);
 
         #endregion
 
+        #region NON-LIST METHODS
+
+
+        #endregion
+
         #region ENUMERATORS
-        public IEnumerator<T> GetEnumerator() => this.GetEnumerator();
+        /// <summary>
+        /// Returns an enumerator that iterates through the <see cref="ReadOnlyList{T}"/>.
+        /// </summary>
+        /// <returns>A <see cref="List{T}.Enumerator"/> for the <see cref="ReadOnlyList{T}"/>.</returns>
+        public IEnumerator<T> GetEnumerator() => this.InnerList.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+
+        #endregion
+
+        #region INTERFACE EXPLICIT PROPERTIES
+        bool ICollection.IsSynchronized => false;
+        object ICollection.SyncRoot => ((ICollection)this.InnerList).SyncRoot;
 
         #endregion
 
