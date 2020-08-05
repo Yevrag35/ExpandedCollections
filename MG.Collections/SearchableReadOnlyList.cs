@@ -2,24 +2,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 
 namespace MG.Collections
 {
-    public class ReadOnlyList<T> : IReadOnlyList<T>, ICollection
+    /// <summary>
+    /// A strongly typed, read-only list of objects that can be accessed by index and provides advanced methods for 
+    /// searching and sorting through its contents.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class SearchableReadOnlyList<T> : ICollection, ISearchableList<T>, ISortableList<T>
     {
+        /// <summary>
+        /// The inner <see cref="List{T}"/> holding the elements of the <see cref="SearchableReadOnlyList{T}"/>.
+        /// </summary>
         protected List<T> InnerList { get; }
 
+        /// <summary>
+        /// Gets the number of elements contained in the <see cref="SearchableReadOnlyList{T}"/>.
+        /// </summary>
+        /// <returns>The number of elements contained within the <see cref="SearchableReadOnlyList{T}"/>.</returns>
         public int Count => this.InnerList.Count;
 
-        bool ICollection.IsSynchronized => ((ICollection)this.InnerList).IsSynchronized;
+        bool ICollection.IsSynchronized => false;
         object ICollection.SyncRoot => ((ICollection)this.InnerList).SyncRoot;
 
+        /// <summary>
+        /// Gets the element at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the element to get.</param>
+        /// <returns>The element at the specified index.</returns>
         public T this[int index] => this.InnerList[index];
 
-        protected ReadOnlyList() => this.InnerList = new List<T>();
-        protected ReadOnlyList(int capacity) => this.InnerList = new List<T>(capacity);
-        public ReadOnlyList(IEnumerable<T> items) => this.InnerList = new List<T>(items);
+        /// <summary>
+        /// Initializes a new instance of <see cref="SearchableReadOnlyList{T}"/> that is empty
+        /// and has the default capacity.
+        /// </summary>
+        protected SearchableReadOnlyList() => this.InnerList = new List<T>();
+        /// <summary>
+        /// Initializes a new instance of <see cref="SearchableReadOnlyList{T}"/> that is empty
+        /// and has the specified capacity.
+        /// </summary>
+        /// <param name="capacity">The number of new elements the list can initially store.</param>
+        protected SearchableReadOnlyList(int capacity) => this.InnerList = new List<T>(capacity);
+        /// <summary>
+        /// Initializes a new instance of <see cref="SearchableReadOnlyList{T}"/> that contains the elements
+        /// copied from the specified collection.
+        /// </summary>
+        /// <param name="items">The collection whose elements are copied to the new list.</param>
+        public SearchableReadOnlyList(IEnumerable<T> items) => this.InnerList = new List<T>(items);
 
         public void CopyTo(Array array, int index) => ((ICollection)this.InnerList).CopyTo(array, index);
         public IEnumerator<T> GetEnumerator() => this.GetEnumerator();
