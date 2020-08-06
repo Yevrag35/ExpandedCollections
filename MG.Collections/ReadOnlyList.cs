@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace MG.Collections
@@ -557,11 +558,6 @@ namespace MG.Collections
 
         #endregion
 
-        #region NON-LIST METHODS
-
-
-        #endregion
-
         #region ENUMERATORS
         /// <summary>
         /// Returns an enumerator that iterates through the <see cref="ReadOnlyList{T}"/>.
@@ -569,6 +565,14 @@ namespace MG.Collections
         /// <returns>A <see cref="List{T}.Enumerator"/> for the <see cref="ReadOnlyList{T}"/>.</returns>
         public IEnumerator<T> GetEnumerator() => this.InnerList.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+
+        #endregion
+
+        #region OPERATORS
+        public static explicit operator List<T>(ReadOnlyList<T> readOnly) => new List<T>(readOnly);
+        public static explicit operator ReadOnlyCollection<T>(ReadOnlyList<T> readOnly) => new ReadOnlyCollection<T>(readOnly.InnerList);
+        public static explicit operator ReadOnlyList<T>(ReadOnlyCollection<T> collection) => new ReadOnlyList<T>(collection);
+        public static explicit operator ReadOnlyList<T>(List<T> list) => new ReadOnlyList<T>(list);
 
         #endregion
 
