@@ -6,6 +6,10 @@ using MG.Collections.Exceptions;
 
 namespace MG.Collections
 {
+    /// <summary>
+    /// A generic dictionary keyed with strings that can be accessed case-insensitive or not.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class StringKeyedDictionary<T> : IDictionary<string, T>, IReadOnlyDictionary<string, T>, IDictionary
     {
         #region PRIVATE FIELDS
