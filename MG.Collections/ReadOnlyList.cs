@@ -167,7 +167,7 @@ namespace MG.Collections
         ///     match the conditions defined by the specified predicate.
         /// </summary>
         /// <param name="match">
-        ///     The <see cref="Predicate{T}"/> delegate that defines the conditions of the 
+        ///     The <see cref="Func{T, TResult}"/> delegate that defines the conditions of the 
         ///     elements to search for.
         /// </param>
         /// <returns>
@@ -178,44 +178,44 @@ namespace MG.Collections
         ///     otherwise.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public bool Exists(Predicate<T> match) => this.InnerList.Exists(match);
+        public bool Exists(Func<T, bool> match) => this.InnerList.Exists(this.ToPredicate(match));
 
         /// <summary>
         ///     Searches for an element that matches the conditions defined by the specified
         ///     predicate, and returns the first occurrence within the entire <see cref="ReadOnlyList{T}"/>.
         /// </summary>
         /// <param name="match">
-        ///     The <see cref="Predicate{T}"/> delegate that defines the conditions of the
+        ///     The <see cref="Func{T, TResult}"/> delegate that defines the conditions of the
         ///     elements to search for.
         /// </param>
         /// <returns>
         ///     The first element that matches the conditions if found; otherwise the default value for <typeparamref name="T"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public T Find(Predicate<T> match) => this.InnerList.Find(match);
+        public T Find(Func<T, bool> match) => this.InnerList.Find(this.ToPredicate(match));
 
         /// <summary>
         /// Retrieves all of the elements that match the conditions defined by the specified predicate.
         /// </summary>
-        /// <param name="match">The <see cref="Predicate{T}"/> delegate the defines the conditions of the elements to search for.</param>
+        /// <param name="match">The <see cref="Func{T, TResult}"/> delegate the defines the conditions of the elements to search for.</param>
         /// <returns>
         ///     An <see cref="IList{T}"/> containing all of the elements that match the conditions if found; 
         ///     otherwise, an empty list.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public IList<T> FindAll(Predicate<T> match) => this.InnerList.FindAll(match);
+        public IList<T> FindAll(Func<T, bool> match) => this.InnerList.FindAll(this.ToPredicate(match));
 
         /// <summary>
         /// Searches for an element that match the conditions defined by the specified predicate, and returns the zero-based
         /// index of the first occurrence within the entire <see cref="ReadOnlyList{T}"/>.
         /// </summary>
-        /// <param name="match">The <see cref="Predicate{T}"/> delegate the defines the conditions of the elements to search for.</param>
+        /// <param name="match">The <see cref="Func{T, TResult}"/> delegate the defines the conditions of the elements to search for.</param>
         /// <returns>
         ///     The zero-based index of the first occurrence of an element that matches the conditions defined
         ///     by <paramref name="match"/> if found; otherwise, -1.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public int FindIndex(Predicate<T> match) => this.InnerList.FindIndex(match);
+        public int FindIndex(Func<T, bool> match) => this.InnerList.FindIndex(this.ToPredicate(match));
 
         /// <summary>
         /// Searches for an element that match the conditions defined by the specified predicate, and returns the zero-based
@@ -223,7 +223,7 @@ namespace MG.Collections
         /// specified index to the last element.
         /// </summary>
         /// <param name="startIndex">The zero-based starting index of the search.</param>
-        /// <param name="match">The <see cref="Predicate{T}"/> delegate the defines the conditions of the elements to search for.</param>
+        /// <param name="match">The <see cref="Func{T, TResult}"/> delegate the defines the conditions of the elements to search for.</param>
         /// <returns>
         ///     The zero-based index of the first occurrence of an element that matches the conditions defined
         ///     by <paramref name="match"/> if found; otherwise, -1.
@@ -232,7 +232,7 @@ namespace MG.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="startIndex"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
         /// </exception>
-        public int FindIndex(int startIndex, Predicate<T> match) => this.InnerList.FindIndex(startIndex, match);
+        public int FindIndex(int startIndex, Func<T, bool> match) => this.InnerList.FindIndex(startIndex, this.ToPredicate(match));
 
         /// <summary>
         /// Searches for an element that match the conditions defined by the specified predicate, and returns the zero-based
@@ -241,7 +241,7 @@ namespace MG.Collections
         /// </summary>
         /// <param name="startIndex">The zero-based starting index of the search.</param>
         /// <param name="count">The number of elements in the section to search.</param>
-        /// <param name="match">The <see cref="Predicate{T}"/> delegate the defines the conditions of the elements to search for.</param>
+        /// <param name="match">The <see cref="Func{T, TResult}"/> delegate the defines the conditions of the elements to search for.</param>
         /// <returns>
         ///     The zero-based index of the first occurrence of an element that matches the conditions defined
         ///     by <paramref name="match"/> if found; otherwise, -1.
@@ -254,31 +254,31 @@ namespace MG.Collections
         ///     -or-
         ///     <paramref name="startIndex"/> and <paramref name="count"/> do not specify a valid section of the list.
         /// </exception>
-        public int FindIndex(int startIndex, int count, Predicate<T> match) => this.InnerList.FindIndex(startIndex, count, match);
+        public int FindIndex(int startIndex, int count, Func<T, bool> match) => this.InnerList.FindIndex(startIndex, count, this.ToPredicate(match));
 
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the last occurrence within the
         /// entire <see cref="ReadOnlyList{T}"/>.
         /// </summary>
-        /// <param name="match">The <see cref="Predicate{T}"/> delegate the defines the conditions of the elements to search for.</param>
+        /// <param name="match">The <see cref="Func{T, TResult}"/> delegate the defines the conditions of the elements to search for.</param>
         /// <returns>
         ///     The last elements that matches the conditions defined by the specified predicate, if found; otherwise, the default value for
         ///     type <typeparamref name="T"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public T FindLast(Predicate<T> match) => this.InnerList.FindLast(match);
+        public T FindLast(Func<T, bool> match) => this.InnerList.FindLast(this.ToPredicate(match));
 
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
         /// lat occurrence within the entire <see cref="ReadOnlyList{T}"/>.
         /// </summary>
-        /// <param name="match">The <see cref="Predicate{T}"/> delegate the defines the conditions of the elements to search for.</param>
+        /// <param name="match">The <see cref="Func{T, TResult}"/> delegate the defines the conditions of the elements to search for.</param>
         /// <returns>
         ///     The zero-based index of the last occurrence of an element that matches the conditions defined by
         ///     <paramref name="match"/>, if found; otherwise, -1.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public int FindLastIndex(Predicate<T> match) => this.InnerList.FindLastIndex(match);
+        public int FindLastIndex(Func<T, bool> match) => this.InnerList.FindLastIndex(this.ToPredicate(match));
 
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
@@ -286,7 +286,7 @@ namespace MG.Collections
         /// specified index.
         /// </summary>
         /// <param name="startIndex">The zero-based starting index of the backward search.</param>
-        /// <param name="match">The <see cref="Predicate{T}"/> delegate the defines the conditions of the elements to search for.</param>
+        /// <param name="match">The <see cref="Func{T, TResult}"/> delegate the defines the conditions of the elements to search for.</param>
         /// <returns>
         ///     The zero-based index of the last occurrence of an element that matches the conditions defined by
         ///     <paramref name="match"/>, if found; otherwise, -1.
@@ -295,7 +295,7 @@ namespace MG.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="startIndex"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
         /// </exception>
-        public int FindLastIndex(int startIndex, Predicate<T> match) => this.InnerList.FindLastIndex(startIndex, match);
+        public int FindLastIndex(int startIndex, Func<T, bool> match) => this.InnerList.FindLastIndex(startIndex, this.ToPredicate(match));
 
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
@@ -304,7 +304,7 @@ namespace MG.Collections
         /// </summary>
         /// <param name="startIndex">The zero-based starting index of the backward search.</param>
         /// <param name="count">The number of elements in the section to search.</param>
-        /// <param name="match">The <see cref="Predicate{T}"/> delegate the defines the conditions of the elements to search for.</param>
+        /// <param name="match">The <see cref="Func{T, TResult}"/> delegate the defines the conditions of the elements to search for.</param>
         /// <returns>
         ///     The zero-based index of the last occurrence of an element that matches the conditions defined by
         ///     <paramref name="match"/>, if found; otherwise, -1.
@@ -317,7 +317,7 @@ namespace MG.Collections
         ///     -or-
         ///     <paramref name="startIndex"/> and <paramref name="count"/> do not specify a valid section of the list.
         /// </exception>
-        public int FindLastIndex(int startIndex, int count, Predicate<T> match) => this.InnerList.FindLastIndex(startIndex, count, match);
+        public int FindLastIndex(int startIndex, int count, Func<T, bool> match) => this.InnerList.FindLastIndex(startIndex, count, this.ToPredicate(match));
 
         /// <summary>
         /// Creates a shallow copy of a range of elements in the source <see cref="ReadOnlyList{T}"/>.
@@ -547,14 +547,16 @@ namespace MG.Collections
         /// Determines whether every element in the <see cref="ReadOnlyList{T}"/> matches the conditions
         /// defined by the specified predicate.
         /// </summary>
-        /// <param name="match">The <see cref="Predicate{T}"/> delegate that defines the conditions to check against the elements.</param>
+        /// <param name="match">The <see cref="Func{T, TResult}"/> delegate that defines the conditions to check against the elements.</param>
         /// <returns>
         ///     <see langword="true"/>: if every element in the list matches the conditions defined; 
         ///     otherwise, <see langword="false"/>.
         ///     If the list has no elements, the return value is <see langword="true"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public bool TrueForAll(Predicate<T> match) => this.InnerList.TrueForAll(match);
+        public bool TrueForAll(Func<T, bool> match) => this.InnerList.TrueForAll(this.ToPredicate(match));
+
+        private Predicate<T> ToPredicate(Func<T, bool> func) => new Predicate<T>(func);
 
         #endregion
 

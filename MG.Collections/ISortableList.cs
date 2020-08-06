@@ -10,9 +10,42 @@ namespace MG.Collections
     /// <typeparam name="T"></typeparam>
     public interface ISortableList<T> : IEnumerable<T>
     {
+        /// <summary>
+        /// Reverses the order of the elements in the entire <see cref="ISortableList{T}"/>.
+        /// </summary>
         void Reverse();
+        /// <summary>
+        /// Reverses the order of the elements in the specified range.
+        /// </summary>
+        /// <param name="index">The zero-based starting index of the range to reverse.</param>
+        /// <param name="count">The number of elements in the range to reverse.</param>
         void Reverse(int index, int count);
+        /// <summary>
+        /// Sorts the elements in the entire <see cref="ISortableList{T}"/> using the default comparer.
+        /// </summary>
         void Sort();
+        /// <summary>
+        /// Sorts the elements in the entire <see cref="ISortableList{T}"/> using the specified <see cref="Comparison{T}"/>.
+        /// </summary>
+        /// <param name="comparison">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
+        void Sort(Comparison<T> comparison);
+        /// <summary>
+        /// Sorts the elements in the entire <see cref="ISortableList{T}"/> using the specified comparer.
+        /// </summary>
+        /// <param name="comparer">
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or null to use the default comparer
+        ///     <see cref="Comparer{T}.Default"/>.
+        /// </param>
         void Sort(IComparer<T> comparer);
+        /// <summary>
+        /// Sorts the elements in the range of elements in <see cref="ISortableList{T}"/> using the specified comparer.
+        /// </summary>
+        /// <param name="index">The zero-based starting index of the range to sort.</param>
+        /// <param name="count">The length of the range to sort.</param>
+        /// <param name="comparer">
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or null to use the default comparer
+        ///     <see cref="Comparer{T}.Default"/>.
+        /// </param>
+        void Sort(int index, int count, IComparer<T> comparer);
     }
 }
