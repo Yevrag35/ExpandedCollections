@@ -19,7 +19,14 @@ namespace MG.Collections
         #endregion
 
         #region PROPERTIES
+        /// <summary>
+        /// The number of key/value pairs in the <see cref="StringKeyedDictionary{T}"/>.
+        /// </summary>
         public int Count => _dict.Count;
+        /// <summary>
+        /// Indicates whether the <see cref="StringKeyedDictionary{T}"/> is in a "read-only" state
+        /// and cannot be modified further.
+        /// </summary>
         public bool IsReadOnly => _isReadOnly;
         public ICollection<string> Keys => _dict.Keys;
         public ICollection<T> Values => _dict.Values;
@@ -27,9 +34,26 @@ namespace MG.Collections
         #endregion
 
         #region INDEXERS
+        /// <summary>
+        /// Gets or set the value associated with the specified key.
+        /// </summary>
+        /// <param name="key">The key of the value to get or set.</param>
+        /// <remarks>
+        ///     If <paramref name="key"/> is not present in the <see cref="StringKeyedDictionary{T}"/>,
+        ///     then the default value for <typeparamref name="T"/> will be returned which is 
+        ///     <see langword="null"/> for reference types.
+        /// </remarks>
         public T this[string key]
         {
-            get => _dict[key];
+            get
+            {
+                T retVal = default;
+                if (_dict.TryGetValue(key, out T tVal))
+                {
+                    retVal = tVal;
+                }
+                return retVal;
+            }
             set => _dict[key] = value;
         }
         object IDictionary.this[object key]
@@ -48,8 +72,26 @@ namespace MG.Collections
 
         #region CONSTRUCTORS
 
+        /// <summary>
+        /// Initializes an empty <see cref="StringKeyedDictionary{T}"/> that ignores case
+        /// on the string key.
+        /// </summary>
         public StringKeyedDictionary() : this(true) { }
+        /// <summary>
+        /// Iniitalizes an empty <see cref="StringKeyedDictionary{T}"/> and specifies whether
+        /// or not to ignore case on the string key.
+        /// </summary>
+        /// <param name="ignoreCase">Indicates whether string keys should ignore case.</param>
         public StringKeyedDictionary(bool ignoreCase) : this(ignoreCase, 0) { }
+        /// <summary>
+        /// Initializes an empty <see cref="StringKeyedDictionary{T}"/> with the specified initial
+        /// capacity and whether or not to ignore case on the string key.
+        /// </summary>
+        /// <param name="ignoreCase">Indicates whether string keys should ignore case.</param>
+        /// <param name="capacity">
+        ///     The number of elements the dictionary can add without 
+        ///     being resized.
+        /// </param>
         public StringKeyedDictionary(bool ignoreCase, int capacity)
         {
             IEqualityComparer<string> comparer = null;
@@ -58,12 +100,32 @@ namespace MG.Collections
 
             _dict = new Dictionary<string, T>(capacity, comparer);
         }
+        /// <summary>
+        /// Initializes an empty <see cref="StringKeyedDictionary{T}"/> with the specified initial
+        /// capacity and <see cref="IEqualityComparer{T}"/> for string key.
+        /// </summary>
+        /// <param name="capacity">
+        ///     The number of elements the dictionary can add without 
+        ///     being resized.
+        /// </param>
+        /// <param name="equalityComparer">The comparer to use when determining equality on the key.</param>
         public StringKeyedDictionary(int capacity, IEqualityComparer<string> equalityComparer)
         {
             _dict = new Dictionary<string, T>(capacity, equalityComparer);
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="StringKeyedDictionary{T}"/> copying the key/value
+        /// pairs from the specified dictionary.
+        /// </summary>
+        /// <param name="dictionary">The dictionary whose key/value pairs will be copied in the new instance.</param>
         public StringKeyedDictionary(IDictionary<string, T> dictionary) : this(dictionary, new IgnoreCase()) { }
+        /// <summary>
+        /// Initializes a new instance of <see cref="StringKeyedDictionary{T}"/> copying the key/value
+        /// pairs from the specified dictionary but determining key equality using the specified comparer.
+        /// </summary>
+        /// <param name="dictionary">The dictionary whose key/value pairs will be copied in the new instance.</param>
+        /// <param name="comparer">The comparer to use when determining equality on the key.</param>
         public StringKeyedDictionary(IDictionary<string, T> dictionary, IEqualityComparer<string> comparer)
         {
             _dict = new Dictionary<string, T>(dictionary, comparer);
