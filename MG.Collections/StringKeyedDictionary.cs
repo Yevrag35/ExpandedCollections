@@ -172,6 +172,9 @@ namespace MG.Collections
             this.Validate();
             _dict.Add(key, value);
         }
+        /// <summary>
+        /// Removes all key/value pairs from the <see cref="StringKeyedDictionary{T}"/>.
+        /// </summary>
         public void Clear()
         {
             this.Validate();
