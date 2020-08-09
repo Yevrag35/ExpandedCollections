@@ -8,7 +8,7 @@ namespace MG.Collections
     /// Represents a collection that can reversed and sorted.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ISortableList<T> : IEnumerable<T>
+    public interface ISortableList<T> : IReadOnlyList<T>
     {
         /// <summary>
         /// Reverses the order of the elements in the entire <see cref="ISortableList{T}"/>.

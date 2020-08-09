@@ -8,7 +8,7 @@ namespace MG.Collections
     /// to accommodate this.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ISearchableList<T> : IReadOnlyCollection<T>
+    public interface ISearchableList<T> : IReadOnlyList<T>
     {
         /// <summary>
         /// Determines whether an element is in the <see cref="ISearchableList{T}"/>.
