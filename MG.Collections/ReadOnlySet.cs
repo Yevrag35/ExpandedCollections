@@ -11,7 +11,7 @@ namespace MG.Collections
     /// </summary>
     /// <typeparam name="T">The type of elements contained in the set.</typeparam>
     [Serializable]
-    public class ReadOnlyHashSet<T> : IReadOnlySet<T>, ICollection, IDeserializationCallback, ISerializable
+    public class ReadOnlySet<T> : IReadOnlySet<T>, ICollection, IDeserializationCallback, ISerializable
     {
         protected HashSet<T> InnerSet { get; }
 
@@ -20,11 +20,11 @@ namespace MG.Collections
         bool ICollection.IsSynchronized => false;
         object ICollection.SyncRoot => this.InnerSet;
 
-        public ReadOnlyHashSet(IEnumerable<T> items)
+        public ReadOnlySet(IEnumerable<T> items)
             : this(items, null)
         {
         }
-        public ReadOnlyHashSet(IEnumerable<T> items, IEqualityComparer<T> comparer)
+        public ReadOnlySet(IEnumerable<T> items, IEqualityComparer<T> comparer)
         {
             this.InnerSet = new HashSet<T>(items, comparer);
         }
