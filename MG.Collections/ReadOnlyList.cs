@@ -58,19 +58,30 @@ namespace MG.Collections
         /// Initializes a new instance of <see cref="ReadOnlyList{T}"/> that is empty
         /// and has the default capacity.
         /// </summary>
-        protected ReadOnlyList() => this.InnerList = new List<T>();
+        protected ReadOnlyList()
+        {
+            this.InnerList = new List<T>();
+        }
+
         /// <summary>
         /// Initializes a new instance of <see cref="ReadOnlyList{T}"/> that is empty
         /// and has the specified capacity.
         /// </summary>
         /// <param name="capacity">The number of new elements the list can initially store.</param>
-        protected ReadOnlyList(int capacity) => this.InnerList = new List<T>(capacity);
+        protected ReadOnlyList(int capacity)
+        {
+            this.InnerList = new List<T>(capacity);
+        }
+
         /// <summary>
         /// Initializes a new instance of <see cref="ReadOnlyList{T}"/> that contains the elements
         /// copied from the specified collection.
         /// </summary>
         /// <param name="items">The collection whose elements are copied to the new list.</param>
-        public ReadOnlyList(IEnumerable<T> items) => this.InnerList = new List<T>(items);
+        public ReadOnlyList(IEnumerable<T> items)
+        {
+            this.InnerList = new List<T>(items);
+        }
 
         #endregion
 

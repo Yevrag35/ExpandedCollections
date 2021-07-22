@@ -21,7 +21,7 @@ namespace MG.Collections
         object ICollection.SyncRoot => this.InnerSet;
 
         public ReadOnlySet(IEnumerable<T> items)
-            : this(items, null)
+            : this(items, EqualityComparer<T>.Default)
         {
         }
         public ReadOnlySet(IEnumerable<T> items, IEqualityComparer<T> comparer)
@@ -40,11 +40,7 @@ namespace MG.Collections
         public void CopyTo(T[] newArray, int arrayIndex) => this.InnerSet.CopyTo(newArray, arrayIndex);
         void ICollection.CopyTo(Array array, int index)
         {
-            T[] tArr = new T[this.Count];
-            this.CopyTo(tArr, 0);
-
-            Array.Copy(tArr, index, array, 0, array.Length);
-            Array.Clear(tArr, 0, tArr.Length);
+            ((ICollection)this.InnerSet).CopyTo(array, index);
         }
         /// <summary>
         /// 
