@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>MG.Collections_DotNet5</RootNamespace>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="..\MG.Collections\**\*.cs"
+				 Exclude="..\MG.Collections\obj\**\*.*;..\MG.Collections\bin\**\*.*;..\MG.Collections\**\IReadOnlySet.cs"/>
+	</ItemGroup>
+
+</Project>

@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.Collections", "MG.Collections\MG.Collections.csproj", "{18777B4F-53AA-418B-8217-0FA25376CF6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MG.Collections.Tests", "MG.Collections.Tests\MG.Collections.Tests.csproj", "{DB20A274-163B-4329-8116-379939CBCC92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.Collections.Tests", "MG.Collections.Tests\MG.Collections.Tests.csproj", "{DB20A274-163B-4329-8116-379939CBCC92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MG.Collections-DotNet5", "MG.Collections-DotNet5\MG.Collections-DotNet5.csproj", "{182D96CF-AD28-4DAF-BE04-40DEF10CB589}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DB20A274-163B-4329-8116-379939CBCC92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB20A274-163B-4329-8116-379939CBCC92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB20A274-163B-4329-8116-379939CBCC92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{182D96CF-AD28-4DAF-BE04-40DEF10CB589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{182D96CF-AD28-4DAF-BE04-40DEF10CB589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{182D96CF-AD28-4DAF-BE04-40DEF10CB589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{182D96CF-AD28-4DAF-BE04-40DEF10CB589}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

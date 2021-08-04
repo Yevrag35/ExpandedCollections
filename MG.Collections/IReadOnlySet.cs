@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace MG.Collections
 {
-    public interface IReadOnlySet<T> : IReadOnlyCollection<T>
+    public interface IReadOnlySet<T> : IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
     {
         bool Contains(T item);
         bool IsProperSubsetOf(IEnumerable<T> other);

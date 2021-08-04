@@ -18,7 +18,7 @@ namespace MG.Collections
         /// <summary>
         /// The internal backing <see cref="List{T}"/> that all methods of <see cref="ReadOnlyList{T}"/> invoke against.
         /// </summary>
-        protected List<T> InnerList { get; }
+        private List<T> InnerList { get; }
 
         /// <summary>
         /// Gets the number of elements contained in the <see cref="ReadOnlyList{T}"/>.
