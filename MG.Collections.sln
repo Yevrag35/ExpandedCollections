@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.Collections", "MG.Collec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.Collections.Tests", "MG.Collections.Tests\MG.Collections.Tests.csproj", "{DB20A274-163B-4329-8116-379939CBCC92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MG.Collections-DotNet5", "MG.Collections-DotNet5\MG.Collections-DotNet5.csproj", "{182D96CF-AD28-4DAF-BE04-40DEF10CB589}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.Collections-NET5", "MG.Collections-DotNet5\MG.Collections-NET5.csproj", "{182D96CF-AD28-4DAF-BE04-40DEF10CB589}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

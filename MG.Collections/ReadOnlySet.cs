@@ -13,55 +13,87 @@ namespace MG.Collections
     [Serializable]
     public class ReadOnlySet<T> : IReadOnlySet<T>, ICollection, IDeserializationCallback, ISerializable
     {
-        protected HashSet<T> InnerSet { get; }
+        private HashSet<T> _set;
 
-        public int Count => this.InnerSet.Count;
-        public IEqualityComparer<T> Comparer => this.InnerSet.Comparer;
+        /// <summary>
+        /// The inner set of values that is exposed as read-only.
+        /// </summary>
+#if !NET5_0_OR_GREATER
+        protected ISet<T> InnerSet => _set;
+#else
+        protected IReadOnlySet<T> InnerSet => _set;
+#endif
+        public int Count => _set.Count;
         bool ICollection.IsSynchronized => false;
         object ICollection.SyncRoot => this.InnerSet;
 
         public ReadOnlySet(IEnumerable<T> items)
-            : this(items, EqualityComparer<T>.Default)
+            : this(items, !typeof(T).Equals(typeof(string))
+                ?  EqualityComparer<T>.Default
+                : (IEqualityComparer<T>)StringComparer.CurrentCulture)
         {
         }
         public ReadOnlySet(IEnumerable<T> items, IEqualityComparer<T> comparer)
         {
-            this.InnerSet = new HashSet<T>(items, comparer);
+            _set = new HashSet<T>(items, comparer);
         }
 
         #region ENUMERATORS
-        public IEnumerator<T> GetEnumerator() => InnerSet.GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => _set.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         #endregion
 
         #region METHODS
-        public bool Contains(T item) => this.InnerSet.Contains(item);
-        public void CopyTo(T[] newArray, int arrayIndex) => this.InnerSet.CopyTo(newArray, arrayIndex);
+        public bool Contains(T item) => _set.Contains(item);
+        /// <summary>
+        /// Copies the elements of a <see cref="ReadOnlySet{T}"/> object to an array,
+        /// starting at the specified array index.
+        /// </summary>
+        /// <param name="newArray">
+        ///     The one-dimensional array that is the destination fo the elements copied from the
+        ///     <see cref="ReadOnlySet{T}"/> object.  The array must have zero-based indexing.
+        /// </param>
+        /// <param name="arrayIndex">
+        ///     The zero-based index in array at which copying begins.
+        /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="newArray"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="arrayIndex"/> is less than 0.</exception>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="arrayIndex"/> is greater than the length of <paramref name="newArray"/>.
+        /// </exception>
+        public void CopyTo(T[] newArray, int arrayIndex) => _set.CopyTo(newArray, arrayIndex);
         void ICollection.CopyTo(Array array, int index)
         {
-            ((ICollection)this.InnerSet).CopyTo(array, index);
+            ((ICollection)_set).CopyTo(array, index);
         }
         /// <summary>
-        /// 
+        /// Implements the <see cref="ISerializable"/> interface and returns the data needed to serialize
+        /// <see cref="ReadOnlySet{T}"/> object.
         /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        /// <exception cref="ArgumentNullException"/>
+        /// <param name="info">
+        ///     A <see cref="SerializationInfo"/> object that contains the information required to serialize
+        ///     <see cref="ReadOnlySet{T}"/> object.
+        /// </param>
+        /// <param name="context">
+        ///     A <see cref="StreamingContext"/> structure that contains the source and destination of the serialized
+        ///     stream associated with the <see cref="ReadOnlySet{T}"/>.
+        /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="info"/> is <see langword="null"/>.</exception>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            this.InnerSet.GetObjectData(info, context);
+            _set.GetObjectData(info, context);
         }
 
-        public bool IsProperSubsetOf(IEnumerable<T> other) => this.InnerSet.IsProperSubsetOf(other);
-        public bool IsProperSupersetOf(IEnumerable<T> other) => this.InnerSet.IsProperSupersetOf(other);
-        public bool IsSubsetOf(IEnumerable<T> other) => this.InnerSet.IsSubsetOf(other);
-        public bool IsSupersetOf(IEnumerable<T> other) => this.InnerSet.IsSupersetOf(other);
+        public bool IsProperSubsetOf(IEnumerable<T> other) => _set.IsProperSubsetOf(other);
+        public bool IsProperSupersetOf(IEnumerable<T> other) => _set.IsProperSupersetOf(other);
+        public bool IsSubsetOf(IEnumerable<T> other) => _set.IsSubsetOf(other);
+        public bool IsSupersetOf(IEnumerable<T> other) => _set.IsSupersetOf(other);
 
-        public void OnDeserialization(object sender) => this.InnerSet.OnDeserialization(sender);
+        public void OnDeserialization(object sender) => _set.OnDeserialization(sender);
 
-        public bool Overlaps(IEnumerable<T> other) => this.InnerSet.Overlaps(other);
-        public bool SetEquals(IEnumerable<T> other) => this.InnerSet.SetEquals(other);
+        public bool Overlaps(IEnumerable<T> other) => _set.Overlaps(other);
+        public bool SetEquals(IEnumerable<T> other) => _set.SetEquals(other);
 
         #endregion
     }

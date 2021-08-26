@@ -10,7 +10,7 @@ namespace MG.Collections
     /// <summary>
     /// Provides the <see langword="abstract"/> base class to enforce uniqueness in generic collections.
     /// </summary>
-    public abstract class UniqueListBase<T> : ICollection<T>, ICollection
+    public abstract class UniqueListBase<T> : ICollection<T>, ICollection, IReadOnlySet<T>
     {
         #region FIELDS/CONSTANTS
         /// <summary>
@@ -26,7 +26,7 @@ namespace MG.Collections
 
         #region PROPERTIES
         /// <summary>
-        /// The equality comparer used to determine uniqueness in the list./>.
+        /// The equality comparer used to determine uniqueness in the <see cref="UniqueListBase{T}"/>.
         /// </summary>
         public IEqualityComparer<T> Comparer => InnerSet.Comparer;
 
@@ -40,38 +40,40 @@ namespace MG.Collections
         #region CONSTRUCTORS
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueListBase{T}"/> class that is empty
-        /// and has the default initial capacity.
+        /// and has the default initial capacity and default equality comparer for <typeparamref name="T"/>.
         /// </summary>
         public UniqueListBase()
-            : this(0, EqualityComparer<T>.Default)
+            : this(0)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueListBase{T}"/> class that is empty
-        /// and has the specified initial capacity.
+        /// and has the specified initial capacity and default equality comparer for <typeparamref name="T"/>.
         /// </summary>
         /// <param name="capacity">The number of elements that the new collection can initially store.</param>
         /// <exception cref="ArgumentOutOfRangeException"/>
         public UniqueListBase(int capacity)
-            : this(capacity, EqualityComparer<T>.Default)
+            : this(capacity, GetDefaultComparer())
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueListBase{T}"/> class that
         /// contains elements copied from the specified <see cref="IEnumerable{T}"/> and has
-        /// sufficient capacity to accommodate the number of elements copied.
+        /// sufficient capacity to accommodate the number of elements copied and the default
+        /// equality comparer for <typeparamref name="T"/>.
         /// </summary>
         /// <param name="collection">The collection whose elements are copied to the new list.</param>
         /// <exception cref="ArgumentNullException"/>
         public UniqueListBase(IEnumerable<T> collection)
-            : this(collection, EqualityComparer<T>.Default)
+            : this(collection, GetDefaultComparer())
         {
         }
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="UniqueListBase{T}"/> class that is empty
+        /// and has the default initial capacity and the specified equality comparer for <typeparamref name="T"/>.
         /// </summary>
         /// <param name="equalityComparer">
         ///     The <see cref="IEqualityComparer{T}"/> implementation to use when comparing values in the list, or
@@ -125,20 +127,16 @@ namespace MG.Collections
         /// Adds an item to the end of the collection.
         /// </summary>
         /// <param name="item">The object to be added to the end of the collection.</param>
-        public virtual void Add(T item)
+        public void Add(T item)
         {
-            if (InnerSet.Add(item))
-            {
-                InnerList.Add(item);
-            }
+            this.AddItem(item);
         }
         /// <summary>
         /// Removes all elements from the <see cref="UniqueListBase{T}"/>.
         /// </summary>
-        public virtual void Clear()
+        public void Clear()
         {
-            InnerList.Clear();
-            InnerSet.Clear();
+            this.ClearItems();
         }
         /// <summary>
         /// Determines whether an element is in the <see cref="UniqueListBase{T}"/>.
@@ -166,42 +164,136 @@ namespace MG.Collections
         /// </summary>
         /// <param name="item">The object to locate in the <see cref="UniqueListBase{T}"/>.  The value can be null for reference types.</param>
         public int IndexOf(T item) => InnerList.IndexOf(item);
-        /// <summary>
-        /// Sorts the elements in the entire <see cref="UniqueListBase{T}"/> using the default comparer.
-        /// </summary>
-        /// <exception cref="InvalidOperationException"/>
-        public void Sort() => InnerList.Sort();
-        /// <summary>
-        /// Sorts the elements in the entire <see cref="UniqueListBase{T}"/> using the specified comparer.
-        /// </summary>
-        /// <param name="comparer">
-        /// The <see cref="IComparer{T}"/> implementation to use when comparing elements.
-        /// </param>
-        /// <exception cref="InvalidOperationException"/>
-        /// <exception cref="ArgumentException"/>
-        /// <exception cref="ArgumentNullException"/>
-		public void Sort(IComparer<T> comparer)
-        {
-            if (comparer == null)
-                throw new ArgumentNullException("comparer");
+  //      /// <summary>
+  //      /// Sorts the elements in the entire <see cref="UniqueListBase{T}"/> using the default comparer.
+  //      /// </summary>
+  //      /// <exception cref="InvalidOperationException"/>
+  //      public void Sort() => InnerList.Sort();
+  //      /// <summary>
+  //      /// Sorts the elements in the entire <see cref="UniqueListBase{T}"/> using the specified comparer.
+  //      /// </summary>
+  //      /// <param name="comparer">
+  //      /// The <see cref="IComparer{T}"/> implementation to use when comparing elements.
+  //      /// </param>
+  //      /// <exception cref="InvalidOperationException"/>
+  //      /// <exception cref="ArgumentException"/>
+  //      /// <exception cref="ArgumentNullException"/>
+		//public void Sort(IComparer<T> comparer)
+  //      {
+  //          if (comparer == null)
+  //              throw new ArgumentNullException("comparer");
 
-            InnerList.Sort(comparer);
-        }
+  //          InnerList.Sort(comparer);
+  //      }
         /// <summary>
-        /// Removes the first occurrence of a specific object from the <see cref="UniqueListBase{T}"/>.  The
-        /// value can be null for reference types.
+        /// Removes the specific object from the <see cref="UniqueListBase{T}"/>.
         /// </summary>
         /// <param name="item">
-        /// The object to remove from the <see cref="UniqueListBase{T}"/>.
-        /// The value can be null for reference types.
+        ///     The object to remove from the <see cref="UniqueListBase{T}"/>.
         /// </param>
-        public virtual bool Remove(T item)
+        public bool Remove(T item)
         {
-            bool result = InnerSet.Remove(item);
-            if (result)
-                InnerList.Remove(item);
+            return this.RemoveItem(item);
+        }
+        /// <summary>
+        /// Copies the elements of the <see cref="UniqueList{T}"/> to a new array.
+        /// </summary>
+        /// <returns>
+        ///     An array containing copies of the elements of the <see cref="UniqueList{T}"/>.  If the list contains no elements, 
+        ///     an empty array is returned.
+        /// </returns>
+        public T[] ToArray()
+        {
+            return InnerList.ToArray();
+        }
 
-            return result;
+        #endregion
+
+        #region READONLY LIST METHODS
+
+
+        #endregion
+
+        #region READONLY SET METHODS
+        /// <summary>
+        /// Determines whether this <see cref="UniqueListBase{T}"/> object is a proper subset of the specified collection.
+        /// </summary>
+        /// <param name="other">The collection compare to the current <see cref="UniqueListBase{T}"/>.</param>
+        /// <returns>
+        ///     <see langword="true"/> if the <see cref="UniqueListBase{T}"/> is a proper subset of <paramref name="other"/>;
+        ///     otherwise <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="other"/> is <see langword="null"/>.</exception>
+        public bool IsProperSubsetOf(IEnumerable<T> other)
+        {
+            return this.InnerSet.IsProperSubsetOf(other);
+        }
+        /// <summary>
+        /// Determines whether this <see cref="UniqueListBase{T}"/> object is a proper superset of the specified collection.
+        /// </summary>
+        /// <param name="other">The collection compare to the current <see cref="UniqueListBase{T}"/>.</param>
+        /// <returns>
+        ///     <see langword="true"/> if the <see cref="UniqueListBase{T}"/> is a proper superset of <paramref name="other"/>;
+        ///     otherwise <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="other"/> is <see langword="null"/>.</exception>
+        public bool IsProperSupersetOf(IEnumerable<T> other)
+        {
+            return this.InnerSet.IsProperSupersetOf(other);
+        }
+        /// <summary>
+        /// Determines whether this <see cref="UniqueListBase{T}"/> object is a subset of the specified collection.
+        /// </summary>
+        /// <param name="other">The collection compare to the current <see cref="UniqueListBase{T}"/>.</param>
+        /// <returns>
+        ///     <see langword="true"/> if the <see cref="UniqueListBase{T}"/> is a subset of <paramref name="other"/>;
+        ///     otherwise <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="other"/> is <see langword="null"/>.</exception>
+        public bool IsSubsetOf(IEnumerable<T> other)
+        {
+            return this.IsSubsetOf(other);
+        }
+        /// <summary>
+        /// Determines whether this <see cref="UniqueListBase{T}"/> object is a superset of the specified collection.
+        /// </summary>
+        /// <param name="other">The collection compare to the current <see cref="UniqueListBase{T}"/>.</param>
+        /// <returns>
+        ///     <see langword="true"/> if the <see cref="UniqueListBase{T}"/> is a superset of <paramref name="other"/>;
+        ///     otherwise <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="other"/> is <see langword="null"/>.</exception>
+        public bool IsSupersetOf(IEnumerable<T> other)
+        {
+            return this.InnerSet.IsSupersetOf(other);
+        }
+        /// <summary>
+        /// Determines whether the current <see cref="UniqueListBase{T}"/> object and a specified collection share
+        /// common elements.
+        /// </summary>
+        /// <param name="other">The collection to compare to the current <see cref="UniqueListBase{T}"/>.</param>
+        /// <returns>
+        ///     <see langword="true"/> if the <see cref="UniqueListBase{T}"/> and <paramref name="other"/> share at least
+        ///     one common element; otherwise, <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="other"/> is <see langword="null"/>.</exception>
+        public bool Overlaps(IEnumerable<T> other)
+        {
+            return this.InnerSet.Overlaps(other);
+        }
+        /// <summary>
+        /// Determines whether this <see cref="UniqueListBase{T}"/> object and the specified collection contain
+        /// the same elements.
+        /// </summary>
+        /// <param name="other">The collection to compare to the current <see cref="UniqueListBase{T}"/>.</param>
+        /// <returns>
+        ///     <see langword="true"> if the <see cref="UniqueListBase{T}"/> object is equal to <paramref name="other"/>;
+        ///     otherwise, <see langword="false"/>.</see>
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="other"/> is <see langword="null"/>.</exception>
+        public bool SetEquals(IEnumerable<T> other)
+        {
+            return this.SetEquals(other);
         }
 
         #endregion
@@ -236,6 +328,26 @@ namespace MG.Collections
 
         #region BACKEND/PRIVATE METHODS
         /// <summary>
+        /// Adds an object to the end of the <see cref="UniqueListBase{T}"/>.
+        /// </summary>
+        /// <param name="item">The object to add.</param>
+        protected virtual void AddItem(T item)
+        {
+            if (InnerSet.Add(item))
+            {
+                InnerList.Add(item);
+            }
+        }
+        /// <summary>
+        /// Removes all elements from the <see cref="UniqueListBase{T}"/>.
+        /// </summary>
+        protected virtual void ClearItems()
+        {
+            this.InnerList.Clear();
+            this.InnerSet.Clear();
+        }
+
+        /// <summary>
         /// Transforms and verifies the specified negative or positive index into a proper <see cref="int"/> value
         /// returning the element of type <typeparamref name="T"/> at the proper index location.
         /// </summary>
@@ -255,22 +367,91 @@ namespace MG.Collections
         {
             return this.InnerList.GetByIndex(index);
         }
-
-        protected void ReplaceValueAtIndex(int index, T newValue)
+        /// <summary>
+        /// Inserts an elements into the <see cref="UniqueListBase{T}"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index at which <paramref name="item"/> should be inserted.</param>
+        /// <param name="item">The object to insert.</param>
+        protected virtual void InsertItem(int index, T item)
         {
-            T item = InnerList[index];
-            if (InnerSet.Add(newValue))
+            if (InnerSet.Add(item))
             {
-                InnerSet.Remove(item);
-                InnerList[index] = newValue;
+                try
+                {
+                    InnerList.Insert(index, item);
+                }
+                catch
+                {
+                    _ = InnerSet.Remove(item);
+                }
+            }
+        }
+        /// <summary>
+        /// Removes the specified element from the <see cref="UniqueListBase{T}"/>.
+        /// </summary>
+        /// <param name="item">The element to remove.</param>
+        /// <returns>
+        ///     <see langword="true"/> if <paramref name="item"/> is successfully removed; otherwise <see langword="false"/>.
+        ///     This method also returns <see langword="false"/> if <paramref name="item"/> was not found in 
+        ///     the <see cref="UniqueListBase{T}"/>.
+        /// </returns>
+        protected virtual bool RemoveItem(T item)
+        {
+            bool result = InnerSet.Remove(item);
+            if (result)
+                InnerList.Remove(item);
+
+            return result;
+        }
+        /// <summary>
+        /// Removes the element at the specified index.
+        /// </summary>
+        /// <param name="item">The zero-based index of the element to remove.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="index"/> is equal to or greater than <see cref="Count"/>.
+        /// </exception>
+        protected virtual void RemoveItemAt(int index)
+        {
+            T item = this.InnerList[index];
+            if (this.InnerSet.Remove(item))
+            {
+                this.InnerList.RemoveAt(index);
+            }
+        }
+        /// <summary>
+        /// Replaces the element at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the element to replace.</param>
+        /// <param name="item">The new value for the element at the specified index.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than zero
+        ///     -or
+        ///     <paramref name="index"/> is greater than <see cref="Count"/>.
+        /// </exception>
+        protected virtual void SetItem(int index, T item)
+        {
+            T value = InnerList[index];
+            if (InnerSet.Add(item))
+            {
+                _ = InnerSet.Remove(value);
+                InnerList[index] = item;
             }
         }
 
-        protected bool TryIsValidIndex(int index, out int positiveIndex)
+        #endregion
+
+        private static IEqualityComparer<T> GetDefaultComparer()
+        {
+            return !typeof(T).Equals(typeof(string))
+                ? EqualityComparer<T>.Default
+                : (IEqualityComparer<T>)StringComparer.CurrentCulture;
+        }
+
+        protected private bool TryIsValidIndex(int index, out int positiveIndex)
         {
             return this.InnerList.TryIsValidIndex(index, out positiveIndex);
         }
-
-        #endregion
     }
 }

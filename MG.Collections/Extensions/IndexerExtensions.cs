@@ -17,6 +17,21 @@ namespace MG.Collections.Extensions
 
 namespace MG.Collections.Extensions
 {
+    internal static class ListInterfaceExtensions
+    { 
+        internal static T GetByIndex<T>(this IList<T> list, int index)
+        {
+            index = IndexHelper.GetPositiveIndex(index, list.Count);
+
+            return index >= 0 && index < list.Count
+                ? list[index]
+                : default;
+        }
+    }
+}
+
+namespace MG.Collections.Extensions.NonGeneric
+{
     //using MG.Collections.Extensions.Internal;
     using System.Collections.ObjectModel;
 

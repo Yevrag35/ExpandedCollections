@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>MG.Collections_DotNet5</RootNamespace>
+    <RootNamespace>MG.Collections</RootNamespace>
   </PropertyGroup>
 
 	<ItemGroup>

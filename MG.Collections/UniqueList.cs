@@ -12,7 +12,7 @@ namespace MG.Collections
     /// unique according to the default or custom-defined equality comparer.
     /// </summary>
     /// <typeparam name="T">The element type in the <see cref="UniqueList{T}"/>.</typeparam>
-    public class UniqueList<T> : UniqueListBase<T>
+    public class UniqueList<T> : UniqueListBase<T>, IReadOnlyList<T>, IList<T>
     {
         #region PRIVATE FIELDS/CONSTANTS
         private const int DEFAULT_CAPACITY = 0;
@@ -26,22 +26,12 @@ namespace MG.Collections
             set
             {
                 if (base.TryIsValidIndex(index, out int positiveIndex))
-                    base.ReplaceValueAtIndex(positiveIndex, value);
+                    this.SetItem(positiveIndex, value);
                 
                 else
                     throw new ArgumentOutOfRangeException();
             }
         }
-
-        #endregion
-
-        #region PROPERTIES
-
-
-        #region INTERFACE EXPLICIT PROPERTIES
-
-
-        #endregion
 
         #endregion
 
@@ -98,7 +88,7 @@ namespace MG.Collections
         ///     to the list.
         /// </param>
         public UniqueList(IEnumerable<T> items)
-            : base(items, EqualityComparer<T>.Default)
+            : base(items)
         {
         }
 
@@ -124,73 +114,15 @@ namespace MG.Collections
 
         #endregion
 
-        #region LIST METHODS
-        /// <summary>
-        /// Copies the elements of the <see cref="UniqueList{T}"/> to a new array.
-        /// </summary>
-        /// <returns>
-        ///     An array containing copies of the elements of the <see cref="UniqueList{T}"/>.  If the list contains no elements, 
-        ///     an empty array is returned.
-        /// </returns>
-        public T[] ToArray()
+        #region EXTRA ILIST METHODS
+        public void Insert(int index, T item)
         {
-            return InnerList.ToArray();
+            this.InsertItem(index, item);
         }
-
-        #region SET METHODS
-        //public int ExceptWith(IEnumerable<T> other)
-        //{
-        //    InnerSet.ExceptWith(other);
-        //    return InnerList.RemoveAll(x => other.Contains(x, InnerSet.Comparer));
-        //}
-        //void ISet<T>.ExceptWith(IEnumerable<T> other) => this.ExceptWith(other);
-        //public bool IsProperSubsetOf(IEnumerable<T> other)
-        //{
-        //    return InnerSet.IsProperSubsetOf(other);
-        //}
-        //public bool IsProperSupersetOf(IEnumerable<T> other)
-        //{
-        //    return InnerSet.IsProperSupersetOf(other);
-        //}
-        //public bool IsSubsetOf(IEnumerable<T> other)
-        //{
-        //    return InnerSet.IsSubsetOf(other);
-        //}
-        //public bool IsSupersetOf(IEnumerable<T> other)
-        //{
-        //    return InnerSet.IsSupersetOf(other);
-        //}
-        //public bool Overlaps(IEnumerable<T> other)
-        //{
-        //    return InnerSet.Overlaps(other);
-        //}
-
-        #endregion
-
-        #region INTERFACE EXPLICIT METHODS
-
-
-        #endregion
-
-        #region PRIVATE METHODS
-        //private IList<T> GetEnumerableAsList(IEnumerable<T> enumerable)
-        //{
-        //    if (enumerable is T[] tArr)
-        //        return tArr;
-
-        //    else if (enumerable is IList<T> iList)
-        //        return iList;
-
-        //    else if (enumerable is Collection<T> col)
-        //        return col;
-
-        //    else
-        //        return new List<T>(enumerable);
-        //}
-
-        
-
-        #endregion
+        public void RemoveAt(int index)
+        {
+            this.RemoveItemAt(index);
+        }
 
         #endregion
     }
