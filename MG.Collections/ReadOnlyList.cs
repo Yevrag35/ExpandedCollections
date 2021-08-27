@@ -11,7 +11,7 @@ namespace MG.Collections
     /// searching and sorting through its contents.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ReadOnlyList<T> : IEnumerable<T>, IReadOnlyCollection<T>, IReadOnlyList<T>, ISearchableList<T>, ISortableList<T>, ICollection
+    public class ReadOnlyList<T> : IReadOnlyCollection<T>, IReadOnlyList<T>, ICollection, IEnumerable<T>, ISearchableList<T>
     {
         #region PROPERTIES
 
@@ -169,9 +169,9 @@ namespace MG.Collections
         /// <param name="converter">
         ///     A <see cref="Converter{TInput, TOutput}"/> delegate the converts each elements from one type to another type.
         /// </param>
-        /// <returns>A <see cref="IList{T}"/> of the target type containing the converted elements from the current <see cref="ReadOnlyList{T}"/>.</returns>
+        /// <returns>A <see cref="List{T}"/> of the target type containing the converted elements from the current <see cref="ReadOnlyList{T}"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="converter"/> is <see langword="null"/>.</exception>
-        public IList<TOutput> ConvertAll<TOutput>(Converter<T, TOutput> converter) => this.InnerList.ConvertAll(converter);
+        public List<TOutput> ConvertAll<TOutput>(Converter<T, TOutput> converter) => this.InnerList.ConvertAll(converter);
 
         /// <summary>
         ///     Determines whether the <see cref="ReadOnlyList{T}"/> contains elements that
@@ -210,11 +210,12 @@ namespace MG.Collections
         /// </summary>
         /// <param name="match">The <see cref="Func{T, TResult}"/> delegate the defines the conditions of the elements to search for.</param>
         /// <returns>
-        ///     An <see cref="IList{T}"/> containing all of the elements that match the conditions if found; 
+        ///     An <see cref="List{T}"/> containing all of the elements that match the conditions if found; 
         ///     otherwise, an empty list.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public IList<T> FindAll(Func<T, bool> match) => this.InnerList.FindAll(this.ToPredicate(match));
+        public List<T> FindAll(Func<T, bool> match) => this.InnerList.FindAll(this.ToPredicate(match));
+        IList<T> ISearchableList<T>.FindAll(Func<T, bool> match) => this.FindAll(match);
 
         /// <summary>
         /// Searches for an element that match the conditions defined by the specified predicate, and returns the zero-based
@@ -344,7 +345,8 @@ namespace MG.Collections
         ///     -or-
         ///     <paramref name="count"/> is less than 0.
         /// </exception>
-        public IList<T> GetRange(int index, int count) => this.InnerList.GetRange(index, count);
+        public List<T> GetRange(int index, int count) => this.InnerList.GetRange(index, count);
+        IList<T> ISearchableList<T>.GetRange(int index, int count) => this.GetRange(index, count);
 
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the first occurrence
@@ -458,93 +460,93 @@ namespace MG.Collections
         /// </exception>
         public int LastIndexOf(T item, int index, int count) => this.InnerList.LastIndexOf(item, index, count);
 
-        /// <summary>
-        /// Reverses the order of the elements in the entire <see cref="ReadOnlyList{T}"/>.
-        /// </summary>
-        public void Reverse() => this.InnerList.Reverse();
+        ///// <summary>
+        ///// Reverses the order of the elements in the entire <see cref="ReadOnlyList{T}"/>.
+        ///// </summary>
+        //public void Reverse() => this.InnerList.Reverse();
 
-        /// <summary>
-        /// Reverse the order of the elements starting the specified index and extends to the last element.
-        /// </summary>
-        /// <param name="index">The zero-based starting index of the range to reverse.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="index"/> is less than 0 or is <see cref="ReadOnlyList{T}.Count"/> or greater.
-        /// </exception>
-        public void Reverse(int index) => this.Reverse(index, this.Count - index);
+        ///// <summary>
+        ///// Reverse the order of the elements starting the specified index and extends to the last element.
+        ///// </summary>
+        ///// <param name="index">The zero-based starting index of the range to reverse.</param>
+        ///// <exception cref="ArgumentOutOfRangeException">
+        /////     <paramref name="index"/> is less than 0 or is <see cref="ReadOnlyList{T}.Count"/> or greater.
+        ///// </exception>
+        //public void Reverse(int index) => this.Reverse(index, this.Count - index);
 
-        /// <summary>
-        /// Reverses the order of the elements in the specified range.
-        /// </summary>
-        /// <param name="index">The zero-based starting index of the range to reverse.</param>
-        /// <param name="count">The number of elements in the range to reverse.</param>
-        /// <exception cref="ArgumentException">
-        ///     <paramref name="index"/> and <paramref name="count"/> do not denote a valid range of elements in the <see cref="ReadOnlyList{T}"/>.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="index"/> is less than 0.
-        ///     -or-
-        ///     <paramref name="count"/> is less than 0.
-        /// </exception>
-        public void Reverse(int index, int count) => this.InnerList.Reverse(index, count);
+        ///// <summary>
+        ///// Reverses the order of the elements in the specified range.
+        ///// </summary>
+        ///// <param name="index">The zero-based starting index of the range to reverse.</param>
+        ///// <param name="count">The number of elements in the range to reverse.</param>
+        ///// <exception cref="ArgumentException">
+        /////     <paramref name="index"/> and <paramref name="count"/> do not denote a valid range of elements in the <see cref="ReadOnlyList{T}"/>.
+        ///// </exception>
+        ///// <exception cref="ArgumentOutOfRangeException">
+        /////     <paramref name="index"/> is less than 0.
+        /////     -or-
+        /////     <paramref name="count"/> is less than 0.
+        ///// </exception>
+        //public void Reverse(int index, int count) => this.InnerList.Reverse(index, count);
 
-        /// <summary>
-        /// Sorts the elements in the entire <see cref="ReadOnlyList{T}"/> using the default comparer.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">
-        ///     The default comparer <see cref="Comparer{T}"/> cannot find an implementation of the <see cref="IComparable{T}"/>
-        ///     generic interface of the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
-        /// </exception>
-        public void Sort() => this.InnerList.Sort();
+        ///// <summary>
+        ///// Sorts the elements in the entire <see cref="ReadOnlyList{T}"/> using the default comparer.
+        ///// </summary>
+        ///// <exception cref="InvalidOperationException">
+        /////     The default comparer <see cref="Comparer{T}"/> cannot find an implementation of the <see cref="IComparable{T}"/>
+        /////     generic interface of the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
+        ///// </exception>
+        //public void Sort() => this.InnerList.Sort();
 
-        /// <summary>
-        /// Sorts the elements in the entire <see cref="ReadOnlyList{T}"/> using the specified <see cref="Comparison{T}"/>.
-        /// </summary>
-        /// <param name="comparison">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
-        /// <exception cref="ArgumentException">
-        ///     The implementation of <paramref name="comparer"/> caused an error during the sort.  For example, <paramref name="comparer"/>
-        ///     might not return 0 when comparing an item with itself.
-        /// </exception>
-        /// <exception cref="ArgumentNullException"><paramref name="comparison"/> is <see langword="null"/>.</exception>
-        public void Sort(Comparison<T> comparison) => this.InnerList.Sort(comparison);
+        ///// <summary>
+        ///// Sorts the elements in the entire <see cref="ReadOnlyList{T}"/> using the specified <see cref="Comparison{T}"/>.
+        ///// </summary>
+        ///// <param name="comparison">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
+        ///// <exception cref="ArgumentException">
+        /////     The implementation of <paramref name="comparer"/> caused an error during the sort.  For example, <paramref name="comparer"/>
+        /////     might not return 0 when comparing an item with itself.
+        ///// </exception>
+        ///// <exception cref="ArgumentNullException"><paramref name="comparison"/> is <see langword="null"/>.</exception>
+        //public void Sort(Comparison<T> comparison) => this.InnerList.Sort(comparison);
 
-        /// <summary>
-        /// Sorts the elements in the entire <see cref="ReadOnlyList{T}"/> using the specified comparer.
-        /// </summary>
-        /// <param name="comparer">
-        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or null to use the default comparer
-        ///     <see cref="Comparer{T}.Default"/>.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        ///     The implementation of <paramref name="comparer"/> caused an error during the sort.  For example, <paramref name="comparer"/>
-        ///     might not return 0 when comparing an item with itself.
-        /// </exception>
-        /// <exception cref="InvalidOperationException">
-        ///     The default comparer <see cref="Comparer{T}"/> cannot find an implementation of the <see cref="IComparable{T}"/>
-        ///     generic interface of the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
-        /// </exception>
-        public void Sort(IComparer<T> comparer) => this.InnerList.Sort(comparer);
+        ///// <summary>
+        ///// Sorts the elements in the entire <see cref="ReadOnlyList{T}"/> using the specified comparer.
+        ///// </summary>
+        ///// <param name="comparer">
+        /////     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or null to use the default comparer
+        /////     <see cref="Comparer{T}.Default"/>.
+        ///// </param>
+        ///// <exception cref="ArgumentException">
+        /////     The implementation of <paramref name="comparer"/> caused an error during the sort.  For example, <paramref name="comparer"/>
+        /////     might not return 0 when comparing an item with itself.
+        ///// </exception>
+        ///// <exception cref="InvalidOperationException">
+        /////     The default comparer <see cref="Comparer{T}"/> cannot find an implementation of the <see cref="IComparable{T}"/>
+        /////     generic interface of the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
+        ///// </exception>
+        //public void Sort(IComparer<T> comparer) => this.InnerList.Sort(comparer);
 
-        /// <summary>
-        /// Sorts the elements in the range of elements in <see cref="ReadOnlyList{T}"/> using the specified comparer.
-        /// </summary>
-        /// <param name="index">The zero-based starting index of the range to sort.</param>
-        /// <param name="count">The length of the range to sort.</param>
-        /// <param name="comparer">
-        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or null to use the default comparer
-        ///     <see cref="Comparer{T}.Default"/>.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        ///     The implementation of <paramref name="comparer"/> caused an error during the sort.  For example, <paramref name="comparer"/>
-        ///     might not return 0 when comparing an item with itself.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="index"/> is less than 0 -or- <paramref name="count"/> is less than 0.
-        /// </exception>
-        /// <exception cref="InvalidOperationException">
-        ///     The default comparer <see cref="Comparer{T}"/> cannot find an implementation of the <see cref="IComparable{T}"/>
-        ///     generic interface of the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
-        /// </exception>
-        public void Sort(int index, int count, IComparer<T> comparer) => this.InnerList.Sort(index, count, comparer);
+        ///// <summary>
+        ///// Sorts the elements in the range of elements in <see cref="ReadOnlyList{T}"/> using the specified comparer.
+        ///// </summary>
+        ///// <param name="index">The zero-based starting index of the range to sort.</param>
+        ///// <param name="count">The length of the range to sort.</param>
+        ///// <param name="comparer">
+        /////     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or null to use the default comparer
+        /////     <see cref="Comparer{T}.Default"/>.
+        ///// </param>
+        ///// <exception cref="ArgumentException">
+        /////     The implementation of <paramref name="comparer"/> caused an error during the sort.  For example, <paramref name="comparer"/>
+        /////     might not return 0 when comparing an item with itself.
+        ///// </exception>
+        ///// <exception cref="ArgumentOutOfRangeException">
+        /////     <paramref name="index"/> is less than 0 -or- <paramref name="count"/> is less than 0.
+        ///// </exception>
+        ///// <exception cref="InvalidOperationException">
+        /////     The default comparer <see cref="Comparer{T}"/> cannot find an implementation of the <see cref="IComparable{T}"/>
+        /////     generic interface of the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
+        ///// </exception>
+        //public void Sort(int index, int count, IComparer<T> comparer) => this.InnerList.Sort(index, count, comparer);
 
         /// <summary>
         /// Copies the elements of the <see cref="ReadOnlyList{T}"/> to a new array.
@@ -582,7 +584,6 @@ namespace MG.Collections
         #endregion
 
         #region OPERATORS
-        public static explicit operator List<T>(ReadOnlyList<T> readOnly) => new List<T>(readOnly);
         public static explicit operator ReadOnlyCollection<T>(ReadOnlyList<T> readOnly) => new ReadOnlyCollection<T>(readOnly.InnerList);
         public static explicit operator ReadOnlyList<T>(ReadOnlyCollection<T> collection) => new ReadOnlyList<T>(collection);
         public static explicit operator ReadOnlyList<T>(List<T> list) => new ReadOnlyList<T>(list);

@@ -27,12 +27,21 @@ namespace MG.Collections
         bool ICollection.IsSynchronized => false;
         object ICollection.SyncRoot => this.InnerSet;
 
+        /// <summary>
+        /// The default constructor wrapping the specified collection of elements using the default equality comparer
+        /// for type <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="items">The collection of elements that is copied into the set.</param>
         public ReadOnlySet(IEnumerable<T> items)
-            : this(items, !typeof(T).Equals(typeof(string))
-                ?  EqualityComparer<T>.Default
-                : (IEqualityComparer<T>)StringComparer.CurrentCulture)
+            : this(items, GetDefaultComparer())
         {
         }
+        /// <summary>
+        /// Initializes a new instance of <see cref="ReadOnlySet{T}"/> wrapping the specified collection of elements using
+        /// the specified equality comparer for type <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="items">The collection of elements that is copied into the set.</param>
+        /// <param name="comparer">The equality comparer used to determine element uniqueness.</param>
         public ReadOnlySet(IEnumerable<T> items, IEqualityComparer<T> comparer)
         {
             _set = new HashSet<T>(items, comparer);
@@ -96,5 +105,12 @@ namespace MG.Collections
         public bool SetEquals(IEnumerable<T> other) => _set.SetEquals(other);
 
         #endregion
+
+        private static IEqualityComparer<T> GetDefaultComparer()
+        {
+            return !typeof(T).Equals(typeof(string))
+                ? EqualityComparer<T>.Default
+                : (IEqualityComparer<T>)StringComparer.CurrentCulture;
+        }
     }
 }
