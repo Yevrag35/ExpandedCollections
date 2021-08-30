@@ -26,11 +26,6 @@ namespace MG.Collections
         /// </summary>
         void Sort();
         /// <summary>
-        /// Sorts the elements in the entire <see cref="ISortableList{T}"/> using the specified <see cref="Comparison{T}"/>.
-        /// </summary>
-        /// <param name="comparison">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
-        void Sort(Comparison<T> comparison);
-        /// <summary>
         /// Sorts the elements in the entire <see cref="ISortableList{T}"/> using the specified comparer.
         /// </summary>
         /// <param name="comparer">

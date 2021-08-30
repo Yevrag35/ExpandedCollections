@@ -3,7 +3,6 @@ using MG.Collections.Extensions.List;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 #pragma warning disable CA1010 // Collections should implement generic interface
 #pragma warning disable CA1710 // Identifiers should have correct suffix
@@ -635,11 +634,17 @@ namespace MG.Collections
         /// <summary>
         /// Returns an enumerator that iterates through the <see cref="UniqueListBase{T}"/>.
         /// </summary>
-        public IEnumerator<T> GetEnumerator() => InnerList.GetEnumerator();
+        public IEnumerator<T> GetEnumerator()
+        {
+            return InnerList.GetEnumerator();
+        }
         /// <summary>
         /// Returns an enumerator that iterates through the <see cref="IEnumerable"/>.
         /// </summary>
-        IEnumerator IEnumerable.GetEnumerator() => InnerList.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
 
         #endregion
 
