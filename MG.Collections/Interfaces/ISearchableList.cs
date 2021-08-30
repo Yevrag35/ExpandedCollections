@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#pragma warning disable IDE0130
+
 namespace MG.Collections
 {
     /// <summary>

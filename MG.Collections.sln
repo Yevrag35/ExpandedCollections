@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.Collections.Tests", "MG.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MG.Collections-NET5", "MG.Collections-DotNet5\MG.Collections-NET5.csproj", "{182D96CF-AD28-4DAF-BE04-40DEF10CB589}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MG.Collections.Wpf", "MG.Collections.Wpf\MG.Collections.Wpf.csproj", "{84725A76-3B45-4DAE-8D35-8009113517F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{182D96CF-AD28-4DAF-BE04-40DEF10CB589}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{182D96CF-AD28-4DAF-BE04-40DEF10CB589}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{182D96CF-AD28-4DAF-BE04-40DEF10CB589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84725A76-3B45-4DAE-8D35-8009113517F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84725A76-3B45-4DAE-8D35-8009113517F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84725A76-3B45-4DAE-8D35-8009113517F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84725A76-3B45-4DAE-8D35-8009113517F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

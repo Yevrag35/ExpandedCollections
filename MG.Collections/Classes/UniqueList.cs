@@ -2,8 +2,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+
+#pragma warning disable CA1010 // Collections should implement generic interface
+#pragma warning disable CA1710 // Identifiers should have correct suffix
+#pragma warning disable IDE0130
 
 namespace MG.Collections
 {
@@ -12,7 +14,7 @@ namespace MG.Collections
     /// unique according to the default or custom-defined equality comparer.
     /// </summary>
     /// <typeparam name="T">The element type in the <see cref="UniqueList{T}"/>.</typeparam>
-    public class UniqueList<T> : UniqueListBase<T>, IReadOnlyList<T>, IList<T>
+    public class UniqueList<T> : UniqueListBase<T>, IReadOnlyList<T>, IList<T>, ISearchableList<T>
     {
         #region PRIVATE FIELDS/CONSTANTS
         private const int DEFAULT_CAPACITY = 0;
@@ -20,6 +22,18 @@ namespace MG.Collections
         #endregion
 
         #region INDEXERS
+        /// <summary>
+        /// Gets or sets the element at the specified index.
+        /// </summary>
+        /// <remarks>
+        ///     If <paramref name="index"/> is negative, instead of starting at the zero-based position, the operation
+        ///     will start at the last index of the <see cref="UniqueList{T}"/> and count backwards.
+        /// </remarks>
+        /// <param name="index">The positive index value for zero-based indexing or negative value for reverse indexing.</param>
+        /// <returns>
+        ///     For the get accessor, the element at the specified proper index if found; otherwise,
+        ///         the default value of <typeparamref name="T"/>.
+        /// </returns>
         public T this[int index]
         {
             get => base.GetByIndex(index);
@@ -48,7 +62,8 @@ namespace MG.Collections
         /// Initializes an empty <see cref="UniqueList{T}"/> with the specified capacity using the default
         /// <see cref="IEqualityComparer{T}"/> for <typeparamref name="T"/>.
         /// </summary>
-        /// <param name="capacity"></param>
+        /// <param name="capacity">The number of elements that the new collection can initially store.</param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity"/> is less than 0.</exception>
         public UniqueList(int capacity)
             : base(capacity)
         {
@@ -70,6 +85,7 @@ namespace MG.Collections
         /// </summary>
         /// <param name="capacity">The number of new elements the list can initially store.</param>
         /// <param name="equalityComparer">The comparer used to define if an incoming element is unique.</param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity"/> is less than 0.</exception>
         public UniqueList(int capacity, IEqualityComparer<T> equalityComparer)
             : base(capacity, equalityComparer)
         {
@@ -82,6 +98,9 @@ namespace MG.Collections
         /// <remarks>
         ///     <paramref name="items"/> will be enumerated for uniqueness according to the default
         ///     <see cref="IEqualityComparer{T}"/> for type <typeparamref name="T"/>.
+        ///     
+        ///     If <paramref name="items"/> is null, no exception is thrown, and, instead, an empty
+        ///     <see cref="UniqueList{T}"/> instance is initialized.
         /// </remarks>
         /// <param name="items">
         ///     The collection whose elements will be enumerated for uniqueness and added
@@ -99,6 +118,9 @@ namespace MG.Collections
         /// <remarks>
         ///     <paramref name="collection"/> will be enumerated for uniqueness according to the provided 
         ///     <see cref="IEqualityComparer{T}"/>.
+        ///     
+        ///     If <paramref name="items"/> is null, no exception is thrown, and, instead, an empty
+        ///     <see cref="UniqueList{T}"/> instance is initialized.
         /// </remarks>
         /// <param name="collection">
         ///     The collection whose elements will be enumerated for uniqueness and added
@@ -109,10 +131,19 @@ namespace MG.Collections
         /// </param>
         public UniqueList(IEnumerable<T> collection, IEqualityComparer<T> equalityComparer)
             : base(collection, equalityComparer)
-        {   
+        {
         }
 
         #endregion
+
+        IList<T> ISearchableList<T>.FindAll(Func<T, bool> match)
+        {
+            return this.FindAll(match);
+        }
+        IList<T> ISearchableList<T>.GetRange(int index, int count)
+        {
+            return this.GetRange(index, count);
+        }
 
         #region EXTRA ILIST METHODS
         public void Insert(int index, T item)

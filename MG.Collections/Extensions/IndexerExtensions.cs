@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+
+#pragma warning disable IDE0065
+#pragma warning disable IDE0130
 
 namespace MG.Collections.Extensions
 {
@@ -18,7 +20,7 @@ namespace MG.Collections.Extensions
 namespace MG.Collections.Extensions
 {
     internal static class ListInterfaceExtensions
-    { 
+    {
         internal static T GetByIndex<T>(this IList<T> list, int index)
         {
             index = IndexHelper.GetPositiveIndex(index, list.Count);
@@ -32,7 +34,6 @@ namespace MG.Collections.Extensions
 
 namespace MG.Collections.Extensions.NonGeneric
 {
-    //using MG.Collections.Extensions.Internal;
     using System.Collections.ObjectModel;
 
     public static class ListIndexExtensions
@@ -125,8 +126,6 @@ namespace MG.Collections.Extensions.NonGeneric
 
 namespace MG.Collections.Extensions.List
 {
-    //using MG.Collections.Extensions.Internal;
-    
     public static class ListOnlyIndexExtensions
     {
         public static bool IsValidIndex<TItem>(this List<TItem> collection, int index)
@@ -173,7 +172,6 @@ namespace MG.Collections.Extensions.List
 
 namespace MG.Collections.Extensions.ReadOnly
 {
-    //using MG.Collections.Extensions.Internal;
     public static class InterfaceReadOnlyListIndexExtensions
     {
         /// <summary>

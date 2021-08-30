@@ -6,6 +6,8 @@ using MG.Collections.Extensions;
 
 using Strings = MG.Collections.Properties.Resources;
 
+#pragma warning disable IDE0130
+
 namespace MG.Collections
 {
     public class ManagedKeySortedList<TKey, TValue> : IDictionary<TKey, TValue>, IList<TValue>, IDictionary,
@@ -30,7 +32,7 @@ namespace MG.Collections
         public TValue this[TKey key]
         {
             get => this.GetValueOrDefault(key);
-            set => this.InnerList[key] = value;
+            set => InnerList[key] = value;
         }
 
         /// <summary>
@@ -49,9 +51,10 @@ namespace MG.Collections
         /// <returns>
         ///     The element at the specified or calculated index.
         /// </returns>
+        /// <exception cref="NotSupportedException">The set accessor is not supported when using <see cref="int"/> indexes.</exception>
         public TValue this[int index]
         {
-            get => this.InnerList.Values.GetByIndex(index);
+            get => InnerList.Values.GetByIndex(index);
             set => throw new NotSupportedException(Strings.NotSupportedException_SortedListSet);
         }
 
@@ -60,11 +63,9 @@ namespace MG.Collections
         {
             get
             {
-                if (key is TKey tKey)
-                    return this[tKey];
-
-                else
-                    return null;
+                return key is TKey tKey
+                    ? this[tKey]
+                    : (object)null;
             }
             set => throw new NotSupportedException(Strings.NotSupportedException_SortedListSet);
         }
@@ -94,13 +95,16 @@ namespace MG.Collections
         /// <exception cref="OutOfMemoryException">There is not enough memory available on the system.</exception>
         public int Capacity
         {
-            get => this.InnerList.Capacity;
-            set => this.InnerList.Capacity = value;
+            get => InnerList.Capacity;
+            set => InnerList.Capacity = value;
         }
         /// <summary>
         /// Gets the number of elements contained in the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
         /// </summary>
-        public int Count => this.InnerList.Count;
+        public int Count
+        {
+            get => InnerList.Count;
+        }
         /// <summary>
         /// Gets a value indicating whether the <see cref="ManagedKeySortedList{TKey, TValue}"/> has a fixed size.
         /// </summary>
@@ -129,14 +133,20 @@ namespace MG.Collections
         /// Gets a collection containing the keys in the <see cref="ManagedKeySortedList{TKey, TValue}"/>
         /// in sorted order.
         /// </summary>
-        public IList<TKey> Keys => this.InnerList.Keys;
+        public IList<TKey> Keys
+        {
+            get => InnerList.Keys;
+        }
         /// <summary>
         /// Gets an object that can be used to synchronize access to the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
         /// </summary>
         /// <returns>
         ///     The current instance.
         /// </returns>
-        public object SyncRoot => this;
+        public object SyncRoot
+        {
+            get => this;
+        }
 
         #region PROTECTED
 
@@ -149,14 +159,26 @@ namespace MG.Collections
         #endregion
 
         #region IDICTIONARY EXPLICIT PROPERTIES
-        ICollection<TKey> IDictionary<TKey, TValue>.Keys => this.Keys;
-        ICollection<TValue> IDictionary<TKey, TValue>.Values => this.InnerList.Values;
+        ICollection<TKey> IDictionary<TKey, TValue>.Keys
+        {
+            get => this.Keys;
+        }
+        ICollection<TValue> IDictionary<TKey, TValue>.Values
+        {
+            get => InnerList.Values;
+        }
 
         #endregion
 
         #region NON-GENERIC IDICTIONARY PROPERTIES
-        ICollection IDictionary.Keys => this.Keys.Cast<object>().ToArray();
-        ICollection IDictionary.Values => this.Cast<object>().ToArray();
+        ICollection IDictionary.Keys
+        {
+            get => this.Keys.Cast<object>().ToArray();
+        }
+        ICollection IDictionary.Values
+        {
+            get => this.Cast<object>().ToArray();
+        }
 
         #endregion
 
@@ -173,7 +195,7 @@ namespace MG.Collections
         public ManagedKeySortedList(Func<TValue, TKey> keySelector)
         {
             this.KeySelector = keySelector;
-            this.InnerList = new SortedList<TKey, TValue>();
+            InnerList = new SortedList<TKey, TValue>();
         }
 
         #endregion
@@ -199,9 +221,9 @@ namespace MG.Collections
         {
             bool result = false;
             TKey key = this.GetKey(item);
-            if (!this.InnerList.ContainsKey(key))
+            if (!InnerList.ContainsKey(key))
             {
-                this.InnerList.Add(key, item);
+                InnerList.Add(key, item);
                 result = true;
             }
 
@@ -213,7 +235,7 @@ namespace MG.Collections
         /// </summary>
         public void Clear()
         {
-            this.InnerList.Clear();
+            InnerList.Clear();
         }
 
         /// <summary>
@@ -229,7 +251,7 @@ namespace MG.Collections
         /// </returns>
         public bool Contains(TValue item)
         {
-            return this.InnerList.ContainsValue(item);
+            return InnerList.ContainsValue(item);
         }
 
         /// <summary>
@@ -248,9 +270,9 @@ namespace MG.Collections
         ///     The <see cref="KeySelector"/> threw an <see cref="Exception"/> when fed
         ///     <paramref name="item"/>.
         /// </exception>
-        public bool Remove(TValue item)
+        public bool RemoveValue(TValue item)
         {
-            return this.InnerList.Remove(this.GetKey(item));
+            return InnerList.Remove(this.GetKey(item));
         }
 
         #endregion
@@ -268,7 +290,7 @@ namespace MG.Collections
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
         public bool ContainsKey(TKey key)
         {
-            return this.InnerList.ContainsKey(key);
+            return InnerList.ContainsKey(key);
         }
 
         /// <summary>
@@ -287,7 +309,7 @@ namespace MG.Collections
         /// </exception>
         public void CopyTo(TValue[] array, int arrayIndex)
         {
-
+            this.InnerList.Values.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -340,7 +362,7 @@ namespace MG.Collections
         /// </returns>
         public int IndexOf(TValue value)
         {
-            return this.InnerList.IndexOfValue(value);
+            return InnerList.IndexOfValue(value);
         }
 
         /// <summary>
@@ -351,12 +373,10 @@ namespace MG.Collections
         ///    <see langword="true"/> if the element is successfully removed; otherwise, <see langword="false"/>. This method also
         ///    returns false if <paramref name="key"/> was not found in the original <see cref="ManagedKeySortedList{TKey, TValue}"/>.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
         public bool Remove(TKey key)
         {
-            if (null == key)
-                return false;
-
-            return this.InnerList.Remove(key);
+            return InnerList.Remove(key);
         }
 
         /// <summary>
@@ -369,7 +389,7 @@ namespace MG.Collections
         /// </exception>
         public void RemoveAt(int index)
         {
-            this.InnerList.RemoveAt(index);
+            InnerList.RemoveAt(index);
         }
 
         /// <summary>
@@ -378,7 +398,7 @@ namespace MG.Collections
         /// </summary>
         public void TrimExcess()
         {
-            this.InnerList.TrimExcess();
+            InnerList.TrimExcess();
         }
 
         /// <summary>
@@ -397,18 +417,18 @@ namespace MG.Collections
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
         public bool TryGetValue(TKey key, out TValue value)
         {
-            return this.InnerList.TryGetValue(key, out value);
+            return InnerList.TryGetValue(key, out value);
         }
 
         #region IDICTIONARY EXPLICITS
         void IDictionary<TKey, TValue>.Add(TKey key, TValue value)
         {
             // *NOTE* - This interface-explicit will add a non-functioned 'key' to the list.
-            this.InnerList.Add(key, value);
+            InnerList.Add(key, value);
         }
         void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
         {
-            ((ICollection<KeyValuePair<TKey, TValue>>)this.InnerList).Add(item);
+            ((ICollection<KeyValuePair<TKey, TValue>>)InnerList).Add(item);
         }
         bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
         {
@@ -416,7 +436,7 @@ namespace MG.Collections
         }
         void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            ((ICollection<KeyValuePair<TKey, TValue>>)this.InnerList).CopyTo(array, arrayIndex);
+            ((ICollection<KeyValuePair<TKey, TValue>>)InnerList).CopyTo(array, arrayIndex);
         }
         bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
         {
@@ -434,6 +454,10 @@ namespace MG.Collections
         {
             _ = this.Add(item);
         }
+        bool ICollection<TValue>.Remove(TValue item)
+        {
+            return this.Remove(this.KeySelector(item));
+        }
 
         #endregion
 
@@ -444,7 +468,7 @@ namespace MG.Collections
         {
             if (key is TKey tKey && value is TValue tVal)
             {
-                this.InnerList.Add(tKey, tVal);
+                InnerList.Add(tKey, tVal);
             }
         }
         bool IDictionary.Contains(object key)
@@ -467,8 +491,8 @@ namespace MG.Collections
             if (value is TValue tVal)
             {
                 TKey key = this.KeySelector(tVal);
-                this.InnerList.Add(key, tVal);
-                return this.InnerList.IndexOfKey(key);
+                InnerList.Add(key, tVal);
+                return InnerList.IndexOfKey(key);
             }
             else
             {
@@ -507,7 +531,7 @@ namespace MG.Collections
         {
             if (value is TValue tVal)
             {
-                _ = this.Remove(tVal);
+                _ = this.RemoveValue(tVal);
             }
         }
 
@@ -516,7 +540,7 @@ namespace MG.Collections
         #region ENUMERATORS
         public virtual IEnumerator<TValue> GetEnumerator()
         {
-            return this.InnerList.Values.GetEnumerator();
+            return InnerList.Values.GetEnumerator();
         }
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -524,11 +548,11 @@ namespace MG.Collections
         }
         IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
         {
-            return this.InnerList.GetEnumerator();
+            return InnerList.GetEnumerator();
         }
         IDictionaryEnumerator IDictionary.GetEnumerator()
         {
-            return new NonGenericDictionaryEnumerator(this.InnerList.GetEnumerator());
+            return new NonGenericDictionaryEnumerator(InnerList.GetEnumerator());
         }
 
         #endregion

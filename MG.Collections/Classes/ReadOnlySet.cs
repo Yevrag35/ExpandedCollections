@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
+
+#pragma warning disable CA1010 // Collections should implement generic interface
+#pragma warning disable CA1710 // Identifiers should have correct suffix
+#pragma warning disable IDE0130
 
 namespace MG.Collections
 {
@@ -13,19 +16,34 @@ namespace MG.Collections
     [Serializable]
     public class ReadOnlySet<T> : IReadOnlySet<T>, ICollection, IDeserializationCallback, ISerializable
     {
-        private HashSet<T> _set;
+        private readonly HashSet<T> _set;
 
         /// <summary>
         /// The inner set of values that is exposed as read-only.
         /// </summary>
 #if !NET5_0_OR_GREATER
-        protected ISet<T> InnerSet => _set;
+        protected ISet<T> InnerSet
+        {
+            get => _set;
+        }
 #else
-        protected IReadOnlySet<T> InnerSet => _set;
+        protected IReadOnlySet<T> InnerSet
+        {
+            get => _set;
+        }
 #endif
-        public int Count => _set.Count;
-        bool ICollection.IsSynchronized => false;
-        object ICollection.SyncRoot => this.InnerSet;
+        public int Count
+        {
+            get => _set.Count;
+        }
+        bool ICollection.IsSynchronized
+        {
+            get => false;
+        }
+        object ICollection.SyncRoot
+        {
+            get => _set;
+        }
 
         /// <summary>
         /// The default constructor wrapping the specified collection of elements using the default equality comparer
@@ -48,13 +66,22 @@ namespace MG.Collections
         }
 
         #region ENUMERATORS
-        public IEnumerator<T> GetEnumerator() => _set.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _set.GetEnumerator();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
 
         #endregion
 
         #region METHODS
-        public bool Contains(T item) => _set.Contains(item);
+        public bool Contains(T item)
+        {
+            return _set.Contains(item);
+        }
         /// <summary>
         /// Copies the elements of a <see cref="ReadOnlySet{T}"/> object to an array,
         /// starting at the specified array index.
@@ -71,7 +98,10 @@ namespace MG.Collections
         /// <exception cref="ArgumentException">
         ///     <paramref name="arrayIndex"/> is greater than the length of <paramref name="newArray"/>.
         /// </exception>
-        public void CopyTo(T[] newArray, int arrayIndex) => _set.CopyTo(newArray, arrayIndex);
+        public void CopyTo(T[] newArray, int arrayIndex)
+        {
+            _set.CopyTo(newArray, arrayIndex);
+        }
         void ICollection.CopyTo(Array array, int index)
         {
             ((ICollection)_set).CopyTo(array, index);
@@ -93,16 +123,34 @@ namespace MG.Collections
         {
             _set.GetObjectData(info, context);
         }
-
-        public bool IsProperSubsetOf(IEnumerable<T> other) => _set.IsProperSubsetOf(other);
-        public bool IsProperSupersetOf(IEnumerable<T> other) => _set.IsProperSupersetOf(other);
-        public bool IsSubsetOf(IEnumerable<T> other) => _set.IsSubsetOf(other);
-        public bool IsSupersetOf(IEnumerable<T> other) => _set.IsSupersetOf(other);
-
-        public void OnDeserialization(object sender) => _set.OnDeserialization(sender);
-
-        public bool Overlaps(IEnumerable<T> other) => _set.Overlaps(other);
-        public bool SetEquals(IEnumerable<T> other) => _set.SetEquals(other);
+        public bool IsProperSubsetOf(IEnumerable<T> other)
+        {
+            return _set.IsProperSubsetOf(other);
+        }
+        public bool IsProperSupersetOf(IEnumerable<T> other)
+        {
+            return _set.IsProperSupersetOf(other);
+        }
+        public bool IsSubsetOf(IEnumerable<T> other)
+        {
+            return _set.IsSubsetOf(other);
+        }
+        public bool IsSupersetOf(IEnumerable<T> other)
+        {
+            return _set.IsSupersetOf(other);
+        }
+        public void OnDeserialization(object sender)
+        {
+            _set.OnDeserialization(sender);
+        }
+        public bool Overlaps(IEnumerable<T> other)
+        {
+            return _set.Overlaps(other);
+        }
+        public bool SetEquals(IEnumerable<T> other)
+        {
+            return _set.SetEquals(other);
+        }
 
         #endregion
 

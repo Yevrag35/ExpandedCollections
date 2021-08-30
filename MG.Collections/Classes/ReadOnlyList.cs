@@ -2,7 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+
+#pragma warning disable CA1010 // Collections should implement generic interface
+#pragma warning disable CA1710 // Identifiers should have correct suffix
+#pragma warning disable IDE0130
 
 namespace MG.Collections
 {
@@ -24,7 +27,10 @@ namespace MG.Collections
         /// Gets the number of elements contained in the <see cref="ReadOnlyList{T}"/>.
         /// </summary>
         /// <returns>The number of elements contained within the <see cref="ReadOnlyList{T}"/>.</returns>
-        public int Count => this.InnerList.Count;
+        public int Count
+        {
+            get => this.InnerList.Count;
+        }
 
         #endregion
 
@@ -42,11 +48,9 @@ namespace MG.Collections
                 if (index < 0)
                     index = this.Count + index;
 
-                if (index >= 0 && index < this.Count)
-                    return this.InnerList[index];
-
-                else
-                    return default;
+                return index >= 0 && index < this.Count
+                    ? this.InnerList[index]
+                    : default;
             }
         }
 
@@ -68,6 +72,7 @@ namespace MG.Collections
         /// and has the specified capacity.
         /// </summary>
         /// <param name="capacity">The number of new elements the list can initially store.</param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity"/> is less than 0.</exception>
         protected ReadOnlyList(int capacity)
         {
             this.InnerList = new List<T>(capacity);
@@ -101,7 +106,10 @@ namespace MG.Collections
         ///     The default comparer <see cref="Comparer{T}.Default"/> cannot find an implementation of the <see cref="IComparable{T}"/>
         ///     interface or the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
         /// </exception>
-        public int BinarySearch(T item) => this.InnerList.BinarySearch(item);
+        public int BinarySearch(T item)
+        {
+            return this.InnerList.BinarySearch(item);
+        }
 
         /// <summary>
         /// Searches the entire sorted <see cref="ReadOnlyList{T}"/> for an element using the specified comparer
@@ -122,7 +130,10 @@ namespace MG.Collections
         ///     The default comparer <see cref="Comparer{T}.Default"/> cannot find an implementation of the <see cref="IComparable{T}"/>
         ///     interface or the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
         /// </exception>
-        public int BinarySearch(T item, IComparer<T> comparer) => this.InnerList.BinarySearch(item, comparer);
+        public int BinarySearch(T item, IComparer<T> comparer)
+        {
+            return this.InnerList.BinarySearch(item, comparer);
+        }
 
         /// <summary>
         /// Searches a range of elements in the sorted <see cref="ReadOnlyList{T}"/> for an element using the specified comparer
@@ -151,7 +162,10 @@ namespace MG.Collections
         ///     The default comparer <see cref="Comparer{T}.Default"/> cannot find an implementation of the <see cref="IComparable{T}"/>
         ///     interface or the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
         /// </exception>
-        public int BinarySearch(int index, int count, T item, IComparer<T> comparer) => this.InnerList.BinarySearch(index, count, item, comparer);
+        public int BinarySearch(int index, int count, T item, IComparer<T> comparer)
+        {
+            return this.InnerList.BinarySearch(index, count, item, comparer);
+        }
 
         /// <summary>
         /// Determines whether an element is in the <see cref="ReadOnlyList{T}"/>.
@@ -159,7 +173,10 @@ namespace MG.Collections
         /// <param name="item">
         /// The object to locate in the <see cref="ReadOnlyList{T}"/>.  The value can be null for reference types.
         /// </param>
-        public bool Contains(T item) => this.InnerList.Contains(item);
+        public bool Contains(T item)
+        {
+            return this.InnerList.Contains(item);
+        }
 
         /// <summary>
         /// Converts the elements in the current <see cref="ReadOnlyList{T}"/> to another type, and returns a list containing
@@ -171,7 +188,10 @@ namespace MG.Collections
         /// </param>
         /// <returns>A <see cref="List{T}"/> of the target type containing the converted elements from the current <see cref="ReadOnlyList{T}"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="converter"/> is <see langword="null"/>.</exception>
-        public List<TOutput> ConvertAll<TOutput>(Converter<T, TOutput> converter) => this.InnerList.ConvertAll(converter);
+        public List<TOutput> ConvertAll<TOutput>(Converter<T, TOutput> converter)
+        {
+            return this.InnerList.ConvertAll(converter);
+        }
 
         /// <summary>
         ///     Determines whether the <see cref="ReadOnlyList{T}"/> contains elements that
@@ -189,7 +209,10 @@ namespace MG.Collections
         ///     otherwise.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public bool Exists(Func<T, bool> match) => this.InnerList.Exists(this.ToPredicate(match));
+        public bool Exists(Func<T, bool> match)
+        {
+            return this.InnerList.Exists(ToPredicate(match));
+        }
 
         /// <summary>
         ///     Searches for an element that matches the conditions defined by the specified
@@ -203,7 +226,10 @@ namespace MG.Collections
         ///     The first element that matches the conditions if found; otherwise the default value for <typeparamref name="T"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public T Find(Func<T, bool> match) => this.InnerList.Find(this.ToPredicate(match));
+        public T Find(Func<T, bool> match)
+        {
+            return this.InnerList.Find(ToPredicate(match));
+        }
 
         /// <summary>
         /// Retrieves all of the elements that match the conditions defined by the specified predicate.
@@ -214,7 +240,10 @@ namespace MG.Collections
         ///     otherwise, an empty list.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public List<T> FindAll(Func<T, bool> match) => this.InnerList.FindAll(this.ToPredicate(match));
+        public List<T> FindAll(Func<T, bool> match) 
+        {
+            return this .InnerList.FindAll(ToPredicate(match));
+        }
         IList<T> ISearchableList<T>.FindAll(Func<T, bool> match) => this.FindAll(match);
 
         /// <summary>
@@ -227,7 +256,10 @@ namespace MG.Collections
         ///     by <paramref name="match"/> if found; otherwise, -1.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public int FindIndex(Func<T, bool> match) => this.InnerList.FindIndex(this.ToPredicate(match));
+        public int FindIndex(Func<T, bool> match)
+        {
+            return this .InnerList.FindIndex(ToPredicate(match));
+        }
 
         /// <summary>
         /// Searches for an element that match the conditions defined by the specified predicate, and returns the zero-based
@@ -244,7 +276,10 @@ namespace MG.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="startIndex"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
         /// </exception>
-        public int FindIndex(int startIndex, Func<T, bool> match) => this.InnerList.FindIndex(startIndex, this.ToPredicate(match));
+        public int FindIndex(int startIndex, Func<T, bool> match)
+        {
+            return this.InnerList.FindIndex(startIndex, ToPredicate(match));
+        }
 
         /// <summary>
         /// Searches for an element that match the conditions defined by the specified predicate, and returns the zero-based
@@ -266,7 +301,10 @@ namespace MG.Collections
         ///     -or-
         ///     <paramref name="startIndex"/> and <paramref name="count"/> do not specify a valid section of the list.
         /// </exception>
-        public int FindIndex(int startIndex, int count, Func<T, bool> match) => this.InnerList.FindIndex(startIndex, count, this.ToPredicate(match));
+        public int FindIndex(int startIndex, int count, Func<T, bool> match)
+        {
+            return this .InnerList.FindIndex(startIndex, count, ToPredicate(match));
+        }
 
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the last occurrence within the
@@ -278,7 +316,10 @@ namespace MG.Collections
         ///     type <typeparamref name="T"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public T FindLast(Func<T, bool> match) => this.InnerList.FindLast(this.ToPredicate(match));
+        public T FindLast(Func<T, bool> match)
+        {
+            return this.InnerList.FindLast(ToPredicate(match));
+        }
 
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
@@ -290,7 +331,10 @@ namespace MG.Collections
         ///     <paramref name="match"/>, if found; otherwise, -1.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public int FindLastIndex(Func<T, bool> match) => this.InnerList.FindLastIndex(this.ToPredicate(match));
+        public int FindLastIndex(Func<T, bool> match)
+        {
+            return this.InnerList.FindLastIndex(ToPredicate(match));
+        }
 
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
@@ -307,7 +351,10 @@ namespace MG.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="startIndex"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
         /// </exception>
-        public int FindLastIndex(int startIndex, Func<T, bool> match) => this.InnerList.FindLastIndex(startIndex, this.ToPredicate(match));
+        public int FindLastIndex(int startIndex, Func<T, bool> match)
+        {
+            return this.InnerList.FindLastIndex(startIndex, ToPredicate(match));
+        }
 
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
@@ -329,7 +376,10 @@ namespace MG.Collections
         ///     -or-
         ///     <paramref name="startIndex"/> and <paramref name="count"/> do not specify a valid section of the list.
         /// </exception>
-        public int FindLastIndex(int startIndex, int count, Func<T, bool> match) => this.InnerList.FindLastIndex(startIndex, count, this.ToPredicate(match));
+        public int FindLastIndex(int startIndex, int count, Func<T, bool> match)
+        {
+            return this.InnerList.FindLastIndex(startIndex, count, ToPredicate(match));
+        }
 
         /// <summary>
         /// Creates a shallow copy of a range of elements in the source <see cref="ReadOnlyList{T}"/>.
@@ -345,7 +395,10 @@ namespace MG.Collections
         ///     -or-
         ///     <paramref name="count"/> is less than 0.
         /// </exception>
-        public List<T> GetRange(int index, int count) => this.InnerList.GetRange(index, count);
+        public List<T> GetRange(int index, int count)
+        {
+            return this.InnerList.GetRange(index, count);
+        }
         IList<T> ISearchableList<T>.GetRange(int index, int count) => this.GetRange(index, count);
 
         /// <summary>
@@ -360,7 +413,10 @@ namespace MG.Collections
         ///     The zero-based index of the first occurrence of <paramref name="item"/> within the entire
         ///     <see cref="ReadOnlyList{T}"/>, if found; otherwise -1.
         /// </returns>
-        public int IndexOf(T item) => this.InnerList.IndexOf(item);
+        public int IndexOf(T item)
+        {
+            return this.InnerList.IndexOf(item);
+        }
 
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the first occurrence
@@ -378,7 +434,10 @@ namespace MG.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="index"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
         /// </exception>
-        public int IndexOf(T item, int index) => this.InnerList.IndexOf(item, index);
+        public int IndexOf(T item, int index)
+        {
+            return this.InnerList.IndexOf(item, index);
+        }
 
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the first occurrence
@@ -401,8 +460,10 @@ namespace MG.Collections
         ///     -or-
         ///     <paramref name="index"/> and <paramref name="count"/> do not specify a vliad section in the list.
         /// </exception>
-        public int IndexOf(T item, int index, int count) => this.InnerList.IndexOf(item, index, count);
-
+        public int IndexOf(T item, int index, int count)
+        {
+            return this.InnerList.IndexOf(item, index, count);
+        }
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the last occurrence
         /// within the entire <see cref="ReadOnlyList{T}"/>.
@@ -415,7 +476,10 @@ namespace MG.Collections
         ///     The zero-based index of the last occurrence of <paramref name="item"/> within the entire
         ///     <see cref="ReadOnlyList{T}"/>, if found; otherwise -1.
         /// </returns>
-        public int LastIndexOf(T item) => this.InnerList.LastIndexOf(item);
+        public int LastIndexOf(T item)
+        {
+            return this.InnerList.LastIndexOf(item);
+        }
 
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the last occurrence
@@ -433,7 +497,10 @@ namespace MG.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="index"/> is outside the range of valid indexes for the <see cref="ReadOnlyList{T}"/>.
         /// </exception>
-        public int LastIndexOf(T item, int index) => this.InnerList.LastIndexOf(item, index);
+        public int LastIndexOf(T item, int index)
+        {
+            return this.InnerList.LastIndexOf(item, index);
+        }
 
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the last occurrence
@@ -458,7 +525,10 @@ namespace MG.Collections
         ///     -or-
         ///     <paramref name="index"/> and <paramref name="count"/> do not specify a vliad section in the list.
         /// </exception>
-        public int LastIndexOf(T item, int index, int count) => this.InnerList.LastIndexOf(item, index, count);
+        public int LastIndexOf(T item, int index, int count)
+        {
+            return this.InnerList.LastIndexOf(item, index, count);
+        }
 
         ///// <summary>
         ///// Reverses the order of the elements in the entire <see cref="ReadOnlyList{T}"/>.
@@ -554,7 +624,10 @@ namespace MG.Collections
         /// <returns>
         ///     An array containing copies of the elements of the <see cref="ReadOnlyList{T}"/>.
         /// </returns>
-        public T[] ToArray() => this.InnerList.ToArray();
+        public T[] ToArray()
+        {
+            return this.InnerList.ToArray();
+        }
 
         /// <summary>
         /// Determines whether every element in the <see cref="ReadOnlyList{T}"/> matches the conditions
@@ -567,9 +640,15 @@ namespace MG.Collections
         ///     If the list has no elements, the return value is <see langword="true"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
-        public bool TrueForAll(Func<T, bool> match) => this.InnerList.TrueForAll(this.ToPredicate(match));
+        public bool TrueForAll(Func<T, bool> match)
+        {
+            return this.InnerList.TrueForAll(ToPredicate(match));
+        }
 
-        private Predicate<T> ToPredicate(Func<T, bool> func) => new Predicate<T>(func);
+        private static Predicate<T> ToPredicate(Func<T, bool> func)
+        {
+            return new Predicate<T>(func);
+        }
 
         #endregion
 
@@ -578,15 +657,30 @@ namespace MG.Collections
         /// Returns an enumerator that iterates through the <see cref="ReadOnlyList{T}"/>.
         /// </summary>
         /// <returns>A <see cref="List{T}.Enumerator"/> for the <see cref="ReadOnlyList{T}"/>.</returns>
-        public IEnumerator<T> GetEnumerator() => this.InnerList.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        public IEnumerator<T> GetEnumerator()
+        {
+            return this.InnerList.GetEnumerator();
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
 
         #endregion
 
         #region OPERATORS
-        public static explicit operator ReadOnlyCollection<T>(ReadOnlyList<T> readOnly) => new ReadOnlyCollection<T>(readOnly.InnerList);
-        public static explicit operator ReadOnlyList<T>(ReadOnlyCollection<T> collection) => new ReadOnlyList<T>(collection);
-        public static explicit operator ReadOnlyList<T>(List<T> list) => new ReadOnlyList<T>(list);
+        public static explicit operator ReadOnlyCollection<T>(ReadOnlyList<T> readOnly)
+        {
+            return new ReadOnlyCollection<T>(readOnly.InnerList);
+        }
+        public static explicit operator ReadOnlyList<T>(ReadOnlyCollection<T> collection)
+        {
+            return new ReadOnlyList<T>(collection);
+        }
+        public static explicit operator ReadOnlyList<T>(List<T> list)
+        {
+            return new ReadOnlyList<T>(list);
+        }
 
         #endregion
 
@@ -597,7 +691,10 @@ namespace MG.Collections
         #endregion
 
         #region INTERFACE EXPLICIT METHODS
-        void ICollection.CopyTo(Array array, int index) => ((ICollection)this.InnerList).CopyTo(array, index);
+        void ICollection.CopyTo(Array array, int index)
+        {
+            ((ICollection)this.InnerList).CopyTo(array, index);
+        }
 
         #endregion
     }
