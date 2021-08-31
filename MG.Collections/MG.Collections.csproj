@@ -2,10 +2,40 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp3.1;netframework4.6.2</TargetFrameworks>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <Company>Yevrag35, LLC.</Company>
+    <Authors>Mike Garvey</Authors>
+    <Description>A library consisting of specialized collection classes.</Description>
+    <PackageProjectUrl />
+	<Copyright>Copyright © 2021 Yevrag35, LLC.</Copyright>
+	<Product Condition=" '$(TargetFramework)' == 'netframework4.6.2' ">
+		MG.Collections .NETFramework
+	</Product>
+	<Product Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
+		MG.Collections .NET Core 2.0
+	</Product>
+	<Product Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+		MG.Collections .NET Core 3.1
+	</Product>
+	<AssemblyTitle Condition=" '$(TargetFramework)' == 'netframework4.6.2' ">
+		MG.Collections .NETFramework
+    </AssemblyTitle>
+	<AssemblyTitle Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
+		MG.Collections .NET Core 2.1
+    </AssemblyTitle>
+	<AssemblyTitle Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+		MG.Collections .NET Core 3.1
+	</AssemblyTitle>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\MG.Collections.xml</DocumentationFile>
+    <DocumentationFile>MG.Collections.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>

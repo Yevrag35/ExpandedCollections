@@ -3,11 +3,27 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>MG.Collections</RootNamespace>
+    <PackageId>MG.Collections</PackageId>
+    <Authors>Mike Garvey</Authors>
+    <Company>Yevrag35, LLC.</Company>
+    <Copyright>Copyright © 2021 Yevrag35, LLC.</Copyright>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <AssemblyName>MG.Collections</AssemblyName>
+	<Product>MG.Collections .NET5</Product>
+	<AssemblyTitle>
+		MG.Collections .NET5
+	</AssemblyTitle>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DocumentationFile>C:\Users\Mike\source\repos\MG.Collections\MG.Collections-DotNet5\MG.Collections.xml</DocumentationFile>
   </PropertyGroup>
 
 	<ItemGroup>
-		<Compile Include="..\MG.Collections\**\*.cs"
-				 Exclude="..\MG.Collections\obj\**\*.*;..\MG.Collections\bin\**\*.*;..\MG.Collections\**\IReadOnlySet.cs"/>
+		<Compile Include="..\MG.Collections\**\*.cs" Exclude="..\MG.Collections\obj\**\*.*;..\MG.Collections\bin\**\*.*;..\MG.Collections\**\IReadOnlySet.cs" />
 	</ItemGroup>
 
 </Project>
