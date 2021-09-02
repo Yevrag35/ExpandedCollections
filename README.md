@@ -1,5 +1,7 @@
 # <img src="assests/Collections_Red.png" width="40" height="40"> Expanded Specialized Collections
 
+[![version](https://img.shields.io/nuget/v/MG.Collections?style=flat-square)](https://www.nuget.org/packages/MG.Collections) [![downloads](https://img.shields.io/nuget/dt/MG.Collections?style=flat-square&color=darkgreen)](https://www.nuget.org/packages/MG.Collections)
+
 Helper libraries that provide some collection classes that I use in my projects.  Some examples include:
 
 ## __UniqueList\<T\>__
