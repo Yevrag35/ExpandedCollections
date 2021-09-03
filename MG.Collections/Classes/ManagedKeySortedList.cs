@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -193,9 +193,35 @@ namespace MG.Collections
         ///     in order to retrieve the <typeparamref name="TKey"/> value.
         /// </param>
         public ManagedKeySortedList(Func<TValue, TKey> keySelector)
+            : this(0, GetDefaultComparer(), keySelector)
+        {
+        }
+
+        public ManagedKeySortedList(int capacity, Func<TValue, TKey> keySelector)
+            : this(capacity, GetDefaultComparer(), keySelector)
+        {
+        }
+
+        public ManagedKeySortedList(int capacity, IComparer<TKey> comparer, Func<TValue, TKey> keySelector)
         {
             this.KeySelector = keySelector;
-            InnerList = new SortedList<TKey, TValue>();
+            this.InnerList = new SortedList<TKey, TValue>(capacity, comparer);
+        }
+
+        public ManagedKeySortedList(IComparer<TKey> comparer, Func<TValue, TKey> keySelector)
+            : this(0, comparer, keySelector)
+        {
+        }
+
+        public ManagedKeySortedList(IEnumerable<TValue> items, Func<TValue, TKey> keySelector)
+            : this(items, GetDefaultComparer(), keySelector)
+        {
+        }
+
+        public ManagedKeySortedList(IEnumerable<TValue> items, IComparer<TKey> comparer, Func<TValue, TKey> keySelector)
+        {
+            this.KeySelector = keySelector;
+            this.InnerList = AddInitialValues(items, comparer, keySelector);
         }
 
         #endregion
@@ -585,6 +611,31 @@ namespace MG.Collections
         }
 
         #endregion
+        private static IComparer<TKey> GetDefaultComparer()
+        {
+            return !typeof(TKey).Equals(typeof(string))
+                ? Comparer<TKey>.Default
+                : (IComparer<TKey>)StringComparer.CurrentCultureIgnoreCase;
+        }
+        private static SortedList<TKey, TValue> AddInitialValues(IEnumerable<TValue> itemsToAdd, IComparer<TKey> comparer, Func<TValue, TKey> keySelector)
+        {
+            var list = new SortedList<TKey, TValue>(5, comparer);
+            foreach (TValue item in itemsToAdd)
+            {
+                try
+                {
+                    list.Add(keySelector(item), item);
+                }
+                catch (ArgumentException e)   // swallow key exists exception.
+                {
+                    // Rethrow if it's not a key exists exception.
+                    if (e.Message.IndexOf("same key already exists", StringComparison.CurrentCultureIgnoreCase) < 0)
+                        throw e;
+                }
+            }
+
+            return list;
+        }
 
         private class NonGenericDictionaryEnumerator : IDictionaryEnumerator
         {
