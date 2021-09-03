@@ -14,13 +14,13 @@ namespace MG.Collections.Tests
 {
     public class ManagedKeyTest
     {
-        private static IStruct GetMock()
+        private static IStruct GetMock(int num = 24)
         {
             var guid = Guid.NewGuid();
             string str = "Just a String";
 
             var mock = new Mock<IStruct>();
-            mock.SetupGet(x => x.Id).Returns(24);
+            mock.SetupGet(x => x.Id).Returns(num);
             mock.SetupGet(x => x.UniqueId).Returns(guid);
             mock.SetupGet(x => x.Value).Returns(str);
 
@@ -35,12 +35,12 @@ namespace MG.Collections.Tests
             var col = new ManagedKeySortedList<int, IStruct>(x => x.Id);
             Assert.Empty(col);
 
-            Assert.True(col.Add(mock));
+            col.Add(mock);
 
             Assert.True(col.Contains(mock));
             Assert.True(col.ContainsKey(24));
 
-            Assert.False(col.Add(mock));
+            Assert.Throws<ArgumentException>(() => col.Add(mock));
             Assert.Single(col);
 
             Assert.Throws<InvalidOperationException>(() => col.Add(null));
@@ -66,11 +66,33 @@ namespace MG.Collections.Tests
         {
             IStruct mock = GetMock();
             var col = new ManagedKeySortedList<Guid, IStruct>(x => x.UniqueId);
-            Assert.True(col.Add(mock));
+            col.Add(mock);
             Assert.Single(col);
 
             col.Clear();
             Assert.Empty(col);
+        }
+
+        [Theory]
+        [InlineData(0, 2)]
+        public void GetRangeTest(int index, int count)
+        {
+            IStruct[] structs = new IStruct[2]
+            {
+                GetMock(),
+                GetMock(360)
+            };
+            var col = new ManagedKeySortedList<int, IStruct>(structs, x => x.Id);
+            Assert.Equal(2, col.Count);
+
+            var list = col.GetRange(index, count);
+
+            Assert.Equal(count, list.Count);
+
+            for (int i = index; i <= index + count; i++)
+            {
+                Assert.Equal(col[i], list[i]);
+            }
         }
 
         [Fact]
@@ -100,11 +122,11 @@ namespace MG.Collections.Tests
         {
             IStruct mock = GetMock();
             var col = new ManagedKeySortedList<string, IStruct>(x => x.Value);
-            Assert.True(col.Add(mock));
+            col.Add(mock);
 
             Assert.Equal(mock, col[0]);
             Assert.Equal(mock, col[mock.Value]);
-            Assert.Throws<NotSupportedException>(() => col[0] = mock);
+            //Assert.Throws<NotSupportedException>(() => col[0] = mock);
         }
     }
 }

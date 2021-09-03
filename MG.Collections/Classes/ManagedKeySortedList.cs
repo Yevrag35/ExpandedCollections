@@ -10,6 +10,12 @@ using Strings = MG.Collections.Properties.Resources;
 
 namespace MG.Collections
 {
+    /// <summary>
+    /// A <see cref="SortedList{TKey, TValue}"/> class where <typeparamref name="TKey"/> is automatically retrieved with 
+    /// a specified function from each <typeparamref name="TValue"/> element added.
+    /// </summary>
+    /// <typeparam name="TKey"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
     public class ManagedKeySortedList<TKey, TValue> : IDictionary<TKey, TValue>, IList<TValue>, IDictionary,
         IList, IEnumerable<TValue>
     {
@@ -48,7 +54,6 @@ namespace MG.Collections
                     throw new ArgumentException("The new value's key does not equate to the output of the managed key function.");
             }
         }
-
         /// <summary>
         /// Gets the element at the specified index.  The 'set' accessor is not supported on the
         /// <see cref="ManagedKeySortedList{TKey, TValue}"/> class and will throw a
@@ -333,7 +338,8 @@ namespace MG.Collections
         /// </exception>
         public void RemoveAt(int index)
         {
-            InnerList.RemoveAt(index);
+            TKey key = InnerList.Keys[index];
+            _ = this.Remove(key);
         }
         /// <summary>
         /// Removes the first occurrence of a specific object from the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
@@ -355,32 +361,6 @@ namespace MG.Collections
         {
             TKey key = this.GetKey(item);
             return this.RemoveItem(key);
-        }
-
-        #endregion
-
-        #region EXTENDED METHODS
-        /// <summary>
-        /// Attempts to add the specified value to the end of the list.
-        /// </summary>
-        /// <remarks>
-        ///     Any exception that occurs is suppressed.
-        /// </remarks>
-        /// <param name="value">The element to add to the end of the <see cref="ManagedKeySortedList{TKey, TValue}"/>.</param>
-        /// <returns>
-        ///     <see langword="true"/> if <paramref name="value"/> was added to the end of the list with the 
-        ///     calculated <typeparamref name="TKey"/>; otherwise, <see langword="false"/>.
-        /// </returns>
-        public bool TryAdd(TValue value)
-        {
-            try
-            {
-                return this.AddItem(value);
-            }
-            catch
-            {
-                return false;
-            }
         }
 
         #endregion
@@ -476,7 +456,7 @@ namespace MG.Collections
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
         public bool Remove(TKey key)
         {
-            return InnerList.Remove(key);
+            return this.RemoveItem(key);
         }
         /// <summary>
         /// Sets the capacity to the actual number of elements in the <see cref="ManagedKeySortedList{TKey, TValue}"/>,
@@ -509,12 +489,11 @@ namespace MG.Collections
         #region IDICTIONARY EXPLICITS
         void IDictionary<TKey, TValue>.Add(TKey key, TValue value)
         {
-            // *NOTE* - This interface-explicit will add a non-functioned 'key' to the list.
-            InnerList.Add(key, value);
+            this.Add(value);
         }
         void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
         {
-            ((ICollection<KeyValuePair<TKey, TValue>>)InnerList).Add(item);
+            this.Add(item.Value);
         }
         bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
         {
@@ -532,17 +511,13 @@ namespace MG.Collections
         #endregion
 
         #region ILIST EXPLICITS
-        void ICollection<TValue>.Add(TValue item)
-        {
-            this.Add(item);
-        }
         void IList<TValue>.Insert(int index, TValue item)
         {
             this.Add(item);
         }
         bool ICollection<TValue>.Remove(TValue item)
         {
-            return this.Remove(this.KeySelector(item));
+            return this.RemoveValue(item);
         }
 
         #endregion
@@ -552,9 +527,9 @@ namespace MG.Collections
         #region NON-GENERIC DICTIONARY METHODS
         void IDictionary.Add(object key, object value)
         {
-            if (key is TKey tKey && value is TValue tVal)
+            if (value is TValue tVal)
             {
-                InnerList.Add(tKey, tVal);
+                this.Add(tVal);
             }
         }
         bool IDictionary.Contains(object key)
@@ -622,7 +597,71 @@ namespace MG.Collections
 
         #endregion
 
+        #region EXTENDED METHODS
+        /// <summary>
+        /// Creates a shallow copy of a range of elements in the source <see cref="ManagedKeySortedList{TKey, TValue}"/>.
+        /// </summary>
+        /// <param name="index">The zero-based index at which the range starts.</param>
+        /// <param name="count">The number of elements in the range.</param>
+        /// <returns>A shallow copy of a range of elements in the <see cref="ManagedKeySortedList{TKey, TValue}"/>.</returns>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="index"/> and <paramref name="count"/> do not denote a valid range of elements.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="count"/> is less than 0.
+        /// </exception>
+        public List<TValue> GetRange(int index, int count)
+        {
+            if (index < 0 || count < 0)
+                throw new ArgumentOutOfRangeException(string.Format("{0} -or- {1} is less than 0.", nameof(index), nameof(count)));
+
+            int endingIndex = index + (count - 1);
+            if (count < index || this.Count <= endingIndex)
+                throw new ArgumentException(string.Format("{0} and {1} do not denote a valid range of elements", nameof(index), nameof(count)));
+
+            var list = new List<TValue>(count);
+            for (int i = index; i <= endingIndex; i++)
+            {
+                list.Add(InnerList.Values[i]);
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// Attempts to add the specified value to the end of the list.
+        /// </summary>
+        /// <remarks>
+        ///     Any exception that occurs is suppressed.
+        /// </remarks>
+        /// <param name="value">The element to add to the end of the <see cref="ManagedKeySortedList{TKey, TValue}"/>.</param>
+        /// <returns>
+        ///     <see langword="true"/> if <paramref name="value"/> was added to the end of the list with the 
+        ///     calculated <typeparamref name="TKey"/>; otherwise, <see langword="false"/>.
+        /// </returns>
+        public bool TryAdd(TValue value)
+        {
+            try
+            {
+                return this.AddItem(value);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        #endregion
+
         #region ENUMERATORS
+        /// <summary>
+        /// Returns an enumerator that iterates through the <see cref="ManagedKeySortedList{TKey, TValue}"/> values.
+        /// </summary>
+        /// <returns>
+        ///     An enumerator that can be used to iterate through the values of the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
+        /// </returns>
         public virtual IEnumerator<TValue> GetEnumerator()
         {
             return InnerList.Values.GetEnumerator();
@@ -638,6 +677,30 @@ namespace MG.Collections
         IDictionaryEnumerator IDictionary.GetEnumerator()
         {
             return new NonGenericDictionaryEnumerator(InnerList.GetEnumerator());
+        }
+
+        private class NonGenericDictionaryEnumerator : IDictionaryEnumerator
+        {
+            private IEnumerator<KeyValuePair<TKey, TValue>> Enumerator { get; }
+
+            public object Current => this.Entry;
+            public DictionaryEntry Entry => new DictionaryEntry(this.Enumerator.Current.Key, this.Enumerator.Current.Value);
+            public object Key => this.Enumerator.Current.Key;
+            public object Value => this.Enumerator.Current.Value;
+
+            public NonGenericDictionaryEnumerator(IEnumerator<KeyValuePair<TKey, TValue>> enumerator)
+            {
+                this.Enumerator = enumerator;
+            }
+
+            public bool MoveNext()
+            {
+                return this.Enumerator.MoveNext();
+            }
+            public void Reset()
+            {
+                this.Enumerator.Reset();
+            }
         }
 
         #endregion
@@ -758,6 +821,7 @@ namespace MG.Collections
 
         #endregion
 
+        #region PRIVATE METHODS
         private static IComparer<TKey> GetDefaultComparer()
         {
             return !typeof(TKey).Equals(typeof(string))
@@ -777,35 +841,13 @@ namespace MG.Collections
                 {
                     // Rethrow if it's not a key exists exception.
                     if (e.Message.IndexOf("same key already exists", StringComparison.CurrentCultureIgnoreCase) < 0)
-                        throw e;
+                        throw new ArgumentException(e.Message, e);
                 }
             }
 
             return list;
         }
 
-        private class NonGenericDictionaryEnumerator : IDictionaryEnumerator
-        {
-            private IEnumerator<KeyValuePair<TKey, TValue>> Enumerator { get; }
-
-            public object Current => this.Entry;
-            public DictionaryEntry Entry => new DictionaryEntry(this.Enumerator.Current.Key, this.Enumerator.Current.Value);
-            public object Key => this.Enumerator.Current.Key;
-            public object Value => this.Enumerator.Current.Value;
-
-            public NonGenericDictionaryEnumerator(IEnumerator<KeyValuePair<TKey, TValue>> enumerator)
-            {
-                this.Enumerator = enumerator;
-            }
-
-            public bool MoveNext()
-            {
-                return this.Enumerator.MoveNext();
-            }
-            public void Reset()
-            {
-                this.Enumerator.Reset();
-            }
-        }
+        #endregion
     }
 }
