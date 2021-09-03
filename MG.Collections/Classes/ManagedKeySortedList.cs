@@ -22,17 +22,31 @@ namespace MG.Collections
         /// <summary>
         /// Gets or sets the value associated with the specified key.
         /// </summary>
+        /// <remarks>
+        ///     The set accessors' value must generate a <typeparamref name="TKey"/> key that equals <paramref name="key"/>, 
+        ///     otherwise, an <see cref="ArgumentException"/> is thrown.
+        /// </remarks>
         /// <param name="key">The key whose value to get or set.</param>
         /// <returns>
         ///     The value associated with the specified key. If the specified key is not found,
         ///     the default value of <typeparamref name="TValue"/> is returned;
-        ///     a set operation creates a new element using the specified key.
+        ///     A set operation throws a <see cref="KeyNotFoundException"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">The value's key provided to the set accessor does not match the original key.</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     The <see cref="KeySelector"/> threw an <see cref="Exception"/> when fed
+        ///     <paramref name="value"/>.
+        /// </exception>
+        /// <exception cref="KeyNotFoundException"><paramref name="key"/> was not found in the <see cref="ManagedKeySortedList{TKey, TValue}"/>.</exception>
         public TValue this[TKey key]
         {
             get => this.GetValueOrDefault(key);
-            set => InnerList[key] = value;
+            set
+            {
+                if (!this.SetItem(key, value))
+                    throw new ArgumentException("The new value's key does not equate to the output of the managed key function.");
+            }
         }
 
         /// <summary>
@@ -51,11 +65,24 @@ namespace MG.Collections
         /// <returns>
         ///     The element at the specified or calculated index.
         /// </returns>
-        /// <exception cref="NotSupportedException">The set accessor is not supported when using <see cref="int"/> indexes.</exception>
+        /// <exception cref="ArgumentException">The value's key provided to the set accessor does not match the original key.</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     The <see cref="KeySelector"/> threw an <see cref="Exception"/> when fed
+        ///     <paramref name="value"/>.
+        /// </exception>
         public TValue this[int index]
         {
             get => InnerList.Values.GetByIndex(index);
-            set => throw new NotSupportedException(Strings.NotSupportedException_SortedListSet);
+            set
+            {
+                int realIndex = IndexHelper.GetPositiveIndex(index, this.Count);
+                TKey key = this.GetKey(value);
+                if (null == key || !InnerList.ContainsKey(key) || InnerList.IndexOfKey(key) != realIndex)
+                    throw new KeyNotFoundException(string.Format("No matching key at index {0} was found.", realIndex));
+
+                if (!this.SetItem(key, value))
+                    throw new ArgumentException("The new value's key does not equate to the output of the managed key function.");
+            }
         }
 
         #region NON-GENERIC DICTIONARY INDEXER
@@ -97,6 +124,16 @@ namespace MG.Collections
         {
             get => InnerList.Capacity;
             set => InnerList.Capacity = value;
+        }
+        /// <summary>
+        /// Gets the <see cref="IComparer{T}"/> for the managed key sorted list.
+        /// </summary>
+        /// <returns>
+        ///     The <see cref="IComparer{T}"/> for the current <see cref="ManagedKeySortedList{TKey, TValue}"/>.
+        /// </returns>
+        public IComparer<TKey> Comparer
+        {
+            get => InnerList.Comparer;
         }
         /// <summary>
         /// Gets the number of elements contained in the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
@@ -231,29 +268,20 @@ namespace MG.Collections
         /// Adds an item to the end of the list.
         /// </summary>
         /// <param name="item">The item to be added to the end of the <see cref="ManagedKeySortedList{TKey, TItem}"/>.</param>
-        /// <exception cref="ArgumentNullException">
-        ///     <see cref="KeySelector"/> returned a 
-        ///     <see langword="null"/> key.
-        /// </exception>
-        /// /// <exception cref="InvalidOperationException">
-        ///     The <see cref="KeySelector"/> threw an <see cref="Exception"/> when fed
-        ///     <paramref name="item"/>.
-        /// </exception>
         /// <returns>
         ///     <see langword="true"/> if <paramref name="item"/> was successfully added to the 
         ///     <see cref="ManagedKeySortedList{TKey, TItem}"/>; otherwise, <see langword="false"/>.
         /// </returns>
-        public bool Add(TValue item)
+        /// <exception cref="ArgumentException">
+        ///     An exception adding <paramref name="item"/> created an
+        ///     <see cref="ArgumentException"/> that was not due to an existing key.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     <see cref="KeySelector"/> threw an exception.
+        /// </exception>
+        public void Add(TValue item)
         {
-            bool result = false;
-            TKey key = this.GetKey(item);
-            if (!InnerList.ContainsKey(key))
-            {
-                InnerList.Add(key, item);
-                result = true;
-            }
-
-            return result;
+            _ = this.AddItem(item);
         }
 
         /// <summary>
@@ -261,7 +289,7 @@ namespace MG.Collections
         /// </summary>
         public void Clear()
         {
-            InnerList.Clear();
+            this.ClearItems();
         }
 
         /// <summary>
@@ -279,7 +307,34 @@ namespace MG.Collections
         {
             return InnerList.ContainsValue(item);
         }
-
+        /// <summary>
+        /// Searches for the specified value and returns the zero-based index of the first
+        /// occurrence within the entire <see cref="ManagedKeySortedList{TKey, TValue}"/>.
+        /// </summary>
+        /// <param name="value">
+        ///     The value to locate in the <see cref="ManagedKeySortedList{TKey, TValue}"/>. The value
+        ///     can be <see langword="null"/> for reference types.
+        /// </param>
+        /// <returns>
+        ///     The zero-based index of the first occurrence of value within the entire 
+        ///     <see cref="ManagedKeySortedList{TKey, TValue}"/>, if found; otherwise, -1.
+        /// </returns>
+        public int IndexOf(TValue value)
+        {
+            return InnerList.IndexOfValue(value);
+        }
+        /// <summary>
+        /// Removes the element at the specified index of the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
+        /// </summary>
+        /// <param name="index">The zero-based index of the element to remove.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0. -or- <paramref name="index"/> is equal to or greater than
+        ///     <see cref="ManagedKeySortedList{TKey, TValue}"/>.
+        /// </exception>
+        public void RemoveAt(int index)
+        {
+            InnerList.RemoveAt(index);
+        }
         /// <summary>
         /// Removes the first occurrence of a specific object from the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
         /// </summary>
@@ -298,7 +353,34 @@ namespace MG.Collections
         /// </exception>
         public bool RemoveValue(TValue item)
         {
-            return InnerList.Remove(this.GetKey(item));
+            TKey key = this.GetKey(item);
+            return this.RemoveItem(key);
+        }
+
+        #endregion
+
+        #region EXTENDED METHODS
+        /// <summary>
+        /// Attempts to add the specified value to the end of the list.
+        /// </summary>
+        /// <remarks>
+        ///     Any exception that occurs is suppressed.
+        /// </remarks>
+        /// <param name="value">The element to add to the end of the <see cref="ManagedKeySortedList{TKey, TValue}"/>.</param>
+        /// <returns>
+        ///     <see langword="true"/> if <paramref name="value"/> was added to the end of the list with the 
+        ///     calculated <typeparamref name="TKey"/>; otherwise, <see langword="false"/>.
+        /// </returns>
+        public bool TryAdd(TValue value)
+        {
+            try
+            {
+                return this.AddItem(value);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         #endregion
@@ -337,7 +419,6 @@ namespace MG.Collections
         {
             this.InnerList.Values.CopyTo(array, arrayIndex);
         }
-
         /// <summary>
         /// Tries to get the value associated with the specified key in the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
         /// </summary>
@@ -352,7 +433,6 @@ namespace MG.Collections
         {
             return this.GetValueOrDefault(key, default);
         }
-
         /// <summary>
         /// Tries to get the value associated with the specified key in the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
         /// </summary>
@@ -373,24 +453,18 @@ namespace MG.Collections
                 ? result
                 : defaultValue;
         }
-
         /// <summary>
-        /// Searches for the specified value and returns the zero-based index of the first
-        /// occurrence within the entire <see cref="ManagedKeySortedList{TKey, TValue}"/>.
+        /// Searches for the specified key and returns the zero-based index within the entire <see cref="ManagedKeySortedList{TKey, TValue}"/>.
         /// </summary>
-        /// <param name="value">
-        ///     The value to locate in the <see cref="ManagedKeySortedList{TKey, TValue}"/>. The value
-        ///     can be <see langword="null"/> for reference types.
-        /// </param>
+        /// <param name="key">The key to lcoate in the <see cref="ManagedKeySortedList{TKey, TValue}"/>.</param>
         /// <returns>
-        ///     The zero-based index of the first occurrence of value within the entire 
-        ///     <see cref="ManagedKeySortedList{TKey, TValue}"/>, if found; otherwise, -1.
+        ///     The zero-based index of <paramref name="key"/> if found; otherwise, -1.
         /// </returns>
-        public int IndexOf(TValue value)
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
+        public int IndexOfKey(TKey key)
         {
-            return InnerList.IndexOfValue(value);
+            return InnerList.IndexOfKey(key);
         }
-
         /// <summary>
         /// Removes the element with the specified key from the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
         /// </summary>
@@ -404,20 +478,6 @@ namespace MG.Collections
         {
             return InnerList.Remove(key);
         }
-
-        /// <summary>
-        /// Removes the element at the specified index of the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
-        /// </summary>
-        /// <param name="index">The zero-based index of the element to remove.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="index"/> is less than 0. -or- <paramref name="index"/> is equal to or greater than
-        ///     <see cref="ManagedKeySortedList{TKey, TValue}"/>.
-        /// </exception>
-        public void RemoveAt(int index)
-        {
-            InnerList.RemoveAt(index);
-        }
-
         /// <summary>
         /// Sets the capacity to the actual number of elements in the <see cref="ManagedKeySortedList{TKey, TValue}"/>,
         ///     if that number is less than a threshold value.
@@ -426,7 +486,6 @@ namespace MG.Collections
         {
             InnerList.TrimExcess();
         }
-
         /// <summary>
         /// Gets the value associated with the specified key.
         /// </summary>
@@ -443,6 +502,7 @@ namespace MG.Collections
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
         public bool TryGetValue(TKey key, out TValue value)
         {
+            
             return InnerList.TryGetValue(key, out value);
         }
 
@@ -474,11 +534,11 @@ namespace MG.Collections
         #region ILIST EXPLICITS
         void ICollection<TValue>.Add(TValue item)
         {
-            _ = this.Add(item);
+            this.Add(item);
         }
         void IList<TValue>.Insert(int index, TValue item)
         {
-            _ = this.Add(item);
+            this.Add(item);
         }
         bool ICollection<TValue>.Remove(TValue item)
         {
@@ -516,9 +576,8 @@ namespace MG.Collections
         {
             if (value is TValue tVal)
             {
-                TKey key = this.KeySelector(tVal);
-                InnerList.Add(key, tVal);
-                return InnerList.IndexOfKey(key);
+                this.Add(tVal);
+                return InnerList.IndexOfValue(tVal);
             }
             else
             {
@@ -550,7 +609,7 @@ namespace MG.Collections
         {
             if (value is TValue tVal)
             {
-                _ = this.Add(tVal);
+                this.Add(tVal);
             }
         }
         void IList.Remove(object value)
@@ -583,6 +642,8 @@ namespace MG.Collections
 
         #endregion
 
+        #region PROTECTED OVERRIDABLES
+
         #region KEY METHODS
         /// <summary>
         /// Executes the stored <see cref="KeySelector"/> to retrieve the key from the specified item.
@@ -611,6 +672,92 @@ namespace MG.Collections
         }
 
         #endregion
+        /// <summary>
+        /// Attempts to add the specified value to the end of the list.
+        /// </summary>
+        /// <param name="value">The element to add to the end of the <see cref="ManagedKeySortedList{TKey, TValue}"/>.</param>
+        /// <returns>
+        ///     <see langword="true"/> if <paramref name="value"/> was added to the list with the 
+        ///     calculated <typeparamref name="TKey"/>; otherwise, <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        ///     An exception adding <paramref name="value"/> created an
+        ///     <see cref="ArgumentException"/> that was not due to an existing key.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     <see cref="KeySelector"/> threw an exception.
+        /// </exception>
+        protected virtual bool AddItem(TValue value)
+        {
+            TKey key = this.GetKey(value);
+            try
+            {
+                InnerList.Add(key, value);
+                return true;
+            }
+            catch (ArgumentException e)
+            {
+                if (e.GetBaseException().Message.IndexOf("same key already exists") < 0)
+                    throw new ArgumentException("An error occured.  See inner exception for details.", e);
+            }
+            catch (Exception allOther)
+            {
+                throw new InvalidOperationException("An error occured.  See inner exception for details.", allOther);
+            }
+
+            return false;
+        }
+        /// <summary>
+        /// Removes all elements from the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
+        /// </summary>
+        protected virtual void ClearItems()
+        {
+            this.InnerList.Clear();
+        }
+        /// <summary>
+        /// Sets the value associated with the specified key.
+        /// </summary>
+        /// <param name="key">The key whose value to get or set.</param>
+        /// <param name="value">The value to replace the original one with.</param>
+        /// <returns>
+        ///     <see langword="true"/> if the calculated key from <see cref="GetKey(TValue)"/> equals 
+        ///     <paramref name="key"/> and the original value was overwritten by <paramref name="value"/>;
+        ///     otherwise, <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     The <see cref="KeySelector"/> threw an <see cref="Exception"/> when fed
+        ///     <paramref name="value"/>.
+        /// </exception>
+        /// <exception cref="KeyNotFoundException"><paramref name="key"/> was not found in the <see cref="ManagedKeySortedList{TKey, TValue}"/>.</exception>
+        protected virtual bool SetItem(TKey key, TValue value)
+        {
+            TKey origKey = this.GetKey(value);
+            if (!key.Equals(origKey))
+                return false;
+                
+            InnerList[key] = value;
+            return true;
+        }
+        /// <summary>
+        /// Removes the first occurrence of a specific object from the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
+        /// </summary>
+        /// <param name="key">
+        ///     The key to remove from the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
+        /// </param>
+        /// <returns>
+        ///     <see langword="true"/> if the key and value are successfully removed; otherwise, <see langword="false"/>. 
+        ///     This method also returns false if <paramref name="key"/> was not found in the 
+        ///     <see cref="ManagedKeySortedList{TKey, TValue}"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
+        protected virtual bool RemoveItem(TKey key)
+        {
+            return InnerList.Remove(key);
+        }
+
+        #endregion
+
         private static IComparer<TKey> GetDefaultComparer()
         {
             return !typeof(TKey).Equals(typeof(string))
