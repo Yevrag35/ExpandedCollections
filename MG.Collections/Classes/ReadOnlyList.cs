@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MG.Collections.Extensions.List;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +22,7 @@ namespace MG.Collections
         /// <summary>
         /// The internal backing <see cref="List{T}"/> that all methods of <see cref="ReadOnlyList{T}"/> invoke against.
         /// </summary>
-        private List<T> InnerList { get; }
+        private protected List<T> InnerList { get; }
 
         /// <summary>
         /// Gets the number of elements contained in the <see cref="ReadOnlyList{T}"/>.
@@ -43,15 +44,7 @@ namespace MG.Collections
         /// <returns>The element at the specified index or the default value of <typeparamref name="T"/> if the index is out of range.</returns>
         public T this[int index]
         {
-            get
-            {
-                if (index < 0)
-                    index = this.Count + index;
-
-                return index >= 0 && index < this.Count
-                    ? this.InnerList[index]
-                    : default;
-            }
+            get => InnerList.GetByIndex(index);
         }
 
         #endregion
@@ -83,6 +76,7 @@ namespace MG.Collections
         /// copied from the specified collection.
         /// </summary>
         /// <param name="items">The collection whose elements are copied to the new list.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="items"/> is <see langword="null"/>.</exception>
         public ReadOnlyList(IEnumerable<T> items)
         {
             this.InnerList = new List<T>(items);

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ArgumentOutOfRange_NoCount_SortableList" xml:space="preserve">
+    <value>{0} must be less than the current number of elements in the {1} which is {2}</value>
+  </data>
   <data name="NotSupportedException_SortedListSet" xml:space="preserve">
     <value>The 'set' accessor is not supported on the ManagedKeySortedList&lt;TKey, TValue&gt; class.</value>
   </data>
