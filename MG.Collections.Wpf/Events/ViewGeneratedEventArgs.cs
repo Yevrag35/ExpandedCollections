@@ -2,6 +2,7 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 #pragma warning disable IDE0130
@@ -21,35 +22,42 @@ namespace MG.Collections.Wpf
     public class ViewGeneratedEventArgs : EventArgs
     {
         /// <summary>
-        /// Indicates whether the newly generated <see cref="ICollectionView"/> implements <see cref="IList"/>.
+        /// Indicates the type of view that was generated.
         /// </summary>
-        /// <returns>
-        ///     <see langword="true"/> if the <see cref="ICollectionView"/> is a list view and, thus, implements 
-        ///     <see cref="IList"/>; otherwise, <see langword="false"/>.  This property will also return 
-        ///     <see langword="false"/> if no information about the generated <see cref="ICollectionView"/> was provided.
-        /// </returns>
-        public bool IsListView { get; }
+        public GeneratedViewType ViewType { get; }
 
         /// <summary>
-        /// The default constructor. Intializes a new instance of the <see cref="ViewGeneratedEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="ViewGeneratedEventArgs"/> class with the optional information
+        /// about what kind of view was generated.
         /// </summary>
-        /// <remarks>
-        ///     Because no information about the generated <see cref="ICollectionView"/> was provided, the instance
-        ///     assumes the view does not implement <see cref="IList"/>.
-        /// </remarks>
-        public ViewGeneratedEventArgs()
+        /// <param name="viewType">The type of view that was generated.  The default is <see cref="GeneratedViewType.Unknown"/>.</param>
+        public ViewGeneratedEventArgs(GeneratedViewType viewType = GeneratedViewType.Unknown)
             : base()
         {
+            this.ViewType = viewType;
         }
+    }
+
+    /// <summary>
+    /// Describes the type of <see cref="ICollectionView"/> generated.
+    /// </summary>
+    public enum GeneratedViewType
+    {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewGeneratedEventArgs"/> class and uses the provided 
-        /// <see cref="ICollectionView"/> to determine if it implements <see cref="IList"/> or not.
+        /// No information about the <see cref="ICollectionView"/> was provided.
         /// </summary>
-        /// <param name="view">The view that was generated.</param>
-        public ViewGeneratedEventArgs(ICollectionView view)
-            : base()
-        {
-            this.IsListView = view is ListCollectionView;
-        }
+        Unknown = -1,
+        /// <summary>
+        /// The view is of the <see cref="ListCollectionView"/> type.
+        /// </summary>
+        List,
+        /// <summary>
+        /// The view is of the <see cref="BindingListCollectionView"/> type.
+        /// </summary>
+        BindingList,
+        /// <summary>
+        /// The view is of the <see cref="System.Windows.Controls.ItemCollection"/> type.
+        /// </summary>
+        ItemCollection
     }
 }

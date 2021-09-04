@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Windows.Data;
 
 #pragma warning disable IDE0130
 
@@ -19,16 +20,16 @@ namespace MG.Collections.Wpf
         /// </summary>
         bool IsViewGenerated { get; }
         /// <summary>
-        /// Represents the current <see cref="IObservableList{T}"/> as a collection view for grouping, sorting,
+        /// Represents the current <see cref="IObservableList{T}"/> as a list view for grouping, sorting,
         /// filtering, and navigating as a data collection.
         /// </summary>
         /// <remarks>
         ///     This is <see langword="null"/> until after calling <see cref="GenerateView"/>.
         /// </remarks>
-        ICollectionView View { get; }
+        ListCollectionView View { get; }
 
         /// <summary>
-        /// Generates the <see cref="ICollectionView"/> and defines it as <see cref="View"/>.
+        /// Generates the <see cref="ListCollectionView"/> and defines it as <see cref="View"/>.
         /// </summary>
         void GenerateView();
     }

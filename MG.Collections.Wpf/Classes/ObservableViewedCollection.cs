@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
@@ -13,8 +11,8 @@ namespace MG.Collections.Wpf
 {
     /// <summary>
     /// A dynamic data collection that is inherited from <see cref="ObservableCollection{T}"/> which provides
-    /// notifications when items get added, removed, or when the collection is refreshed.  It also has members 
-    /// that can generate and store an <see cref="ICollectionView"/> that represents it.
+    /// notifications when items get added, removed, or when the collection is refreshed.  Its members can also 
+    /// generate and store an <see cref="ICollectionView"/> that represents it.
     /// </summary>
     /// <typeparam name="T">The type of elements in the collection.</typeparam>
     public class ObservableViewedCollection<T> : ObservableCollection<T>, IObservableList<T>
@@ -51,16 +49,29 @@ namespace MG.Collections.Wpf
         #endregion
 
         #region CONSTRUCTORS
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableViewedCollection{T}"/> class that is empty.
+        /// </summary>
         public ObservableViewedCollection()
             : base()
         {
         }
-
-        public ObservableViewedCollection(IEnumerable<T> items)
-            : base(items)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableViewedCollection{T}"/> class that contains elements
+        /// copied from the specified collection.
+        /// </summary>
+        /// <param name="collection">The collection from which the elements are copied.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="collection"/> is <see langword="null"/>.</exception>
+        public ObservableViewedCollection(IEnumerable<T> collection)
+            : base(collection)
         {
         }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ObservableViewedCollection{T}"/> class that contains elements
+        /// copied from the specified <see cref="List{T}"/>.
+        /// </summary>
+        /// <param name="list">The list from which the elements are copied.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="list"/> is <see langword="null"/>.</exception>
         public ObservableViewedCollection(List<T> list)
             : base(list)
         {
