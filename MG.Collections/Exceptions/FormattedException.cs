@@ -16,5 +16,11 @@ namespace MG.Collections.Exceptions
             : base(string.Format(CultureInfo.CurrentCulture, message, arguments), innerException)
         {
         }
+
+        public static T NewFormat<T>(string message, params object[] arguments)
+            where T : Exception
+        {
+            return (T)Activator.CreateInstance(typeof(T), string.Format(message, arguments));
+        }
     }
 }

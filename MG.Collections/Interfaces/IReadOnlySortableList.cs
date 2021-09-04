@@ -6,10 +6,10 @@ using System.Collections.Generic;
 namespace MG.Collections
 {
     /// <summary>
-    /// Represents a collection that can reversed and sorted.
+    /// Represents a read-only indexable collection whose contents don't change but can still be reversed and sorted.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ISortableList<T> : IList<T>
+    public interface IReadOnlySortableList<T> : IReadOnlyList<T>
     {
         /// <summary>
         /// Reverses the order of the elements in the entire <see cref="IReadOnlySortableList{T}"/>.
