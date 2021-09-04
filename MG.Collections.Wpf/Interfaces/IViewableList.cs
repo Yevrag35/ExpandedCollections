@@ -10,17 +10,17 @@ using System.Windows.Data;
 namespace MG.Collections.Wpf
 {
     /// <summary>
-    /// An interface representing a generic observable list for WPF applications that supports live filtering,
-    /// sorting, and grouping of its data.
+    /// An interface representing a generic list for WPF applications that hosts its own 
+    /// <see cref="ListCollectionView"/> of itself.
     /// </summary>
-    public interface IObservableList<T> : IList<T>, IList, INotifyCollectionChanged, INotifyViewGenerated, INotifyViewGenerating
+    public interface IViewableList : IList, INotifyCollectionChanged, INotifyViewGenerated, INotifyViewGenerating
     {
         /// <summary>
         /// Indicates whether <see cref="View"/> has been generated.
         /// </summary>
         bool IsViewGenerated { get; }
         /// <summary>
-        /// Represents the current <see cref="IObservableList{T}"/> as a list view for grouping, sorting,
+        /// Represents the current <see cref="IViewableList"/> as a list view for grouping, sorting,
         /// filtering, and navigating as a data collection.
         /// </summary>
         /// <remarks>

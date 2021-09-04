@@ -12,18 +12,18 @@ namespace MG.Collections.Wpf
     /// <summary>
     /// A dynamic data collection that is inherited from <see cref="ObservableCollection{T}"/> which provides
     /// notifications when items get added, removed, or when the collection is refreshed.  Its members can also 
-    /// generate and store an <see cref="ICollectionView"/> that represents it.
+    /// generate and store a <see cref="ListCollectionView"/> that represents it.
     /// </summary>
     /// <typeparam name="T">The type of elements in the collection.</typeparam>
-    public class ObservableViewedCollection<T> : ObservableCollection<T>, IObservableList<T>
+    public class ObservableViewedCollection<T> : ObservableCollection<T>, IViewableList, IViewableCollection
     {
         #region EVENTS
         /// <summary>
-        /// Occurs when a new <see cref="ICollectionView"/> is generated for the <see cref="ObservableViewedCollection{T}"/>.
+        /// Occurs when a new <see cref="ListCollectionView"/> is generated for the <see cref="ObservableViewedCollection{T}"/>.
         /// </summary>
         public event ViewGeneratedEventHandler ViewGenerated;
         /// <summary>
-        /// Occurs when a new <see cref="ICollectionView"/> is currently being generated for <see cref="ObservableViewedCollection{T}"/>.
+        /// Occurs when a new <see cref="ListCollectionView"/> is currently being generated for <see cref="ObservableViewedCollection{T}"/>.
         /// </summary>
         public event EventHandler ViewGenerating;
 
@@ -44,7 +44,8 @@ namespace MG.Collections.Wpf
         /// <remarks>
         ///     This is <see langword="null"/> until after calling <see cref="GenerateView"/>.
         /// </remarks>
-        public ICollectionView View { get; private set; }
+        public ListCollectionView View { get; private set; }
+        ICollectionView IViewableCollection.View => this.View;
 
         #endregion
 
@@ -82,13 +83,13 @@ namespace MG.Collections.Wpf
         #region VIEW METHODS
 
         /// <summary>
-        /// Generates the <see cref="ICollectionView"/> and defines it as <see cref="View"/> for the current 
+        /// Generates the <see cref="ListCollectionView"/> and defines it as <see cref="View"/> for the current 
         /// <see cref="ObservableViewedCollection{T}"/>.
         /// </summary>
         public void GenerateView()
         {
             this.OnViewGenerating();
-            this.View = CollectionViewSource.GetDefaultView(this);
+            this.View = new ListCollectionView(this);
             this.OnViewGenerated();
         }
 
@@ -100,7 +101,7 @@ namespace MG.Collections.Wpf
         /// </remarks>
         protected virtual void OnViewGenerated()
         {
-            this.ViewGenerated?.Invoke(this, new ViewGeneratedEventArgs(this.View));
+            this.ViewGenerated?.Invoke(this, new ViewGeneratedEventArgs(GeneratedViewType.List));
         }
         /// <summary>
         /// An overridable method that is called before the <see cref="View"/> is generated.
