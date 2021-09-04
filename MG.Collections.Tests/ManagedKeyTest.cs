@@ -75,23 +75,29 @@ namespace MG.Collections.Tests
 
         [Theory]
         [InlineData(0, 2)]
+        [InlineData(1, 1)]
+        [InlineData(1, 2)]
         public void GetRangeTest(int index, int count)
         {
-            IStruct[] structs = new IStruct[2]
+            IStruct[] structs = new IStruct[3]
             {
                 GetMock(),
-                GetMock(360)
+                GetMock(360),
+                GetMock(720)
             };
             var col = new ManagedKeySortedList<int, IStruct>(structs, x => x.Id);
-            Assert.Equal(2, col.Count);
+            Assert.Equal(3, col.Count);
 
             var list = col.GetRange(index, count);
 
             Assert.Equal(count, list.Count);
 
-            for (int i = index; i <= index + count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                Assert.Equal(col[i], list[i]);
+                IStruct colStr = col[i + index];
+                IStruct listStr = list[i];
+
+                Assert.Equal(colStr, listStr);
             }
         }
 
@@ -99,8 +105,10 @@ namespace MG.Collections.Tests
         public void RemoveTest()
         {
             IStruct mock = GetMock();
-            var col = new ManagedKeySortedList<string, IStruct>(x => x.Value);
-            col.Add(mock);
+            var col = new ManagedKeySortedList<string, IStruct>(x => x.Value)
+            {
+                mock
+            };
 
             Assert.Single(col);
 
