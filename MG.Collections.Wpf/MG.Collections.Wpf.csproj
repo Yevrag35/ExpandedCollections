@@ -46,7 +46,9 @@
     <Compile Include="Events\ViewGeneratedEventArgs.cs" />
     <Compile Include="Interfaces\INotifyViewGenerated.cs" />
     <Compile Include="Interfaces\INotifyViewGenerating.cs" />
-    <Compile Include="Interfaces\IObservableList.cs" />
+	  <Compile Include="Interfaces\IViewableBindingList.cs" />
+    <Compile Include="Interfaces\IViewableCollection.cs" />
+	  <Compile Include="Interfaces\IViewableList.cs" />
     <Compile Include="Classes\ObservableViewedCollection.cs" />
     <Compile Include="Classes\UniqueObservableList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -16,7 +16,7 @@ namespace MG.Collections.Wpf
     /// <param name="e">Information about the <see cref="ICollectionView"/> that was generated.</param>
     public delegate void ViewGeneratedEventHandler(object sender, ViewGeneratedEventArgs e);
     /// <summary>
-    /// An <see cref="EventArgs"/> class containing information that an <see cref="IViewableList{T}"/> generated
+    /// An <see cref="EventArgs"/> class containing information that an <see cref="IViewableList"/> generated
     /// an <see cref="ICollectionView"/>.
     /// </summary>
     public class ViewGeneratedEventArgs : EventArgs
