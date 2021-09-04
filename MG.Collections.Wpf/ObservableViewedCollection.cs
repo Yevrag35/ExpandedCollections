@@ -7,20 +7,18 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 
+#pragma warning disable IDE0130
+
 namespace MG.Collections.Wpf
 {
     /// <summary>
-    /// A class that is inherited from <see cref="ObservableCollection{T}"/> and has members that can generate and store
-    /// a <see cref="ICollectionView"/> that represents it.
+    /// A dynamic data collection that is inherited from <see cref="ObservableCollection{T}"/> which provides
+    /// notifications when items get added, removed, or when the collection is refreshed.  It also has members 
+    /// that can generate and store an <see cref="ICollectionView"/> that represents it.
     /// </summary>
     /// <typeparam name="T">The type of elements in the collection.</typeparam>
     public class ObservableViewedCollection<T> : ObservableCollection<T>, IObservableList<T>
     {
-        #region PRIVATE FIELDS/CONSTANTS
-        private ICollectionView _backingView;
-
-        #endregion
-
         #region EVENTS
         /// <summary>
         /// Occurs when a new <see cref="ICollectionView"/> is generated for the <see cref="ObservableViewedCollection{T}"/>.
@@ -39,7 +37,7 @@ namespace MG.Collections.Wpf
         /// </summary>
         public bool IsViewGenerated
         {
-            get => null != _backingView;
+            get => null != this.View;
         }
         /// <summary>
         /// Represents the current <see cref="ObservableViewedCollection{T}"/> as a collection view for grouping, sorting,
@@ -48,12 +46,29 @@ namespace MG.Collections.Wpf
         /// <remarks>
         ///     This is <see langword="null"/> until after calling <see cref="GenerateView"/>.
         /// </remarks>
-        public ICollectionView View
+        public ICollectionView View { get; private set; }
+
+        #endregion
+
+        #region CONSTRUCTORS
+        public ObservableViewedCollection()
+            : base()
         {
-            get => _backingView;
+        }
+
+        public ObservableViewedCollection(IEnumerable<T> items)
+            : base(items)
+        {
+        }
+
+        public ObservableViewedCollection(List<T> list)
+            : base(list)
+        {
         }
 
         #endregion
+
+        #region VIEW METHODS
 
         /// <summary>
         /// Generates the <see cref="ICollectionView"/> and defines it as <see cref="View"/> for the current 
@@ -62,7 +77,7 @@ namespace MG.Collections.Wpf
         public void GenerateView()
         {
             this.OnViewGenerating();
-            _backingView = CollectionViewSource.GetDefaultView(this);
+            this.View = CollectionViewSource.GetDefaultView(this);
             this.OnViewGenerated();
         }
 
@@ -74,7 +89,7 @@ namespace MG.Collections.Wpf
         /// </remarks>
         protected virtual void OnViewGenerated()
         {
-            this.ViewGenerated?.Invoke(this, new ViewGeneratedEventArgs(_backingView));
+            this.ViewGenerated?.Invoke(this, new ViewGeneratedEventArgs(this.View));
         }
         /// <summary>
         /// An overridable method that is called before the <see cref="View"/> is generated.
@@ -86,5 +101,7 @@ namespace MG.Collections.Wpf
         {
             this.ViewGenerating?.Invoke(this, EventArgs.Empty);
         }
+
+        #endregion
     }
 }

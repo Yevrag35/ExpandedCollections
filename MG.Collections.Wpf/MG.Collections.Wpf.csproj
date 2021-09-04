@@ -43,6 +43,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\ViewGeneratedEventArgs.cs" />
+    <Compile Include="IObservableList.cs" />
+    <Compile Include="ObservableViewedCollection.cs" />
     <Compile Include="UniqueObservableList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
