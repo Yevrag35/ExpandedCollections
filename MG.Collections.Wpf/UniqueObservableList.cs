@@ -16,7 +16,7 @@ namespace MG.Collections.Wpf
     /// to provide access to the non-modifying <see cref="ISet{T}"/> methods.
     /// </summary>
     /// <typeparam name="T">The element type in the <see cref="UniqueObservableList{T}"/>.</typeparam>
-    public class UniqueObservableList<T> : UniqueList<T>, IList, INotifyCollectionChanged, INotifyPropertyChanged
+    public class UniqueObservableList<T> : UniqueList<T>, IObservableList<T>, IList, INotifyCollectionChanged, INotifyPropertyChanged
     {
         #region PRIVATE FIELDS/CONSTANTS
         private ListCollectionView _backingView;
@@ -25,13 +25,21 @@ namespace MG.Collections.Wpf
 
         #region EVENT HANDLERS
         /// <summary>
-        /// Occurs when the collection changes.
+        /// Occurs when the <see cref="UniqueObservableList{T}"/> changes.
         /// </summary>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
         /// <summary>
         /// Occurs when a property value changes.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Occurs when a new <see cref="ICollectionView"/> is generated for the <see cref="UniqueObservableList{T}"/>.
+        /// </summary>
+        public event ViewGeneratedEventHandler ViewGenerated;
+        /// <summary>
+        /// Occurs when a new <see cref="ICollectionView"/> is currently being generated for the <see cref="UniqueObservableList{T}"/>.
+        /// </summary>
+        public event EventHandler ViewGenerating;
 
         /// <summary>
         /// Calls the <see cref="CollectionChanged"/> event (if defined) passing the specified event arguments.
@@ -102,12 +110,16 @@ namespace MG.Collections.Wpf
                     throw new InvalidOperationException("View properties cannot be set until a View is generated.");
 
                 _backingView.IsDataInGroupOrder = value;
+                this.NotifyChange(nameof(IsDataInGroupOrder));
             }
         }
         /// <summary>
         /// Indicates whether <see cref="View"/> has been generated.
         /// </summary>
-        public bool IsViewGenerated => null != _backingView;
+        public bool IsViewGenerated
+        {
+            get => null != _backingView;
+        }
         /// <summary>
         /// An optional starting filter for the <see cref="View"/> to use immediately after initialization.
         /// </summary>
@@ -161,6 +173,7 @@ namespace MG.Collections.Wpf
                     throw new InvalidOperationException("View properties cannot be set until a View is generated.");
 
                 _backingView.IsLiveFiltering = value;
+                this.NotifyChange(nameof(ViewIsLiveFiltering));
             }
         }
         /// <summary>
@@ -179,6 +192,7 @@ namespace MG.Collections.Wpf
                     throw new InvalidOperationException("View properties cannot be set until a View is generated.");
 
                 _backingView.IsLiveGrouping = value;
+                this.NotifyChange(nameof(ViewIsLiveGrouping));
             }
         }
         /// <summary>
@@ -197,6 +211,7 @@ namespace MG.Collections.Wpf
                     throw new InvalidOperationException("View properties cannot be set until a View is generated.");
 
                 _backingView.IsLiveSorting = value;
+                this.NotifyChange(nameof(ViewIsLiveSorting));
             }
         }
         /// <summary>
@@ -439,6 +454,7 @@ namespace MG.Collections.Wpf
         /// </summary>
         public void GenerateView()
         {
+            this.OnViewGenerating();
             if (CollectionViewSource.GetDefaultView(this) is ListCollectionView view)
             {
                 this.ApplyStartingProperties(view);
@@ -448,10 +464,24 @@ namespace MG.Collections.Wpf
             }
         }
         /// <summary>
-        /// A definable method that is called after the <see cref="View"/> is generated for the <see cref="UniqueObservableList{T}"/>.
+        /// A definable method that is called after the <see cref="View"/> is generated.
         /// </summary>
+        /// <remarks>
+        ///     By default, it simply calls the <see cref="ViewGenerated"/> event.
+        /// </remarks>
         protected virtual void OnViewGenerated()
         {
+            this.ViewGenerated?.Invoke(this, new ViewGeneratedEventArgs(_backingView));
+        }
+        /// <summary>
+        /// A definable method that is called before the <see cref="View"/> is generated.
+        /// </summary>
+        /// <remarks>
+        ///     By default, it simply calls the <see cref="ViewGenerating"/> event.
+        /// </remarks>
+        protected virtual void OnViewGenerating()
+        {
+            this.ViewGenerating?.Invoke(this, EventArgs.Empty);
         }
 
         private static bool ApplyProperties(IList<string> propList, string[] propsToAdd)
