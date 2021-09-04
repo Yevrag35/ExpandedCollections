@@ -45,26 +45,6 @@ namespace MG.Collections.Tests
                 Assert.Equal(testData[i], list[i]);
             }
         }
-
-        //[Theory]
-        //[MemberData(nameof(GreetingsArray))]
-        //public void TestReverse(string[] testData)
-        //{
-        //    var list = new ReadOnlyList<string>(testData);
-
-        //    list.Reverse();
-        //    for (int i = 0; i < list.Count; i++)
-        //    {
-        //        Assert.Equal(testData[i], list[list.Count - 1 - i]);
-        //    }
-
-        //    // ... and back.
-        //    list.Reverse();
-        //    for (int i = 0; i < list.Count; i++)
-        //    {
-        //        Assert.Equal(testData[i], list[i]);
-        //    }
-        //}
     }
 }
 
