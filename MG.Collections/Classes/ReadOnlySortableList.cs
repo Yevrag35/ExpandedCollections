@@ -19,6 +19,7 @@ namespace MG.Collections
     public class ReadOnlySortableList<T> : ReadOnlyList<T>, IReadOnlySortableList<T>, IReadOnlyList<T>
     {
         #region PRIVATE FIELDS/CONSTANTS
+        private const int DEFAULT_CAPACITY = 0;
         private IComparer<T> _sortComparer;
 
         #endregion
@@ -33,7 +34,7 @@ namespace MG.Collections
         ///     If the set accessor was passed a <see langword="null"/> value, then the default comparer for type 
         ///     <typeparamref name="T"/> is set instead.
         /// </returns>
-        public IComparer<T> DefaultComparer
+        public virtual IComparer<T> DefaultComparer
         {
             get => _sortComparer ?? GetDefaultComparer();
             set
@@ -48,29 +49,45 @@ namespace MG.Collections
         #endregion
 
         #region CONSTRUCTORS
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlySortableList{T}"/> class that is empty, has
+        /// the default capacity, and uses the default comparer for <typeparamref name="T"/>.
+        /// </summary>
         protected ReadOnlySortableList()
-            : this(0)
+            : this(DEFAULT_CAPACITY)
         {
         }
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="ReadOnlySortableList{T}"/> class that is empty, has
+        /// the specified capacity, and uses the default comparer for <typeparamref name="T"/>.
         /// </summary>
-        /// <param name="capacity"></param>
+        /// <param name="capacity">The number of new elements the list can initially store.</param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity"/> is less than 0.</exception>
         protected ReadOnlySortableList(int capacity)
             : this(capacity, GetDefaultComparer())
         {
         }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlySortableList{T}"/> class that is empty, has the
+        /// default capacity, and uses the specified comparer for <typeparamref name="T"/>.
+        /// </summary>
+        /// <param name="comparer">
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or <see langword="null"/>
+        ///     to use the default comparer <see cref="Comparer{T}.Default"/>.
+        /// </param>
         protected ReadOnlySortableList(IComparer<T> comparer)
-            : this(0, comparer)
+            : this(DEFAULT_CAPACITY, comparer)
         {
         }
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="ReadOnlySortableList{T}"/> class that is empty, has the
+        /// specified capacity, and uses the specified comparer for <typeparamref name="T"/>.
         /// </summary>
-        /// <param name="capacity"></param>
-        /// <param name="comparer"></param>
+        /// <param name="capacity">The number of new elements the list can initially store.</param>
+        /// <param name="comparer">
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or <see langword="null"/>
+        ///     to use the default comparer <see cref="Comparer{T}.Default"/>.
+        /// </param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity"/> is less than 0.</exception>
         protected ReadOnlySortableList(int capacity, IComparer<T> comparer)
             : base(capacity)
@@ -78,22 +95,29 @@ namespace MG.Collections
             this.DefaultComparer = comparer;
         }
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="ReadOnlySortableList{T}"/> class that wraps the specified
+        /// collection to make it read-only and uses the default comparer for <typeparamref name="T"/> for sorting
+        /// operations.
         /// </summary>
-        /// <param name="items"></param>
-        /// <exception cref="ArgumentNullException"><paramref name="items"/> is <see langword="null"/>.</exception>
-        public ReadOnlySortableList(IEnumerable<T> items)
-            : this(items, GetDefaultComparer())
+        /// <param name="collection">The collection whose elements are copied to the new list.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="collection"/> is <see langword="null"/>.</exception>
+        public ReadOnlySortableList(IEnumerable<T> collection)
+            : this(collection, GetDefaultComparer())
         {
         }
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="ReadOnlySortableList{T}"/> class that wraps the specified
+        /// collection to make it read-only and uses the specified comparer for <typeparamref name="T"/> for sorting
+        /// operations.
         /// </summary>
-        /// <param name="items"></param>
-        /// <param name="comparer"></param>
-        /// <exception cref="ArgumentNullException"><paramref name="items"/> is <see langword="null"/>.</exception>
-        public ReadOnlySortableList(IEnumerable<T> items, IComparer<T> comparer)
-            : base(items)
+        /// <param name="collection">The collection whose elements are copied to the new list.</param>
+        /// <param name="comparer">
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or <see langword="null"/>
+        ///     to use the default comparer <see cref="Comparer{T}.Default"/>.
+        /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="collection"/> is <see langword="null"/>.</exception>
+        public ReadOnlySortableList(IEnumerable<T> collection, IComparer<T> comparer)
+            : base(collection)
         {
             this.DefaultComparer = comparer;
         }
