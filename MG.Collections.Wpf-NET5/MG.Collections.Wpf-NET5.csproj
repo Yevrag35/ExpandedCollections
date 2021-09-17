@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1-windows;net5.0-windows</TargetFrameworks>
     <RootNamespace>MG.Collections.Wpf</RootNamespace>
     <UseWPF>true</UseWPF>
     <AssemblyName>MG.Collections.Wpf</AssemblyName>
@@ -22,8 +22,12 @@
 	  <Compile Include="..\MG.Collections.Wpf\**\*.cs" Exclude="..\MG.Collections.Wpf\Properties\**\*.cs;..\MG.Collections.Wpf\obj\**\*.*" />
   </ItemGroup>
 	
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0-windows'">
     <ProjectReference Include="..\MG.Collections-DotNet5\MG.Collections-NET5.csproj" />
+  </ItemGroup>
+	
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1-windows'">
+	  <ProjectReference Include="..\MG.Collections\MG.Collections.csproj"/>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
