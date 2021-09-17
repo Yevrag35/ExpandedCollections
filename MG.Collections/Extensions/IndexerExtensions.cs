@@ -40,7 +40,7 @@ namespace MG.Collections.Extensions.NonGeneric
     {
         /// <summary>
         /// Transforms and verifies the specified negative or positive index into a proper <see cref="int"/> value
-        /// returning the element of type <typeparamref name="T"/> at the proper index location.
+        /// returning the element of type <typeparamref name="TItem"/> at the proper index location.
         /// </summary>
         /// <remarks>
         ///     Used for transforming negative index <see cref="int"/> values into postive index positions.  When
@@ -70,7 +70,7 @@ namespace MG.Collections.Extensions.NonGeneric
 
         /// <summary>
         /// Transforms and verifies the specified negative or positive index into a proper <see cref="int"/> value
-        /// returning the element of type <typeparamref name="T"/> at the proper index location.
+        /// returning the element of type <typeparamref name="TItem"/> at the proper index location.
         /// </summary>
         /// <remarks>
         ///     Used for transforming negative index <see cref="int"/> values into postive index positions.  When
@@ -141,17 +141,13 @@ namespace MG.Collections.Extensions.List
 
         /// <summary>
         /// Transforms and verifies the specified negative or positive index into a proper <see cref="int"/> value
-        /// returning the element of type <typeparamref name="T"/> at the proper index location.
+        /// returning the element of type <typeparamref name="TItem"/> at the proper index location.
         /// </summary>
         /// <remarks>
         ///     Used for transforming negative index <see cref="int"/> values into postive index positions.  When
         ///     negative indicies are specified, instead of starting the zero-based position, it will begin at the 
         ///     index of the last element of the <see cref="IList{T}"/> and count backwards.
         /// </remarks>
-        /// <typeparam name="TList">
-        ///     The type of <see cref="IList{T}"/> where <paramref name="index"/> 
-        ///     will be used on.
-        /// </typeparam>
         /// <typeparam name="TItem">The element type of <paramref name="list"/>.</typeparam>
         /// <param name="list">The list which the index will be verified against.</param>
         /// <param name="index">The negative or positive index value.</param>

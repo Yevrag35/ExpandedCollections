@@ -61,6 +61,15 @@ namespace MG.Collections.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} must be less than the current number of elements in the {1} which is {2}.
+        /// </summary>
+        internal static string ArgumentOutOfRange_NoCount_SortableList {
+            get {
+                return ResourceManager.GetString("ArgumentOutOfRange_NoCount_SortableList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The &apos;set&apos; accessor is not supported on the ManagedKeySortedList&lt;TKey, TValue&gt; class..
         /// </summary>
         internal static string NotSupportedException_SortedListSet {

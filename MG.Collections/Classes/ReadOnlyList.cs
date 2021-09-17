@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MG.Collections.Extensions.List;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,8 +22,7 @@ namespace MG.Collections
         /// <summary>
         /// The internal backing <see cref="List{T}"/> that all methods of <see cref="ReadOnlyList{T}"/> invoke against.
         /// </summary>
-        private List<T> InnerList { get; }
-
+        private protected List<T> InnerList { get; }
         /// <summary>
         /// Gets the number of elements contained in the <see cref="ReadOnlyList{T}"/>.
         /// </summary>
@@ -43,21 +43,12 @@ namespace MG.Collections
         /// <returns>The element at the specified index or the default value of <typeparamref name="T"/> if the index is out of range.</returns>
         public T this[int index]
         {
-            get
-            {
-                if (index < 0)
-                    index = this.Count + index;
-
-                return index >= 0 && index < this.Count
-                    ? this.InnerList[index]
-                    : default;
-            }
+            get => InnerList.GetByIndex(index);
         }
 
         #endregion
 
         #region CONSTRUCTORS
-
         /// <summary>
         /// Initializes a new instance of <see cref="ReadOnlyList{T}"/> that is empty
         /// and has the default capacity.
@@ -66,7 +57,6 @@ namespace MG.Collections
         {
             this.InnerList = new List<T>();
         }
-
         /// <summary>
         /// Initializes a new instance of <see cref="ReadOnlyList{T}"/> that is empty
         /// and has the specified capacity.
@@ -77,12 +67,12 @@ namespace MG.Collections
         {
             this.InnerList = new List<T>(capacity);
         }
-
         /// <summary>
         /// Initializes a new instance of <see cref="ReadOnlyList{T}"/> that contains the elements
         /// copied from the specified collection.
         /// </summary>
         /// <param name="items">The collection whose elements are copied to the new list.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="items"/> is <see langword="null"/>.</exception>
         public ReadOnlyList(IEnumerable<T> items)
         {
             this.InnerList = new List<T>(items);
@@ -110,7 +100,6 @@ namespace MG.Collections
         {
             return this.InnerList.BinarySearch(item);
         }
-
         /// <summary>
         /// Searches the entire sorted <see cref="ReadOnlyList{T}"/> for an element using the specified comparer
         /// and returns the zero-based index of the element.
@@ -134,7 +123,6 @@ namespace MG.Collections
         {
             return this.InnerList.BinarySearch(item, comparer);
         }
-
         /// <summary>
         /// Searches a range of elements in the sorted <see cref="ReadOnlyList{T}"/> for an element using the specified comparer
         /// and returns the zero-based index of the element.
@@ -166,7 +154,6 @@ namespace MG.Collections
         {
             return this.InnerList.BinarySearch(index, count, item, comparer);
         }
-
         /// <summary>
         /// Determines whether an element is in the <see cref="ReadOnlyList{T}"/>.
         /// </summary>
@@ -177,7 +164,6 @@ namespace MG.Collections
         {
             return this.InnerList.Contains(item);
         }
-
         /// <summary>
         /// Converts the elements in the current <see cref="ReadOnlyList{T}"/> to another type, and returns a list containing
         /// the converted elements.
@@ -192,7 +178,6 @@ namespace MG.Collections
         {
             return this.InnerList.ConvertAll(converter);
         }
-
         /// <summary>
         ///     Determines whether the <see cref="ReadOnlyList{T}"/> contains elements that
         ///     match the conditions defined by the specified predicate.
@@ -213,7 +198,6 @@ namespace MG.Collections
         {
             return this.InnerList.Exists(ToPredicate(match));
         }
-
         /// <summary>
         ///     Searches for an element that matches the conditions defined by the specified
         ///     predicate, and returns the first occurrence within the entire <see cref="ReadOnlyList{T}"/>.
@@ -230,7 +214,6 @@ namespace MG.Collections
         {
             return this.InnerList.Find(ToPredicate(match));
         }
-
         /// <summary>
         /// Retrieves all of the elements that match the conditions defined by the specified predicate.
         /// </summary>
@@ -245,7 +228,6 @@ namespace MG.Collections
             return this .InnerList.FindAll(ToPredicate(match));
         }
         IList<T> ISearchableList<T>.FindAll(Func<T, bool> match) => this.FindAll(match);
-
         /// <summary>
         /// Searches for an element that match the conditions defined by the specified predicate, and returns the zero-based
         /// index of the first occurrence within the entire <see cref="ReadOnlyList{T}"/>.
@@ -260,7 +242,6 @@ namespace MG.Collections
         {
             return this .InnerList.FindIndex(ToPredicate(match));
         }
-
         /// <summary>
         /// Searches for an element that match the conditions defined by the specified predicate, and returns the zero-based
         /// index of the first occurrence within the range of elements in the <see cref="ReadOnlyList{T}"/> that extends from the 
@@ -280,7 +261,6 @@ namespace MG.Collections
         {
             return this.InnerList.FindIndex(startIndex, ToPredicate(match));
         }
-
         /// <summary>
         /// Searches for an element that match the conditions defined by the specified predicate, and returns the zero-based
         /// index of the first occurrence within the range of elements in the <see cref="ReadOnlyList{T}"/> that starts at the 
@@ -305,7 +285,6 @@ namespace MG.Collections
         {
             return this .InnerList.FindIndex(startIndex, count, ToPredicate(match));
         }
-
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the last occurrence within the
         /// entire <see cref="ReadOnlyList{T}"/>.
@@ -320,7 +299,6 @@ namespace MG.Collections
         {
             return this.InnerList.FindLast(ToPredicate(match));
         }
-
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
         /// lat occurrence within the entire <see cref="ReadOnlyList{T}"/>.
@@ -335,7 +313,6 @@ namespace MG.Collections
         {
             return this.InnerList.FindLastIndex(ToPredicate(match));
         }
-
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
         /// lat occurrence within the range of elements in the <see cref="ReadOnlyList{T}"/> that extends from the first element to the 
@@ -355,7 +332,6 @@ namespace MG.Collections
         {
             return this.InnerList.FindLastIndex(startIndex, ToPredicate(match));
         }
-
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
         /// lat occurrence within the range of elements in the <see cref="ReadOnlyList{T}"/> that contains the specified number
@@ -380,7 +356,6 @@ namespace MG.Collections
         {
             return this.InnerList.FindLastIndex(startIndex, count, ToPredicate(match));
         }
-
         /// <summary>
         /// Creates a shallow copy of a range of elements in the source <see cref="ReadOnlyList{T}"/>.
         /// </summary>
@@ -400,7 +375,6 @@ namespace MG.Collections
             return this.InnerList.GetRange(index, count);
         }
         IList<T> ISearchableList<T>.GetRange(int index, int count) => this.GetRange(index, count);
-
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the first occurrence
         /// within the entire <see cref="ReadOnlyList{T}"/>.
@@ -417,7 +391,6 @@ namespace MG.Collections
         {
             return this.InnerList.IndexOf(item);
         }
-
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the first occurrence
         /// within the range of elements in the <see cref="ReadOnlyList{T}"/> that extends from the specified index to the last element.
@@ -438,7 +411,6 @@ namespace MG.Collections
         {
             return this.InnerList.IndexOf(item, index);
         }
-
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the first occurrence
         /// within the range of elements in the <see cref="ReadOnlyList{T}"/> that extends from the specified index to the last element.
@@ -480,7 +452,6 @@ namespace MG.Collections
         {
             return this.InnerList.LastIndexOf(item);
         }
-
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the last occurrence
         /// within the range of elements in the <see cref="ReadOnlyList{T}"/> that extends from the first element to the specified index.
@@ -501,7 +472,6 @@ namespace MG.Collections
         {
             return this.InnerList.LastIndexOf(item, index);
         }
-
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the last occurrence
         /// within the range of elements in the <see cref="ReadOnlyList{T}"/> that contains the specified number
@@ -529,95 +499,6 @@ namespace MG.Collections
         {
             return this.InnerList.LastIndexOf(item, index, count);
         }
-
-        ///// <summary>
-        ///// Reverses the order of the elements in the entire <see cref="ReadOnlyList{T}"/>.
-        ///// </summary>
-        //public void Reverse() => this.InnerList.Reverse();
-
-        ///// <summary>
-        ///// Reverse the order of the elements starting the specified index and extends to the last element.
-        ///// </summary>
-        ///// <param name="index">The zero-based starting index of the range to reverse.</param>
-        ///// <exception cref="ArgumentOutOfRangeException">
-        /////     <paramref name="index"/> is less than 0 or is <see cref="ReadOnlyList{T}.Count"/> or greater.
-        ///// </exception>
-        //public void Reverse(int index) => this.Reverse(index, this.Count - index);
-
-        ///// <summary>
-        ///// Reverses the order of the elements in the specified range.
-        ///// </summary>
-        ///// <param name="index">The zero-based starting index of the range to reverse.</param>
-        ///// <param name="count">The number of elements in the range to reverse.</param>
-        ///// <exception cref="ArgumentException">
-        /////     <paramref name="index"/> and <paramref name="count"/> do not denote a valid range of elements in the <see cref="ReadOnlyList{T}"/>.
-        ///// </exception>
-        ///// <exception cref="ArgumentOutOfRangeException">
-        /////     <paramref name="index"/> is less than 0.
-        /////     -or-
-        /////     <paramref name="count"/> is less than 0.
-        ///// </exception>
-        //public void Reverse(int index, int count) => this.InnerList.Reverse(index, count);
-
-        ///// <summary>
-        ///// Sorts the elements in the entire <see cref="ReadOnlyList{T}"/> using the default comparer.
-        ///// </summary>
-        ///// <exception cref="InvalidOperationException">
-        /////     The default comparer <see cref="Comparer{T}"/> cannot find an implementation of the <see cref="IComparable{T}"/>
-        /////     generic interface of the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
-        ///// </exception>
-        //public void Sort() => this.InnerList.Sort();
-
-        ///// <summary>
-        ///// Sorts the elements in the entire <see cref="ReadOnlyList{T}"/> using the specified <see cref="Comparison{T}"/>.
-        ///// </summary>
-        ///// <param name="comparison">The <see cref="Comparison{T}"/> to use when comparing elements.</param>
-        ///// <exception cref="ArgumentException">
-        /////     The implementation of <paramref name="comparer"/> caused an error during the sort.  For example, <paramref name="comparer"/>
-        /////     might not return 0 when comparing an item with itself.
-        ///// </exception>
-        ///// <exception cref="ArgumentNullException"><paramref name="comparison"/> is <see langword="null"/>.</exception>
-        //public void Sort(Comparison<T> comparison) => this.InnerList.Sort(comparison);
-
-        ///// <summary>
-        ///// Sorts the elements in the entire <see cref="ReadOnlyList{T}"/> using the specified comparer.
-        ///// </summary>
-        ///// <param name="comparer">
-        /////     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or null to use the default comparer
-        /////     <see cref="Comparer{T}.Default"/>.
-        ///// </param>
-        ///// <exception cref="ArgumentException">
-        /////     The implementation of <paramref name="comparer"/> caused an error during the sort.  For example, <paramref name="comparer"/>
-        /////     might not return 0 when comparing an item with itself.
-        ///// </exception>
-        ///// <exception cref="InvalidOperationException">
-        /////     The default comparer <see cref="Comparer{T}"/> cannot find an implementation of the <see cref="IComparable{T}"/>
-        /////     generic interface of the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
-        ///// </exception>
-        //public void Sort(IComparer<T> comparer) => this.InnerList.Sort(comparer);
-
-        ///// <summary>
-        ///// Sorts the elements in the range of elements in <see cref="ReadOnlyList{T}"/> using the specified comparer.
-        ///// </summary>
-        ///// <param name="index">The zero-based starting index of the range to sort.</param>
-        ///// <param name="count">The length of the range to sort.</param>
-        ///// <param name="comparer">
-        /////     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or null to use the default comparer
-        /////     <see cref="Comparer{T}.Default"/>.
-        ///// </param>
-        ///// <exception cref="ArgumentException">
-        /////     The implementation of <paramref name="comparer"/> caused an error during the sort.  For example, <paramref name="comparer"/>
-        /////     might not return 0 when comparing an item with itself.
-        ///// </exception>
-        ///// <exception cref="ArgumentOutOfRangeException">
-        /////     <paramref name="index"/> is less than 0 -or- <paramref name="count"/> is less than 0.
-        ///// </exception>
-        ///// <exception cref="InvalidOperationException">
-        /////     The default comparer <see cref="Comparer{T}"/> cannot find an implementation of the <see cref="IComparable{T}"/>
-        /////     generic interface of the <see cref="IComparable"/> interface for type <typeparamref name="T"/>.
-        ///// </exception>
-        //public void Sort(int index, int count, IComparer<T> comparer) => this.InnerList.Sort(index, count, comparer);
-
         /// <summary>
         /// Copies the elements of the <see cref="ReadOnlyList{T}"/> to a new array.
         /// </summary>
