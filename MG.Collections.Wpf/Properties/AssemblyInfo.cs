@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yevrag35, LLC.")]
 [assembly: AssemblyProduct("MG.Collections.Wpf")]
-[assembly: AssemblyCopyright("Copyright © 2021 Yevrag35, LLC.")]
+[assembly: AssemblyCopyright("Copyright © 2021 Yevrag35, LLC.  All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

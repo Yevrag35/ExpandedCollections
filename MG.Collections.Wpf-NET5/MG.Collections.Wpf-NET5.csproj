@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <RootNamespace>MG.Collections.Wpf</RootNamespace>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>MG.Collections.Wpf</AssemblyName>
+    <Description>A library consisting of collections classes that can be used with .NET 5 WPF applications.</Description>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+	<AssemblyTitle>MG.Collections.Wpf Core</AssemblyTitle>
+    <FileVersion>1.0.0</FileVersion>
+    <Copyright>Copyright © 2021 Yevrag35, LLC.  All rights reserved.</Copyright>
+    <Product>MG.Collections.Wpf Core</Product>
+    <Company>Yevrag35, LLC.</Company>
+    <Authors>Mike Garvey</Authors>
+    <PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Yevrag35/ExpandedCollections.git</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+  </PropertyGroup>
+	
+  <ItemGroup>
+	  <Compile Include="..\MG.Collections.Wpf\**\*.cs" Exclude="..\MG.Collections.Wpf\Properties\**\*.cs;..\MG.Collections.Wpf\obj\**\*.*" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\MG.Collections-DotNet5\MG.Collections-NET5.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DocumentationFile>C:\Users\Mike\source\repos\MG.Collections\MG.Collections.Wpf-NET5\MG.Collections.Wpf.xml</DocumentationFile>
+  </PropertyGroup>
+
+</Project>
