@@ -3,16 +3,17 @@
 	<metadata>
 		<id>MG.Collections</id>
 		<title>MG.Collections</title>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 		<authors>Mike Garvey</authors>
 		<owners>Yevrag35, LLC.</owners>
+		<icon>images\Collections_Red.png</icon>
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<license type="file">licenses\LICENSE.txt</license>
 		<language>en-US</language>
-		<projectUrl>https://git.yevrag35.com/MG.Collections.git</projectUrl>
+		<projectUrl>https://github.com/Yevrag35/ExpandedCollections</projectUrl>
 		<description>A library consisting of specialized collection classes for general purposes.</description>
 		<copyright>Copyright © 2021 Yevrag35, LLC.  All rights reserved.</copyright>
-		<repository type="Git" url="https://git.yevrag35.com/MG.Collections.git" />
+		<repository type="Git" url="https://github.com/Yevrag35/ExpandedCollections.git" />
 		<summary>A library consisting of specialized collection classes.</summary>
 		<releaseNotes>Initial Release</releaseNotes>
 		<dependencies>
@@ -24,6 +25,7 @@
 	</metadata>
 	<files>
 		<file src="LICENSE.txt" target="licenses\" />
+		<file src="assets\Collections_Red.png" target="images\"/>
 		<file src="MG.Collections\bin\Release\netstandard2.0\MG.Collections.dll" target="lib\netstandard2.0\MG.Collections.dll" />
 		<file src="MG.Collections\bin\Release\netstandard2.0\MG.Collections.xml" target="lib\netstandard2.0\MG.Collections.xml" />
 		<file src="MG.Collections\bin\Release\netcoreapp3.1\MG.Collections.dll" target="lib\netcoreapp3.1\MG.Collections.dll" />
