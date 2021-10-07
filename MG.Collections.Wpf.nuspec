@@ -3,7 +3,7 @@
 	<metadata>
 		<id>MG.Collections.Wpf</id>
 		<title>MG.Collections.Wpf</title>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 		<authors>Mike Garvey</authors>
 		<owners>Yevrag35, LLC.</owners>
 		<icon>images\Collections_Red.png</icon>
@@ -18,13 +18,13 @@
 		<releaseNotes>Initial Release</releaseNotes>
 		<dependencies>
 			<group targetFramework=".NETFramework4.6.2">
-				<dependency id="MG.Collections" version="1.0.0"/>
+				<dependency id="MG.Collections" version="1.0.1"/>
 			</group>
 			<group targetFramework=".NETCoreApp3.1">
-				<dependency id="MG.Collections" version="1.0.0"/>
+				<dependency id="MG.Collections" version="1.0.1"/>
 			</group>
 			<group targetFramework=".NET5">
-				<dependency id="MG.Collections" version="1.0.0"/>
+				<dependency id="MG.Collections" version="1.0.1"/>
 			</group>
 		</dependencies>
 	</metadata>
