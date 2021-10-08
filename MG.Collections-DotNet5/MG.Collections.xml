@@ -4,6 +4,842 @@
         <name>MG.Collections</name>
     </assembly>
     <members>
+        <member name="T:MG.Collections.Classes.ListCollection`1">
+            <summary>
+            An indentical implementation to <see cref="T:System.Collections.Generic.List`1"/> but with the ability for derived classes to override
+            the Add, Insert, Set, and Remove methods.  Similar to the way <see cref="T:System.Collections.ObjectModel.Collection`1"/>
+            allows.
+            </summary>
+            <typeparam name="T">The type of elements in the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.</typeparam>
+        </member>
+        <member name="E:MG.Collections.Classes.ListCollection`1.Reversed">
+            <summary>
+            An event that occurs when the <see cref="T:MG.Collections.Classes.ListCollection`1"/> is reversed through the 'Reverse' methods.
+            </summary>
+        </member>
+        <member name="E:MG.Collections.Classes.ListCollection`1.Sorted">
+            <summary>
+            An event that occurs when the <see cref="T:MG.Collections.Classes.ListCollection`1"/> is sorted through the 'Sort' methods.
+            </summary>
+        </member>
+        <member name="P:MG.Collections.Classes.ListCollection`1.Item(System.Int32)">
+            <summary>
+            Gets or sets the element at the specified index.
+            </summary>
+            <param name="index">The index value for zero-based indexing.</param>
+            <returns>
+                The element at the specified index.
+            </returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is less than 0
+                -or-
+                <paramref name="index"/> is greater than or equal than <see cref="P:MG.Collections.Classes.ListCollection`1.Count"/>.
+            </exception>
+        </member>
+        <member name="P:MG.Collections.Classes.ListCollection`1.Capacity">
+            <summary>
+            Gets or sets the total number of elements the internal data structure can hold without resizing.
+            </summary>
+            <returns>
+                The number of elements that the <see cref="T:MG.Collections.Classes.ListCollection`1"/> can contain before resizing is required.
+            </returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <see cref="P:MG.Collections.Classes.ListCollection`1.Capacity"/> is set to a value that is less than <see cref="P:MG.Collections.Classes.ListCollection`1.Count"/>.
+            </exception>
+            <exception cref="T:System.OutOfMemoryException">
+                There is not enough memory available on the system.
+            </exception>
+        </member>
+        <member name="P:MG.Collections.Classes.ListCollection`1.Count">
+            <summary>
+            Gets the number of elements contained in the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </summary>
+            <returns>
+                The number of elements contained in the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </returns>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.#ctor">
+            <summary>
+            The default constructor.  Initializes an empty <see cref="T:MG.Collections.Classes.ListCollection`1"/> with the default capacity.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.#ctor(System.Int32)">
+            <summary>
+            Initializes an empty <see cref="T:MG.Collections.Classes.ListCollection`1"/> with the specified capacity.
+            </summary>
+            <param name="capacity">The number of elements that the new collection can initially store.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="capacity"/> is less than 0.</exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new <see cref="T:MG.Collections.Classes.ListCollection`1"/> instance that contains elements copied from the specified
+            collection and has sufficient capacity to accomodate the number of elements copied.
+            </summary>
+            <remarks>
+                If <paramref name="items"/> is null, no exception is thrown, and, instead, an empty
+                <see cref="T:MG.Collections.Classes.ListCollection`1"/> instance is initialized.
+            </remarks>
+            <param name="items">
+                The collection whose elements will be copied to the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="items"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Boolean)">
+            <summary>
+            Initializes a new <see cref="T:MG.Collections.Classes.ListCollection`1"/> instance that contains elements copied from the specified
+            collection and has sufficient capacity to accomodate the number of elements copied.  It also provides an option to
+            initialize the collection even if <paramref name="items"/> is <see langword="null"/>.
+            </summary>
+            <remarks>
+                If <paramref name="items"/> is null and <paramref name="initializeIfNull"/> is 
+                <see langword="false"/>, an <see cref="T:System.ArgumentNullException"/> exception is thrown.  If, however,
+                <paramref name="initializeIfNull"/> is <see langword="true"/>, an empty
+                <see cref="T:MG.Collections.Classes.ListCollection`1"/> instance is initialized with the default capacity instead.
+            </remarks>
+            <param name="items">
+                The collection whose elements will be copied to the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </param>
+            <param name="initializeIfNull">
+                Indicates that the <see cref="T:MG.Collections.Classes.ListCollection`1"/> should be initialized even if <paramref name="items"/>
+                is found to be <see langword="null"/>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="initializeIfNull"/> is <see langword="false"/> and
+                <paramref name="items"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.Add(`0)">
+            <summary>
+            Adds an item to the end of the collection.
+            </summary>
+            <param name="item">The object to be added to the end of the collection.</param>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.Clear">
+            <summary>
+            Removes all elements from the <see cref="T:MG.Collections.UniqueListBase`1"/>.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.Contains(`0)">
+            <summary>
+            Determines whether an element is in the <see cref="T:MG.Collections.UniqueListBase`1"/>.
+            </summary>
+            <param name="item">
+            The object to locate in the <see cref="T:MG.Collections.UniqueListBase`1"/>.  The value can be null for reference types.
+            </param>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.CopyTo(`0[],System.Int32)">
+            <summary>
+            Copies the entire <see cref="T:MG.Collections.UniqueListBase`1"/> to a compatible one-dimensional array, starting at
+            the specified index of the target array.
+            </summary>
+            <param name="array">
+            The one-dimensional array that is the destination of the elements copied from
+            <see cref="T:MG.Collections.UniqueListBase`1"/>.  The array must have zero-based indexing.
+            </param>
+            <param name="arrayIndex">The zero-based index in the target array at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException"/>
+            <exception cref="T:System.ArgumentOutOfRangeException"/>
+            <exception cref="T:System.ArgumentException"/>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.IndexOf(`0)">
+            <summary>
+            Searches for the specified object and returns the zero-based index of the first occurrence
+            within the entire <see cref="T:MG.Collections.UniqueListBase`1"/>.
+            </summary>
+            <param name="item">The object to locate in the <see cref="T:MG.Collections.UniqueListBase`1"/>.  The value can be null for reference types.</param>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.Remove(`0)">
+            <summary>
+            Removes the specific object from the <see cref="T:MG.Collections.UniqueListBase`1"/>.
+            </summary>
+            <param name="item">
+                The object to remove from the <see cref="T:MG.Collections.UniqueListBase`1"/>.
+            </param>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.ToArray">
+            <summary>
+            Copies the elements of the <see cref="T:MG.Collections.UniqueList`1"/> to a new array.
+            </summary>
+            <returns>
+                An array containing copies of the elements of the <see cref="T:MG.Collections.UniqueList`1"/>.  If the list contains no elements, 
+                an empty array is returned.
+            </returns>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.TrueForAll(System.Func{`0,System.Boolean})">
+            <summary>
+            Determines whether every element in the <see cref="T:MG.Collections.ReadOnlyList`1"/> matches the conditions
+            defined by the specified predicate.
+            </summary>
+            <param name="match">The <see cref="T:System.Func`2"/> delegate that defines the conditions to check against the elements.</param>
+            <returns>
+                <see langword="true"/>: if every element in the list matches the conditions defined; 
+                otherwise, <see langword="false"/>.
+                If the list has no elements, the return value is <see langword="true"/>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.BinarySearch(`0)">
+            <summary>
+            Searches the entire sorted <see cref="T:MG.Collections.Classes.ListCollection`1"/> for an element using the default comparer
+            and returns the zero-based index of the element.
+            </summary>
+            <param name="item">The object to locate.  The value can be <see langword="null"/> for reference types.</param>
+            <returns>
+                The zero-based index of <paramref name="item"/> in the sorted <see cref="T:MG.Collections.Classes.ListCollection`1"/>,
+                if <paramref name="item"/> is found; otherwise, a negative number that is the bitwise complement
+                of the index of the next element that is larger than <paramref name="item"/> or, if there is no
+                larger element, the bitwise complement of <see cref="P:MG.Collections.Classes.ListCollection`1.Count"/>.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">
+                The default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/> cannot find
+                an implementation of the <see cref="T:System.IComparable`1"/> generic interface or the <see cref="T:System.IComparable"/>
+                interface for type <typeparamref name="T"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.BinarySearch(`0,System.Collections.Generic.IComparer{`0})">
+            <summary>
+            Searches the entire sorted <see cref="T:MG.Collections.Classes.ListCollection`1"/> for an element using the specified comparer and
+            returns the zero-based index of the elements.
+            </summary>
+            <param name="item">The object to locate.  The value can be <see langword="null"/> for reference types.</param>
+            <param name="comparer">
+                The <see cref="T:System.Collections.Generic.IComparer`1"/> implementation to use when comparing elements.
+                -or-
+                <see langword="null"/> to use the default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/>.
+            </param>
+            <returns>
+                The zero-based index of <paramref name="item"/> in the sorted <see cref="T:MG.Collections.Classes.ListCollection`1"/>, if
+                <paramref name="item"/> is found; otherwise, a negative number that is bitwise complement of the index
+                of the next element that is larger than <paramref name="item"/> or, if there is no larger element, the
+                bitwise complement of <see cref="P:MG.Collections.Classes.ListCollection`1.Count"/>.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">
+                <paramref name="comparer"/> is <see langword="null"/>, and the default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/> 
+                cannot find an implementation of the <see cref="T:System.IComparable`1"/> generic interface or the <see cref="T:System.IComparable"/>
+                interface for type <typeparamref name="T"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.BinarySearch(System.Int32,System.Int32,`0,System.Collections.Generic.IComparer{`0})">
+            <summary>
+                Searches a range of elements in the sorted <see cref="T:MG.Collections.Classes.ListCollection`1"/>
+                for an element using the specified comparer and returns the zero-based index
+                of the element.
+            </summary>
+            <param name="index">The zero-based starting index of the range to search.</param>
+            <param name="count">The length of the range to search.</param>
+            <param name="item">The object to locate. The value can be <see langword="null"/> for reference types.</param>
+            <param name="comparer">
+                The <see cref="T:System.Collections.Generic.IComparer`1"/> implementation to use when comparing elements.
+                -or-
+                <see langword="null"/> to use the default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/>.
+            </param>
+            <returns>
+                The zero-based index of <paramref name="item"/> in the sorted <see cref="T:MG.Collections.Classes.ListCollection`1"/>, if
+                <paramref name="item"/> is found; otherwise, a negative number that is bitwise complement of the index
+                of the next element that is larger than <paramref name="item"/> or, if there is no larger element, the
+                bitwise complement of <see cref="P:MG.Collections.Classes.ListCollection`1.Count"/>.
+            </returns>
+            <exception cref="T:System.ArgumentException">
+                <paramref name="index"/> is less than 0.
+                -or-
+                <paramref name="count"/> is less than 0.
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> and <paramref name="count"/> do not denote a valid range in the
+                <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+                <paramref name="comparer"/> is <see langword="null"/>, and the default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/> 
+                cannot find an implementation of the <see cref="T:System.IComparable`1"/> generic interface or the <see cref="T:System.IComparable"/>
+                interface for type <typeparamref name="T"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.ConvertAll``1(System.Converter{`0,``0})">
+            <summary>
+            Converts the elements in the current <see cref="T:MG.Collections.Classes.ListCollection`1"/> to another
+                type, and returns a list containing the converted elements.
+            </summary>
+            <typeparam name="TOutput">
+                The type of the elements of the target array.
+            </typeparam>
+            <param name="converter">
+                A <see cref="T:System.Converter`2"/> delegate that converts each element from one type
+                to another type.
+            </param>
+            <returns>
+                A <see cref="T:System.Collections.Generic.List`1"/> of the target type containing the converted elements from the
+                current <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="converter"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.CopyTo(`0[])">
+            <summary>
+            Copies the entire <see cref="T:MG.Collections.Classes.ListCollection`1"/> to a compatible one-dimensional array, starting at the
+            beginning of the target array.
+            </summary>
+            <param name="array">
+                The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from
+                <see cref="T:MG.Collections.Classes.ListCollection`1"/>.  The <see cref="T:System.Array"/> must have zero-based indexing.
+            </param>
+            <exception cref="T:System.ArgumentException">
+                The number of elements in the source <see cref="T:MG.Collections.Classes.ListCollection`1"/> is greater than the number of
+                elements that the destination array can contain.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="array"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.CopyTo(System.Int32,`0[],System.Int32,System.Int32)">
+            <summary>
+            Copies a range of elements from the <see cref="T:MG.Collections.Classes.ListCollection`1"/> to a compatible one-dimensional array,
+            starting at the specified index of the target array.
+            </summary>
+            <param name="index">
+                The zero-based index in the source <see cref="T:MG.Collections.Classes.ListCollection`1"/> at which copying begins.
+            </param>
+            <param name="array">
+                The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from
+                <see cref="T:MG.Collections.Classes.ListCollection`1"/>.  The <see cref="T:System.Array"/> must have zero-based indexing.
+            </param>
+            <param name="arrayIndex">
+                The zero-based index in <paramref name="array"/> at which copying begins.
+            </param>
+            <param name="count">The number of elements to copy.</param>
+            <exception cref="T:System.ArgumentException">
+                <paramref name="index"/> is equal to or greater than <see cref="P:MG.Collections.Classes.ListCollection`1.Count"/> of the source <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+                -or-
+                The number of elements from <paramref name="index"/> to the end of the source <see cref="T:MG.Collections.Classes.ListCollection`1"/> is greater
+                than the available space from <paramref name="arrayIndex"/> to the end of the destination array.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="array"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is less than 0.
+                -or-
+                <paramref name="count"/> is less than 0.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.ForEach(System.Action{`0})">
+            <summary>
+            Performs the specified action on each element of the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </summary>
+            <param name="action">
+                The <see cref="T:System.Action`1"/> delegate to perform on each element of the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
+            <exception cref="T:System.InvalidOperationException">
+                An element in the collection has been modified.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.InsertRange(System.Int32,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Inserts the elements of a collection into the <see cref="T:MG.Collections.Classes.ListCollection`1"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which the new elements should be inserted.</param>
+            <param name="collection">
+                The collection whose elements should be insert into the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.  The collection
+                itself cannot be <see langword="null"/>, but it can contain elements that are <see langword="null"/>, if 
+                type <typeparamref name="T"/> is a reference type.
+            </param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="collection"/> is <see langword="null"/>.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is less than 0.
+                -or-
+                <paramref name="index"/> is greater than <see cref="P:MG.Collections.Classes.ListCollection`1.Count"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.RemoveAll(System.Func{`0,System.Boolean})">
+            <summary>
+            Removes all the elements that match the conditions defined by the specified predicate.
+            </summary>
+            <param name="match">
+                The <see cref="T:System.Func`2"/> delegate that defines the conditions of the elements to remove.
+            </param>
+            <returns>
+                The number of elements removed from the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <paramref name="match"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.RemoveRange(System.Int32,System.Int32)">
+            <summary>
+            Removes a range of elements from the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </summary>
+            <param name="index">The zero-based starting index of the range of elements to remove.</param>
+            <param name="count">The number of elements to remove.</param>
+            <exception cref="T:System.ArgumentException">
+                <paramref name="index"/> and <paramref name="count"/> do not denote a valid range of elements
+                in the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is less than 0.
+                -or-
+                <paramref name="count"/> is less than 0.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.TrimExcess">
+            <summary>
+            Sets the capacity to the actual number of elements in the <see cref="T:MG.Collections.Classes.ListCollection`1"/>,
+            if that number is less than a threshold value.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.Exists(System.Func{`0,System.Boolean})">
+            <summary>
+                Determines whether the <see cref="T:MG.Collections.ReadOnlyList`1"/> contains elements that
+                match the conditions defined by the specified predicate.
+            </summary>
+            <param name="match">
+                The <see cref="T:System.Func`2"/> delegate that defines the conditions of the 
+                elements to search for.
+            </param>
+            <returns>
+            <see langword="true"/>:
+                if the <see cref="T:MG.Collections.ReadOnlyList`1"/> contains one or more elements that
+                <paramref name="match"/> defined.
+            <see langword="false"/>:
+                otherwise.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.Find(System.Func{`0,System.Boolean})">
+            <summary>
+                Searches for an element that matches the conditions defined by the specified
+                predicate, and returns the first occurrence within the entire <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+            </summary>
+            <param name="match">
+                The <see cref="T:System.Func`2"/> delegate that defines the conditions of the
+                elements to search for.
+            </param>
+            <returns>
+                The first element that matches the conditions if found; otherwise the default value for <typeparamref name="T"/>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.FindAll(System.Func{`0,System.Boolean})">
+            <summary>
+            Retrieves all of the elements that match the conditions defined by the specified predicate.
+            </summary>
+            <param name="match">The <see cref="T:System.Func`2"/> delegate the defines the conditions of the elements to search for.</param>
+            <returns>
+                An <see cref="T:System.Collections.Generic.List`1"/> containing all of the elements that match the conditions if found; 
+                otherwise, an empty list.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.FindIndex(System.Func{`0,System.Boolean})">
+            <summary>
+            Searches for an element that match the conditions defined by the specified predicate, and returns the zero-based
+            index of the first occurrence within the entire <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+            </summary>
+            <param name="match">The <see cref="T:System.Func`2"/> delegate the defines the conditions of the elements to search for.</param>
+            <returns>
+                The zero-based index of the first occurrence of an element that matches the conditions defined
+                by <paramref name="match"/> if found; otherwise, -1.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.FindIndex(System.Int32,System.Func{`0,System.Boolean})">
+            <summary>
+            Searches for an element that match the conditions defined by the specified predicate, and returns the zero-based
+            index of the first occurrence within the range of elements in the <see cref="T:MG.Collections.ReadOnlyList`1"/> that extends from the 
+            specified index to the last element.
+            </summary>
+            <param name="startIndex">The zero-based starting index of the search.</param>
+            <param name="match">The <see cref="T:System.Func`2"/> delegate the defines the conditions of the elements to search for.</param>
+            <returns>
+                The zero-based index of the first occurrence of an element that matches the conditions defined
+                by <paramref name="match"/> if found; otherwise, -1.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="startIndex"/> is outside the range of valid indexes for the <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.FindIndex(System.Int32,System.Int32,System.Func{`0,System.Boolean})">
+            <summary>
+            Searches for an element that match the conditions defined by the specified predicate, and returns the zero-based
+            index of the first occurrence within the range of elements in the <see cref="T:MG.Collections.ReadOnlyList`1"/> that starts at the 
+            specified index and contains the specified number of elements.
+            </summary>
+            <param name="startIndex">The zero-based starting index of the search.</param>
+            <param name="count">The number of elements in the section to search.</param>
+            <param name="match">The <see cref="T:System.Func`2"/> delegate the defines the conditions of the elements to search for.</param>
+            <returns>
+                The zero-based index of the first occurrence of an element that matches the conditions defined
+                by <paramref name="match"/> if found; otherwise, -1.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="startIndex"/> is outside the range of valid indexes for the <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+                -or-
+                <paramref name="count"/> is less than 0.
+                -or-
+                <paramref name="startIndex"/> and <paramref name="count"/> do not specify a valid section of the list.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.FindLast(System.Func{`0,System.Boolean})">
+            <summary>
+            Searches for an elements that matches the conditions defined by the specified predicate, and returns the last occurrence within the
+            entire <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+            </summary>
+            <param name="match">The <see cref="T:System.Func`2"/> delegate the defines the conditions of the elements to search for.</param>
+            <returns>
+                The last elements that matches the conditions defined by the specified predicate, if found; otherwise, the default value for
+                type <typeparamref name="T"/>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.FindLastIndex(System.Func{`0,System.Boolean})">
+            <summary>
+            Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
+            lat occurrence within the entire <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+            </summary>
+            <param name="match">The <see cref="T:System.Func`2"/> delegate the defines the conditions of the elements to search for.</param>
+            <returns>
+                The zero-based index of the last occurrence of an element that matches the conditions defined by
+                <paramref name="match"/>, if found; otherwise, -1.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.FindLastIndex(System.Int32,System.Func{`0,System.Boolean})">
+            <summary>
+            Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
+            lat occurrence within the range of elements in the <see cref="T:MG.Collections.ReadOnlyList`1"/> that extends from the first element to the 
+            specified index.
+            </summary>
+            <param name="startIndex">The zero-based starting index of the backward search.</param>
+            <param name="match">The <see cref="T:System.Func`2"/> delegate the defines the conditions of the elements to search for.</param>
+            <returns>
+                The zero-based index of the last occurrence of an element that matches the conditions defined by
+                <paramref name="match"/>, if found; otherwise, -1.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="startIndex"/> is outside the range of valid indexes for the <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.FindLastIndex(System.Int32,System.Int32,System.Func{`0,System.Boolean})">
+            <summary>
+            Searches for an elements that matches the conditions defined by the specified predicate, and returns the zero-based index of the
+            lat occurrence within the range of elements in the <see cref="T:MG.Collections.ReadOnlyList`1"/> that contains the specified number
+            of elements and ends at the specified index.
+            </summary>
+            <param name="startIndex">The zero-based starting index of the backward search.</param>
+            <param name="count">The number of elements in the section to search.</param>
+            <param name="match">The <see cref="T:System.Func`2"/> delegate the defines the conditions of the elements to search for.</param>
+            <returns>
+                The zero-based index of the last occurrence of an element that matches the conditions defined by
+                <paramref name="match"/>, if found; otherwise, -1.
+            </returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="startIndex"/> is outside the range of valid indexes for the <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+                -or-
+                <paramref name="count"/> is less than 0.
+                -or-
+                <paramref name="startIndex"/> and <paramref name="count"/> do not specify a valid section of the list.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.GetRange(System.Int32,System.Int32)">
+            <summary>
+            Creates a shallow copy of a range of elements in the source <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+            </summary>
+            <param name="index">The zero-based index at which the range starts.</param>
+            <param name="count">The number of elements in the range.</param>
+            <returns>A shallow copy of a range of elements in the <see cref="T:MG.Collections.ReadOnlyList`1"/>.</returns>
+            <exception cref="T:System.ArgumentException">
+                <paramref name="index"/> and <paramref name="count"/> do not denote a valid range of elements.
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is less than 0.
+                -or-
+                <paramref name="count"/> is less than 0.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.IndexOf(`0,System.Int32)">
+            <summary>
+            Searches for the specified object and returns the zero-based index of the first occurrence
+            within the range of elements in the <see cref="T:MG.Collections.ReadOnlyList`1"/> that extends from the specified index to the last element.
+            </summary>
+            <param name="item">
+                The object to locate in the <see cref="T:MG.Collections.ReadOnlyList`1"/>.  
+                The value can be <see langword="null"/> for reference types.
+            </param>
+            <param name="index">The zero-based starting index of the search.  0 (zero) is valid in an empty list.</param>
+            <returns>
+                The zero-based index of the first occurrence of <paramref name="item"/> within the range of elements in the
+                <see cref="T:MG.Collections.ReadOnlyList`1"/>, if found; otherwise -1.
+            </returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is outside the range of valid indexes for the <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.IndexOf(`0,System.Int32,System.Int32)">
+            <summary>
+            Searches for the specified object and returns the zero-based index of the first occurrence
+            within the range of elements in the <see cref="T:MG.Collections.ReadOnlyList`1"/> that extends from the specified index to the last element.
+            </summary>
+            <param name="item">
+                The object to locate in the <see cref="T:MG.Collections.ReadOnlyList`1"/>.  
+                The value can be <see langword="null"/> for reference types.
+            </param>
+            <param name="index">The zero-based starting index of the search.  0 (zero) is valid in an empty list.</param>
+            <param name="count">The number of elements in the section to search.</param>
+            <returns>
+                The zero-based index of the first occurrence of <paramref name="item"/> within the range of elements in the
+                <see cref="T:MG.Collections.ReadOnlyList`1"/>, if found; otherwise -1.
+            </returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is outside the range of valid indexes for the <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+                -or-
+                <paramref name="count"/> is less than 0.
+                -or-
+                <paramref name="index"/> and <paramref name="count"/> do not specify a vliad section in the list.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.LastIndexOf(`0)">
+            <summary>
+            Searches for the specified object and returns the zero-based index of the last occurrence
+            within the entire <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+            </summary>
+            <param name="item">
+                The object to locate in the <see cref="T:MG.Collections.ReadOnlyList`1"/>.  
+                The value can be <see langword="null"/> for reference types.
+            </param>
+            <returns>
+                The zero-based index of the last occurrence of <paramref name="item"/> within the entire
+                <see cref="T:MG.Collections.ReadOnlyList`1"/>, if found; otherwise -1.
+            </returns>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.LastIndexOf(`0,System.Int32)">
+            <summary>
+            Searches for the specified object and returns the zero-based index of the last occurrence
+            within the range of elements in the <see cref="T:MG.Collections.ReadOnlyList`1"/> that extends from the first element to the specified index.
+            </summary>
+            <param name="item">
+                The object to locate in the <see cref="T:MG.Collections.ReadOnlyList`1"/>.  
+                The value can be <see langword="null"/> for reference types.
+            </param>
+            <param name="index">The zero-based starting index of the backward search.</param>
+            <returns>
+                The zero-based index of the last occurrence of <paramref name="item"/> within the range of elements in the
+                <see cref="T:MG.Collections.ReadOnlyList`1"/>, if found; otherwise -1.
+            </returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is outside the range of valid indexes for the <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.LastIndexOf(`0,System.Int32,System.Int32)">
+            <summary>
+            Searches for the specified object and returns the zero-based index of the last occurrence
+            within the range of elements in the <see cref="T:MG.Collections.ReadOnlyList`1"/> that contains the specified number
+            of elements and ends at the specified index.
+            </summary>
+            <param name="item">
+                The object to locate in the <see cref="T:MG.Collections.ReadOnlyList`1"/>.  
+                The value can be <see langword="null"/> for reference types.
+            </param>
+            <param name="index">The zero-based starting index of the backward search.</param>
+            <param name="count">The number of elements in the section to search.</param>
+            <returns>
+                The zero-based index of the last occurrence of <paramref name="item"/> within the range of elements in the
+                <see cref="T:MG.Collections.ReadOnlyList`1"/> that contains <paramref name="count"/> number of elements and ends at
+                <paramref name="index"/>, if found; otherwise, -1;
+            </returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is outside the range of valid indexes for the <see cref="T:MG.Collections.ReadOnlyList`1"/>.
+                -or-
+                <paramref name="count"/> is less than 0.
+                -or-
+                <paramref name="index"/> and <paramref name="count"/> do not specify a vliad section in the list.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.Reverse">
+            <summary>
+            Reverses the order of the elements in the entire <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.Reverse(System.Int32,System.Int32)">
+            <summary>
+            Reverses the order of the elements in the specified range.
+            </summary>
+            <param name="index">The zero-based starting index of the range to reverse.</param>
+            <param name="count">The number of elements in the range to reverse.</param>
+            <exception cref="T:System.ArgumentException">
+                <paramref name="index"/> and <paramref name="count"/> do not denote a valid range of elements in 
+                the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is less than 0.
+                -or-
+                <paramref name="count"/> is less than 0.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.Sort">
+            <summary>
+            Sorts the elements in the entire <see cref="T:MG.Collections.Classes.ListCollection`1"/> using the default comparer.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+                The default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/> cannot find an implementation of the 
+                <see cref="T:System.IComparable`1"/> generic interface or the <see cref="T:System.IComparable"/> interface for type 
+                <typeparamref name="T"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.Sort(System.Collections.Generic.IComparer{`0})">
+            <summary>
+            Sorts the elements in the entire <see cref="T:MG.Collections.Classes.ListCollection`1"/> using the specified comparer.
+            </summary>
+            <param name="comparer">
+                The <see cref="T:System.Collections.Generic.IComparer`1"/> implementation to use when comparing elements, or <see langword="null"/> to use the default comparer
+                <see cref="P:System.Collections.Generic.Comparer`1.Default"/>.
+            </param>
+            <exception cref="T:System.ArgumentException">
+                The implementation of <paramref name="comparer"/> caused an error during the sort. For example,
+                <paramref name="comparer"/> might not return 0 when comparing an item with itself.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+                The default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/> cannot find an implementation of the 
+                <see cref="T:System.IComparable`1"/> generic interface or the <see cref="T:System.IComparable"/> interface for type 
+                <typeparamref name="T"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.Sort(System.Int32,System.Int32,System.Collections.Generic.IComparer{`0})">
+            <summary>
+            Sorts the elements in a range of elements in <see cref="T:MG.Collections.Classes.ListCollection`1"/> using the specified comparer.
+            </summary>
+            <param name="index">The zero-based starting index of the range to sort.</param>
+            <param name="count">The length of the range to sort.</param>
+            <param name="comparer">
+                The <see cref="T:System.Collections.Generic.IComparer`1"/> implementation to use when comparing elements, or <see langword="null"/> to use the default comparer
+                <see cref="P:System.Collections.Generic.Comparer`1.Default"/>.
+            </param>
+            <exception cref="T:System.ArgumentException">
+                <paramref name="index"/> and <paramref name="count"/> do not specify a valid range in the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+                -or-
+                The implementation of <paramref name="comparer"/> caused an error during the sort. For example,
+                <paramref name="comparer"/> might not return 0 when comparing an item with itself.
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is less than 0.
+                -or-
+                <paramref name="count"/> is less than 0.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+                <paramref name="comparer"/> is <see langword="null"/>, and the default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/> 
+                cannot find an implementation of the <see cref="T:System.IComparable`1"/> generic interface or the <see cref="T:System.IComparable"/> 
+                interface for type <typeparamref name="T"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the <see cref="T:MG.Collections.UniqueListBase`1"/>.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the <see cref="T:System.Collections.IEnumerable"/>.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.Insert(System.Int32,`0)">
+            <summary>
+            Inserts an element into the <see cref="T:MG.Collections.Classes.ListCollection`1"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which item should be inserted.</param>
+            <param name="item">The object to insert. The value can be <see langword="null"/> for reference types.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is less than 0.
+                -or-
+                <paramref name="index"/> is greater than <see cref="P:MG.Collections.Classes.ListCollection`1.Count"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.RemoveAt(System.Int32)">
+            <summary>
+            Removes the element at the specified index of the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </summary>
+            <param name="index">The zero-based index of the element to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is less than 0.
+                -or-
+                <paramref name="index"/> is greater than <see cref="P:MG.Collections.UniqueListBase`1.Count"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.AddItem(`0)">
+            <summary>
+            Adds an object to the end of the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </summary>
+            <param name="item">The object to add.</param>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.ClearItems">
+            <summary>
+            Removes all elements from the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.InsertItem(System.Int32,`0)">
+            <summary>
+            Inserts an elements into the <see cref="T:MG.Collections.Classes.ListCollection`1"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which <paramref name="item"/> should be inserted.</param>
+            <param name="item">The object to insert.</param>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.RemoveItem(`0)">
+            <summary>
+            Removes the specified element from the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </summary>
+            <param name="item">The element to remove.</param>
+            <returns>
+                <see langword="true"/> if <paramref name="item"/> is successfully removed; otherwise <see langword="false"/>.
+                This method also returns <see langword="false"/> if <paramref name="item"/> was not found in 
+                the <see cref="T:MG.Collections.Classes.ListCollection`1"/>.
+            </returns>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.RemoveItemAt(System.Int32)">
+            <summary>
+            Removes the element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the element to remove.</param>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.SetItem(System.Int32,`0)">
+            <summary>
+            Replaces the element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the element to replace.</param>
+            <param name="item">The new value for the element at the specified index.</param>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.OnReversed">
+            <summary>
+            The method that invokes the <see cref="E:MG.Collections.Classes.ListCollection`1.Reversed"/> event with -1 as the index and count.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.OnReversed(System.Int32,System.Int32)">
+            <summary>
+            The method that invoces the <see cref="E:MG.Collections.Classes.ListCollection`1.Reversed"/> event with the specified index and count of
+            the Reverse operation.
+            </summary>
+            <param name="index">The zero-based starting index of the range to reverse.</param>
+            <param name="count">The number of elements in the range to reverse.</param>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.OnSorted(System.Collections.Generic.IComparer{`0},System.Int32,System.Int32)">
+            <summary>
+            The method that invokes the <see cref="E:MG.Collections.Classes.ListCollection`1.Sorted"/> event.
+            </summary>
+            <param name="index">The zero-based starting index of the range that was sorted.</param>
+            <param name="count">The length of the range that was sorted.</param>
+            <param name="comparerUsed">
+                The <see cref="T:System.Collections.Generic.IComparer`1"/> implementation that was used when comparing elements, or <see langword="null"/> to use the default comparer
+                <see cref="P:System.Collections.Generic.Comparer`1.Default"/>.
+            </param>
+        </member>
+        <member name="M:MG.Collections.Classes.ListCollection`1.ToPredicate(System.Func{`0,System.Boolean})">
+            <summary>
+            Converts the given <see cref="T:System.Func`2"/> into a <see cref="T:System.Predicate`1"/> delegate.
+            </summary>
+            <param name="func">The function to convert.</param>
+            <returns>
+                A <see cref="T:System.Predicate`1"/> delegate converted from <paramref name="func"/>.
+            </returns>
+        </member>
         <member name="T:MG.Collections.ManagedKeySortedList`2">
             <summary>
             A <see cref="T:System.Collections.Generic.SortedList`2"/> class where <typeparamref name="TKey"/> is automatically retrieved with 
@@ -376,6 +1212,33 @@
             <exception cref="T:System.InvalidOperationException">
                 <see cref="P:MG.Collections.ManagedKeySortedList`2.KeySelector"/> threw an exception.
             </exception>
+            <exception cref="T:MG.Collections.Exceptions.KeyAlreadyExistsException">
+                The key resulting from <paramref name="value"/> was not unique.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.ManagedKeySortedList`2.AddItem``1(``0,`1,System.Func{``0,`0})">
+            <summary>
+            Attemps to add the specified value to the end of the list.  Instead of using the stored function to retrieve the key,
+            a separate function is specified from a new, generic input <typeparamref name="TInput"/>.
+            </summary>
+            <typeparam name="TInput">The generic type to retrieve <typeparamref name="TKey"/> from.</typeparam>
+            <param name="input">The input value to retrieve the <typeparamref name="TKey"/> key from.</param>
+            <param name="value">The value to store in the <see cref="T:MG.Collections.ManagedKeySortedList`2"/>.</param>
+            <param name="keySelector">The function to retrieve the key from a <typeparamref name="TInput"/> value.</param>
+            <returns>
+                <see langword="true"/> if <paramref name="value"/> was added to the list with the 
+                calculated <typeparamref name="TKey"/>; otherwise, <see langword="false"/>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                Either <paramref name="input"/> or <paramref name="keySelector"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+                <see cref="P:MG.Collections.ManagedKeySortedList`2.KeySelector"/> threw an exception.
+            </exception>
+            <exception cref="T:MG.Collections.Exceptions.KeyAlreadyExistsException">
+                The resulting <typeparamref name="TKey"/> value from <paramref name="keySelector"/> and <paramref name="input"/>
+                is not unique.
+            </exception>
         </member>
         <member name="M:MG.Collections.ManagedKeySortedList`2.ClearItems">
             <summary>
@@ -395,7 +1258,7 @@
             </returns>
             <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
             <exception cref="T:System.InvalidOperationException">
-                The <see cref="P:MG.Collections.ManagedKeySortedList`2.KeySelector"/> threw an <see cref="T:System.Exception"/> when fed
+                The <see cref="P:MG.Collections.ManagedKeySortedList`2.KeySelector"/> threw an <see cref="T:System.Exception"/> when supplied
                 <paramref name="value"/>.
             </exception>
             <exception cref="T:System.Collections.Generic.KeyNotFoundException"><paramref name="key"/> was not found in the <see cref="T:MG.Collections.ManagedKeySortedList`2"/>.</exception>
@@ -1193,7 +2056,7 @@
                 <paramref name="collection"/> will be enumerated for uniqueness according to the provided 
                 <see cref="T:System.Collections.Generic.IEqualityComparer`1"/>.
                 
-                If <paramref name="items"/> is null, no exception is thrown, and, instead, an empty
+                If <paramref name="collection"/> is null, no exception is thrown, and, instead, an empty
                 <see cref="T:MG.Collections.UniqueList`1"/> instance is initialized.
             </remarks>
             <param name="collection">
@@ -1203,6 +2066,29 @@
             <param name="equalityComparer">
                 The equality comparer that determines whether an element is unique.
             </param>
+        </member>
+        <member name="M:MG.Collections.UniqueList`1.Insert(System.Int32,`0)">
+            <summary>
+            Inserts an element into the <see cref="T:MG.Collections.UniqueList`1"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which item should be inserted.</param>
+            <param name="item">The object to insert. The value can be <see langword="null"/> for reference types.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is less than 0.
+                -or-
+                <paramref name="index"/> is greater than <see cref="P:MG.Collections.UniqueListBase`1.Count"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.UniqueList`1.RemoveAt(System.Int32)">
+            <summary>
+            Removes the element at the specified index of the <see cref="T:MG.Collections.UniqueList`1"/>.
+            </summary>
+            <param name="index">The zero-based index of the element to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is less than 0.
+                -or-
+                <paramref name="index"/> is greater than <see cref="P:MG.Collections.UniqueListBase`1.Count"/>.
+            </exception>
         </member>
         <member name="T:MG.Collections.UniqueListBase`1">
             <summary>
@@ -1738,7 +2624,7 @@
             </remarks>
             <param name="index">The negative or positive index value.</param>
             <returns>
-                The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
+                The element of type <typeparamref name="T"/> at the specified proper index position; otherwise, 
                 if the index is determined to be out-of-range, then the default value of <typeparamref name="T"/>.
             </returns>
         </member>
@@ -1782,6 +2668,21 @@
                 -or
                 <paramref name="index"/> is greater than <see cref="P:MG.Collections.UniqueListBase`1.Count"/>.
             </exception>
+        </member>
+        <member name="P:MG.Collections.Events.SortedEventArgs`1.Comparer">
+            <summary>
+            The comparer used to sort the list.
+            </summary>
+        </member>
+        <member name="T:MG.Collections.Exceptions.FormattedException">
+            <summary>
+            An <see langword="abstract"/> exception class that provides a formatted base for message with arguments.
+            </summary>
+        </member>
+        <member name="T:MG.Collections.Exceptions.KeyAlreadyExistsException">
+            <summary>
+            An exception thrown when an attempt to add a key to a unique list or dictionary that already exists.
+            </summary>
         </member>
         <member name="T:MG.Collections.Exceptions.ReadOnlyException">
             <summary>
@@ -1939,8 +2840,8 @@
             Sorts the elements in the entire <see cref="T:MG.Collections.IReadOnlySortableList`1"/> using the specified comparer.
             </summary>
             <param name="comparer">
-                The <see cref="T:System.Collections.Generic.IComparer`1"/> implementation to use when comparing elements, or null to use the default comparer
-                <see cref="P:System.Collections.Generic.Comparer`1.Default"/>.
+                The <see cref="T:System.Collections.Generic.IComparer`1"/> implementation to use when comparing elements, or <see langword="null"/> to 
+                use the default comparer <see cref="P:System.Collections.Generic.Comparer`1.Default"/>.
             </param>
         </member>
         <member name="M:MG.Collections.IReadOnlySortableList`1.Sort(System.Int32,System.Int32,System.Collections.Generic.IComparer{`0})">

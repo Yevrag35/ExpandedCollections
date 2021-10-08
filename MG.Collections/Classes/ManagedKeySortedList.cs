@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using MG.Collections.Exceptions;
 using MG.Collections.Extensions;
 
 using Strings = MG.Collections.Properties.Resources;
@@ -750,6 +751,9 @@ namespace MG.Collections
         /// <exception cref="InvalidOperationException">
         ///     <see cref="KeySelector"/> threw an exception.
         /// </exception>
+        /// <exception cref="KeyAlreadyExistsException">
+        ///     The key resulting from <paramref name="value"/> was not unique.
+        /// </exception>
         protected virtual bool AddItem(TValue value)
         {
             TKey key = this.GetKey(value);
@@ -761,7 +765,56 @@ namespace MG.Collections
             catch (ArgumentException e)
             {
                 if (e.GetBaseException().Message.IndexOf("same key already exists") < 0)
-                    throw new ArgumentException("An error occured.  See inner exception for details.", e);
+                    throw new KeyAlreadyExistsException(key, e);
+            }
+            catch (Exception allOther)
+            {
+                throw new InvalidOperationException("An error occured.  See inner exception for details.", allOther);
+            }
+
+            return false;
+        }
+        /// <summary>
+        /// Attemps to add the specified value to the end of the list.  Instead of using the stored function to retrieve the key,
+        /// a separate function is specified from a new, generic input <typeparamref name="TInput"/>.
+        /// </summary>
+        /// <typeparam name="TInput">The generic type to retrieve <typeparamref name="TKey"/> from.</typeparam>
+        /// <param name="input">The input value to retrieve the <typeparamref name="TKey"/> key from.</param>
+        /// <param name="value">The value to store in the <see cref="ManagedKeySortedList{TKey, TValue}"/>.</param>
+        /// <param name="keySelector">The function to retrieve the key from a <typeparamref name="TInput"/> value.</param>
+        /// <returns>
+        ///     <see langword="true"/> if <paramref name="value"/> was added to the list with the 
+        ///     calculated <typeparamref name="TKey"/>; otherwise, <see langword="false"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     Either <paramref name="input"/> or <paramref name="keySelector"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     <see cref="KeySelector"/> threw an exception.
+        /// </exception>
+        /// <exception cref="KeyAlreadyExistsException">
+        ///     The resulting <typeparamref name="TKey"/> value from <paramref name="keySelector"/> and <paramref name="input"/>
+        ///     is not unique.
+        /// </exception>
+        protected virtual bool AddItem<TInput>(TInput input, TValue value, Func<TInput, TKey> keySelector)
+        {
+            if (null == input)
+                throw new ArgumentNullException(nameof(input));
+
+            if (null == keySelector)
+                throw new ArgumentNullException(nameof(keySelector));
+
+            TKey key = keySelector(input);
+
+            try
+            {
+                InnerList.Add(key, value);
+                return true;
+            }
+            catch (ArgumentException e)
+            {
+                if (e.GetBaseException().Message.IndexOf("same key already exists") < 0)
+                    throw new KeyAlreadyExistsException(key, e);
             }
             catch (Exception allOther)
             {
@@ -789,7 +842,7 @@ namespace MG.Collections
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
         /// <exception cref="InvalidOperationException">
-        ///     The <see cref="KeySelector"/> threw an <see cref="Exception"/> when fed
+        ///     The <see cref="KeySelector"/> threw an <see cref="Exception"/> when supplied
         ///     <paramref name="value"/>.
         /// </exception>
         /// <exception cref="KeyNotFoundException"><paramref name="key"/> was not found in the <see cref="ManagedKeySortedList{TKey, TValue}"/>.</exception>

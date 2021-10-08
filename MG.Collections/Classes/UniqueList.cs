@@ -119,7 +119,7 @@ namespace MG.Collections
         ///     <paramref name="collection"/> will be enumerated for uniqueness according to the provided 
         ///     <see cref="IEqualityComparer{T}"/>.
         ///     
-        ///     If <paramref name="items"/> is null, no exception is thrown, and, instead, an empty
+        ///     If <paramref name="collection"/> is null, no exception is thrown, and, instead, an empty
         ///     <see cref="UniqueList{T}"/> instance is initialized.
         /// </remarks>
         /// <param name="collection">
@@ -146,10 +146,29 @@ namespace MG.Collections
         }
 
         #region EXTRA ILIST METHODS
+        /// <summary>
+        /// Inserts an element into the <see cref="UniqueList{T}"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index at which item should be inserted.</param>
+        /// <param name="item">The object to insert. The value can be <see langword="null"/> for reference types.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="index"/> is greater than <see cref="UniqueListBase{T}.Count"/>.
+        /// </exception>
         public void Insert(int index, T item)
         {
             this.InsertItem(index, item);
         }
+        /// <summary>
+        /// Removes the element at the specified index of the <see cref="UniqueList{T}"/>.
+        /// </summary>
+        /// <param name="index">The zero-based index of the element to remove.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="index"/> is greater than <see cref="UniqueListBase{T}.Count"/>.
+        /// </exception>
         public void RemoveAt(int index)
         {
             this.RemoveItemAt(index);
