@@ -29,8 +29,8 @@ namespace MG.Collections
         /// Sorts the elements in the entire <see cref="IReadOnlySortableList{T}"/> using the specified comparer.
         /// </summary>
         /// <param name="comparer">
-        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or null to use the default comparer
-        ///     <see cref="Comparer{T}.Default"/>.
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or <see langword="null"/> to 
+        ///     use the default comparer <see cref="Comparer{T}.Default"/>.
         /// </param>
         void Sort(IComparer<T> comparer);
         /// <summary>

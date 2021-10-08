@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp3.1;netframework4.6.2</TargetFrameworks>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-    <FileVersion>1.0.1</FileVersion>
+    <AssemblyVersion>1.0.2</AssemblyVersion>
+    <FileVersion>1.0.2</FileVersion>
     <Company>Yevrag35, LLC.</Company>
     <Authors>Mike Garvey</Authors>
     <Description>A library consisting of specialized collection classes.</Description>

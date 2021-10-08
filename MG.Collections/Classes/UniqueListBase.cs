@@ -698,7 +698,7 @@ namespace MG.Collections
         /// </remarks>
         /// <param name="index">The negative or positive index value.</param>
         /// <returns>
-        ///     The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
+        ///     The element of type <typeparamref name="T"/> at the specified proper index position; otherwise, 
         ///     if the index is determined to be out-of-range, then the default value of <typeparamref name="T"/>.
         /// </returns>
         protected virtual T GetByIndex(int index)

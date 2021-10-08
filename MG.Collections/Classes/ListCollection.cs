@@ -20,7 +20,13 @@ namespace MG.Collections.Classes
         #endregion
 
         #region EVENTS
+        /// <summary>
+        /// An event that occurs when the <see cref="ListCollection{T}"/> is reversed through the 'Reverse' methods.
+        /// </summary>
         public event ReversedEventHandler Reversed;
+        /// <summary>
+        /// An event that occurs when the <see cref="ListCollection{T}"/> is sorted through the 'Sort' methods.
+        /// </summary>
         public event SortedEventHandler<T> Sorted;
 
         #endregion
@@ -785,26 +791,92 @@ namespace MG.Collections.Classes
         #endregion
 
         #region SORTING METHODS
+        /// <summary>
+        /// Reverses the order of the elements in the entire <see cref="ListCollection{T}"/>.
+        /// </summary>
         public void Reverse()
         {
             this.InnerList.Reverse();
             this.OnReversed();
         }
+        /// <summary>
+        /// Reverses the order of the elements in the specified range.
+        /// </summary>
+        /// <param name="index">The zero-based starting index of the range to reverse.</param>
+        /// <param name="count">The number of elements in the range to reverse.</param>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="index"/> and <paramref name="count"/> do not denote a valid range of elements in 
+        ///     the <see cref="ListCollection{T}"/>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="count"/> is less than 0.
+        /// </exception>
         public void Reverse(int index, int count)
         {
             this.InnerList.Reverse(index, count);
             this.OnReversed(index, count);
         }
+        /// <summary>
+        /// Sorts the elements in the entire <see cref="ListCollection{T}"/> using the default comparer.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        ///     The default comparer <see cref="Comparer{T}.Default"/> cannot find an implementation of the 
+        ///     <see cref="IComparable{T}"/> generic interface or the <see cref="IComparable"/> interface for type 
+        ///     <typeparamref name="T"/>.
+        /// </exception>
         public void Sort()
         {
             this.InnerList.Sort();
             this.OnSorted(Comparer<T>.Default);
         }
+        /// <summary>
+        /// Sorts the elements in the entire <see cref="ListCollection{T}"/> using the specified comparer.
+        /// </summary>
+        /// <param name="comparer">
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or <see langword="null"/> to use the default comparer
+        ///     <see cref="Comparer{T}.Default"/>.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        ///     The implementation of <paramref name="comparer"/> caused an error during the sort. For example,
+        ///     <paramref name="comparer"/> might not return 0 when comparing an item with itself.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     The default comparer <see cref="Comparer{T}.Default"/> cannot find an implementation of the 
+        ///     <see cref="IComparable{T}"/> generic interface or the <see cref="IComparable"/> interface for type 
+        ///     <typeparamref name="T"/>.
+        /// </exception>
         public void Sort(IComparer<T> comparer)
         {
             this.InnerList.Sort(comparer);
             this.OnSorted(comparer);
         }
+        /// <summary>
+        /// Sorts the elements in a range of elements in <see cref="ListCollection{T}"/> using the specified comparer.
+        /// </summary>
+        /// <param name="index">The zero-based starting index of the range to sort.</param>
+        /// <param name="count">The length of the range to sort.</param>
+        /// <param name="comparer">
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements, or <see langword="null"/> to use the default comparer
+        ///     <see cref="Comparer{T}.Default"/>.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="index"/> and <paramref name="count"/> do not specify a valid range in the <see cref="ListCollection{T}"/>.
+        ///     -or-
+        ///     The implementation of <paramref name="comparer"/> caused an error during the sort. For example,
+        ///     <paramref name="comparer"/> might not return 0 when comparing an item with itself.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="count"/> is less than 0.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     <paramref name="comparer"/> is <see langword="null"/>, and the default comparer <see cref="Comparer{T}.Default"/> 
+        ///     cannot find an implementation of the <see cref="IComparable{T}"/> generic interface or the <see cref="IComparable"/> 
+        ///     interface for type <typeparamref name="T"/>.
+        /// </exception>
         public void Sort(int index, int count, IComparer<T> comparer)
         {
             this.Sort(index, count, comparer);
@@ -844,10 +916,29 @@ namespace MG.Collections.Classes
         #endregion
 
         #region EXTRA ILIST METHODS
+        /// <summary>
+        /// Inserts an element into the <see cref="ListCollection{T}"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index at which item should be inserted.</param>
+        /// <param name="item">The object to insert. The value can be <see langword="null"/> for reference types.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="index"/> is greater than <see cref="Count"/>.
+        /// </exception>
         public void Insert(int index, T item)
         {
             this.InsertItem(index, item);
         }
+        /// <summary>
+        /// Removes the element at the specified index of the <see cref="ListCollection{T}"/>.
+        /// </summary>
+        /// <param name="index">The zero-based index of the element to remove.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="index"/> is greater than <see cref="UniqueListBase{T}.Count"/>.
+        /// </exception>
         public void RemoveAt(int index)
         {
             this.RemoveItemAt(index);
@@ -921,7 +1012,7 @@ namespace MG.Collections.Classes
 
         #endregion
 
-        #region PROTECTED OVERRIDABLE METHODS
+        #region PROTECTED AND OVERRIDABLE METHODS
         /// <summary>
         /// Adds an object to the end of the <see cref="ListCollection{T}"/>.
         /// </summary>
@@ -1002,25 +1093,56 @@ namespace MG.Collections.Classes
             }
         }
 
-        #endregion
-
-        #region PRIVATE/BACKEND METHODS
-        protected static Predicate<T> ToPredicate(Func<T, bool> func)
-        {
-            return new Predicate<T>(func);
-        }
-
+        #region EVENT TRIGGERS
+        /// <summary>
+        /// The method that invokes the <see cref="Reversed"/> event with -1 as the index and count.
+        /// </summary>
         protected void OnReversed()
         {
             this.OnReversed(-1, -1);
         }
+        /// <summary>
+        /// The method that invoces the <see cref="Reversed"/> event with the specified index and count of
+        /// the Reverse operation.
+        /// </summary>
+        /// <param name="index">The zero-based starting index of the range to reverse.</param>
+        /// <param name="count">The number of elements in the range to reverse.</param>
         protected virtual void OnReversed(int index, int count)
         {
             this.Reversed?.Invoke(this, new ReversedEventArgs(index, count));
         }
+        /// <summary>
+        /// The method that invokes the <see cref="Sorted"/> event.
+        /// </summary>
+        /// <param name="index">The zero-based starting index of the range that was sorted.</param>
+        /// <param name="count">The length of the range that was sorted.</param>
+        /// <param name="comparerUsed">
+        ///     The <see cref="IComparer{T}"/> implementation that was used when comparing elements, or <see langword="null"/> to use the default comparer
+        ///     <see cref="Comparer{T}.Default"/>.
+        /// </param>
         protected virtual void OnSorted(IComparer<T> comparerUsed, int index = -1, int count = -1)
         {
+            if (null == comparerUsed)
+                comparerUsed = Comparer<T>.Default;
+
             this.Sorted?.Invoke(this, new SortedEventArgs<T>(index, count, comparerUsed));
+        }
+
+        #endregion
+
+        #endregion
+
+        #region PRIVATE/BACKEND METHODS
+        /// <summary>
+        /// Converts the given <see cref="Func{T, TResult}"/> into a <see cref="Predicate{T}"/> delegate.
+        /// </summary>
+        /// <param name="func">The function to convert.</param>
+        /// <returns>
+        ///     A <see cref="Predicate{T}"/> delegate converted from <paramref name="func"/>.
+        /// </returns>
+        protected static Predicate<T> ToPredicate(Func<T, bool> func)
+        {
+            return new Predicate<T>(func);
         }
 
         #endregion
