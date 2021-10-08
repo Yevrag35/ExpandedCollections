@@ -10,7 +10,7 @@ namespace MG.Collections.Classes
     /// the Add, Insert, Set, and Remove methods.  Similar to the way <see cref="System.Collections.ObjectModel.Collection{T}"/>
     /// allows.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of elements in the <see cref="ListCollection{T}"/>.</typeparam>
     public class ListCollection<T> : IList<T>, IReadOnlyList<T>, ISearchableList<T>, IList, ICollection, IReadOnlySortableList<T>
     {
         #region PRIVATE FIELDS/CONSTANTS
@@ -71,7 +71,7 @@ namespace MG.Collections.Classes
         ///     The number of elements contained in the <see cref="ListCollection{T}"/>.
         /// </returns>
         public int Count => this.InnerList.Count;
-        public bool IsReadOnly => false;
+        public bool IsReadOnly { get; protected set; }
 
         #endregion
 
@@ -233,56 +233,231 @@ namespace MG.Collections.Classes
         #endregion
 
         #region LIST SPECIAL METHODS
+        /// <summary>
+        /// Searches the entire sorted <see cref="ListCollection{T}"/> for an element using the default comparer
+        /// and returns the zero-based index of the element.
+        /// </summary>
+        /// <param name="item">The object to locate.  The value can be <see langword="null"/> for reference types.</param>
+        /// <returns>
+        ///     The zero-based index of <paramref name="item"/> in the sorted <see cref="ListCollection{T}"/>,
+        ///     if <paramref name="item"/> is found; otherwise, a negative number that is the bitwise complement
+        ///     of the index of the next element that is larger than <paramref name="item"/> or, if there is no
+        ///     larger element, the bitwise complement of <see cref="Count"/>.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        ///     The default comparer <see cref="Comparer{T}.Default"/> cannot find
+        ///     an implementation of the <see cref="IComparable{T}"/> generic interface or the <see cref="IComparable"/>
+        ///     interface for type <typeparamref name="T"/>.
+        /// </exception>
         public int BinarySearch(T item)
         {
             return this.BinarySearch(item);
         }
-
+        /// <summary>
+        /// Searches the entire sorted <see cref="ListCollection{T}"/> for an element using the specified comparer and
+        /// returns the zero-based index of the elements.
+        /// </summary>
+        /// <param name="item">The object to locate.  The value can be <see langword="null"/> for reference types.</param>
+        /// <param name="comparer">
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements.
+        ///     -or-
+        ///     <see langword="null"/> to use the default comparer <see cref="Comparer{T}.Default"/>.
+        /// </param>
+        /// <returns>
+        ///     The zero-based index of <paramref name="item"/> in the sorted <see cref="ListCollection{T}"/>, if
+        ///     <paramref name="item"/> is found; otherwise, a negative number that is bitwise complement of the index
+        ///     of the next element that is larger than <paramref name="item"/> or, if there is no larger element, the
+        ///     bitwise complement of <see cref="Count"/>.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        ///     <paramref name="comparer"/> is <see langword="null"/>, and the default comparer <see cref="Comparer{T}.Default"/> 
+        ///     cannot find an implementation of the <see cref="IComparable{T}"/> generic interface or the <see cref="IComparable"/>
+        ///     interface for type <typeparamref name="T"/>.
+        /// </exception>
         public int BinarySearch(T item, IComparer<T> comparer)
         {
             return this.BinarySearch(item, comparer);
         }
-
+        /// <summary>
+        ///     Searches a range of elements in the sorted <see cref="ListCollection{T}"/>
+        ///     for an element using the specified comparer and returns the zero-based index
+        ///     of the element.
+        /// </summary>
+        /// <param name="index">The zero-based starting index of the range to search.</param>
+        /// <param name="count">The length of the range to search.</param>
+        /// <param name="item">The object to locate. The value can be <see langword="null"/> for reference types.</param>
+        /// <param name="comparer">
+        ///     The <see cref="IComparer{T}"/> implementation to use when comparing elements.
+        ///     -or-
+        ///     <see langword="null"/> to use the default comparer <see cref="Comparer{T}.Default"/>.
+        /// </param>
+        /// <returns>
+        ///     The zero-based index of <paramref name="item"/> in the sorted <see cref="ListCollection{T}"/>, if
+        ///     <paramref name="item"/> is found; otherwise, a negative number that is bitwise complement of the index
+        ///     of the next element that is larger than <paramref name="item"/> or, if there is no larger element, the
+        ///     bitwise complement of <see cref="Count"/>.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="count"/> is less than 0.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> and <paramref name="count"/> do not denote a valid range in the
+        ///     <see cref="ListCollection{T}"/>.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     <paramref name="comparer"/> is <see langword="null"/>, and the default comparer <see cref="Comparer{T}.Default"/> 
+        ///     cannot find an implementation of the <see cref="IComparable{T}"/> generic interface or the <see cref="IComparable"/>
+        ///     interface for type <typeparamref name="T"/>.
+        /// </exception>
         public int BinarySearch(int index, int count, T item, IComparer<T> comparer)
         {
             return this.BinarySearch(index, count, item, comparer);
         }
-
+        /// <summary>
+        /// Converts the elements in the current <see cref="ListCollection{T}"/> to another
+        ///     type, and returns a list containing the converted elements.
+        /// </summary>
+        /// <typeparam name="TOutput">
+        ///     The type of the elements of the target array.
+        /// </typeparam>
+        /// <param name="converter">
+        ///     A <see cref="Converter{TInput, TOutput}"/> delegate that converts each element from one type
+        ///     to another type.
+        /// </param>
+        /// <returns>
+        ///     A <see cref="List{T}"/> of the target type containing the converted elements from the
+        ///     current <see cref="ListCollection{T}"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="converter"/> is <see langword="null"/>.</exception>
         public List<TOutput> ConvertAll<TOutput>(Converter<T, TOutput> converter)
         {
             return this.InnerList.ConvertAll(converter);
         }
-
+        /// <summary>
+        /// Copies the entire <see cref="ListCollection{T}"/> to a compatible one-dimensional array, starting at the
+        /// beginning of the target array.
+        /// </summary>
+        /// <param name="array">
+        ///     The one-dimensional <see cref="Array"/> that is the destination of the elements copied from
+        ///     <see cref="ListCollection{T}"/>.  The <see cref="Array"/> must have zero-based indexing.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        ///     The number of elements in the source <see cref="ListCollection{T}"/> is greater than the number of
+        ///     elements that the destination array can contain.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="array"/> is <see langword="null"/>.
+        /// </exception>
         public void CopyTo(T[] array)
         {
             this.CopyTo(array);
         }
-
+        /// <summary>
+        /// Copies a range of elements from the <see cref="ListCollection{T}"/> to a compatible one-dimensional array,
+        /// starting at the specified index of the target array.
+        /// </summary>
+        /// <param name="index">
+        ///     The zero-based index in the source <see cref="ListCollection{T}"/> at which copying begins.
+        /// </param>
+        /// <param name="array">
+        ///     The one-dimensional <see cref="Array"/> that is the destination of the elements copied from
+        ///     <see cref="ListCollection{T}"/>.  The <see cref="Array"/> must have zero-based indexing.
+        /// </param>
+        /// <param name="arrayIndex">
+        ///     The zero-based index in <paramref name="array"/> at which copying begins.
+        /// </param>
+        /// <param name="count">The number of elements to copy.</param>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="index"/> is equal to or greater than <see cref="Count"/> of the source <see cref="ListCollection{T}"/>.
+        ///     -or-
+        ///     The number of elements from <paramref name="index"/> to the end of the source <see cref="ListCollection{T}"/> is greater
+        ///     than the available space from <paramref name="arrayIndex"/> to the end of the destination array.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="array"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="count"/> is less than 0.
+        /// </exception>
         public void CopyTo(int index, T[] array, int arrayIndex, int count)
         {
             this.InnerList.CopyTo(index, array, arrayIndex, count);
         }
-
+        /// <summary>
+        /// Performs the specified action on each element of the <see cref="ListCollection{T}"/>.
+        /// </summary>
+        /// <param name="action">
+        ///     The <see cref="Action{T}"/> delegate to perform on each element of the <see cref="ListCollection{T}"/>.
+        /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="action"/> is <see langword="null"/>.</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     An element in the collection has been modified.
+        /// </exception>
         public void ForEach(Action<T> action)
         {
             this.InnerList.ForEach(action);
         }
-
+        /// <summary>
+        /// Inserts the elements of a collection into the <see cref="ListCollection{T}"/> at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index at which the new elements should be inserted.</param>
+        /// <param name="collection">
+        ///     The collection whose elements should be insert into the <see cref="ListCollection{T}"/>.  The collection
+        ///     itself cannot be <see langword="null"/>, but it can contain elements that are <see langword="null"/>, if 
+        ///     type <typeparamref name="T"/> is a reference type.
+        /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="collection"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="index"/> is greater than <see cref="Count"/>.
+        /// </exception>
         public void InsertRange(int index, IEnumerable<T> collection)
         {
             this.InnerList.InsertRange(index, collection);
         }
-
+        /// <summary>
+        /// Removes all the elements that match the conditions defined by the specified predicate.
+        /// </summary>
+        /// <param name="match">
+        ///     The <see cref="Func{T, TResult}"/> delegate that defines the conditions of the elements to remove.
+        /// </param>
+        /// <returns>
+        ///     The number of elements removed from the <see cref="ListCollection{T}"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="match"/> is <see langword="null"/>.
+        /// </exception>
         public int RemoveAll(Func<T, bool> match)
         {
             return this.InnerList.RemoveAll(ToPredicate(match));
         }
-
+        /// <summary>
+        /// Removes a range of elements from the <see cref="ListCollection{T}"/>.
+        /// </summary>
+        /// <param name="index">The zero-based starting index of the range of elements to remove.</param>
+        /// <param name="count">The number of elements to remove.</param>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="index"/> and <paramref name="count"/> do not denote a valid range of elements
+        ///     in the <see cref="ListCollection{T}"/>.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/> is less than 0.
+        ///     -or-
+        ///     <paramref name="count"/> is less than 0.
+        /// </exception>
         public void RemoveRange(int index, int count)
         {
             this.InnerList.RemoveRange(index, count);
         }
-
+        /// <summary>
+        /// Sets the capacity to the actual number of elements in the <see cref="ListCollection{T}"/>,
+        /// if that number is less than a threshold value.
+        /// </summary>
         public void TrimExcess()
         {
             this.InnerList.TrimExcess();
