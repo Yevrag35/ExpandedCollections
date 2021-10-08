@@ -3,7 +3,7 @@
 	<metadata>
 		<id>MG.Collections.Wpf</id>
 		<title>MG.Collections.Wpf</title>
-		<version>1.0.1</version>
+		<version>1.0.2</version>
 		<authors>Mike Garvey</authors>
 		<owners>Yevrag35, LLC.</owners>
 		<icon>images\Collections_Red.png</icon>
@@ -14,25 +14,25 @@
 		<description>A library consisting of list, collection, and set classes that can be used with WPF applications.</description>
 		<copyright>Copyright © 2021 Yevrag35, LLC.  All rights reserved.</copyright>
 		<repository type="Git" url="https://github.com/Yevrag35/ExpandedCollections.git" />
-		<summary>A library consisting of list, collection, and set classes that can be used with WPF applications.</summary>
+		<summary>Adding ListCollection class for combined List and Collection behavior for derived classes.</summary>
 		<releaseNotes>Initial Release</releaseNotes>
 		<dependencies>
 			<group targetFramework=".NETFramework4.6.2">
-				<dependency id="MG.Collections" version="1.0.1"/>
+				<dependency id="MG.Collections" version="1.0.2"/>
 			</group>
 			<group targetFramework=".NETCoreApp3.1">
-				<dependency id="MG.Collections" version="1.0.1"/>
+				<dependency id="MG.Collections" version="1.0.2"/>
 			</group>
 			<group targetFramework=".NET5">
-				<dependency id="MG.Collections" version="1.0.1"/>
+				<dependency id="MG.Collections" version="1.0.2"/>
 			</group>
 		</dependencies>
 	</metadata>
 	<files>
 		<file src="LICENSE.txt" target="licenses\" />
 		<file src="assets\Collections_Red.png" target="images\"/>
-		<file src="MG.Collections.Wpf-NET5\bin\Release\netcoreapp3.1-windows\MG.Collections.Wpf.dll" target="lib\netcoreapp3.1\MG.Collections.Wpf.dll" />
-		<file src="MG.Collections.Wpf-NET5\bin\Release\netcoreapp3.1-windows\MG.Collections.Wpf.xml" target="lib\netcoreapp3.1\MG.Collections.Wpf.xml" />
+		<file src="MG.Collections.Wpf-NETCore3.1\bin\Release\netcoreapp3.1-windows\MG.Collections.Wpf.dll" target="lib\netcoreapp3.1\MG.Collections.Wpf.dll" />
+		<file src="MG.Collections.Wpf-NETCore3.1\bin\Release\netcoreapp3.1-windows\MG.Collections.Wpf.xml" target="lib\netcoreapp3.1\MG.Collections.Wpf.xml" />
 		<file src="MG.Collections.Wpf\bin\Release\MG.Collections.Wpf.xml" target="lib\net462\MG.Collections.Wpf.xml" />
 		<file src="MG.Collections.Wpf\bin\Release\MG.Collections.Wpf.dll" target="lib\net462\MG.Collections.Wpf.dll" />
 		<file src="MG.Collections.Wpf-NET5\bin\Release\net5.0-windows\MG.Collections.Wpf.xml" target="lib\net5.0\MG.Collections.Wpf.xml" />

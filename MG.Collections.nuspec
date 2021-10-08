@@ -3,7 +3,7 @@
 	<metadata>
 		<id>MG.Collections</id>
 		<title>MG.Collections</title>
-		<version>1.0.1</version>
+		<version>1.0.2</version>
 		<authors>Mike Garvey</authors>
 		<owners>Yevrag35, LLC.</owners>
 		<icon>images\Collections_Red.png</icon>
@@ -15,7 +15,7 @@
 		<copyright>Copyright © 2021 Yevrag35, LLC.  All rights reserved.</copyright>
 		<repository type="Git" url="https://github.com/Yevrag35/ExpandedCollections.git" />
 		<summary>A library consisting of specialized collection classes.</summary>
-		<releaseNotes>Initial Release</releaseNotes>
+		<releaseNotes>Adding ListCollection class for combined List and Collection behavior for derived classes.</releaseNotes>
 		<dependencies>
 			<group targetFramework=".NETFramework4.6.2"/>
 			<group targetFramework=".NETStandard2.0"/>
