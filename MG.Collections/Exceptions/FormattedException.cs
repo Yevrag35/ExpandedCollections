@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace MG.Collections.Exceptions
 {
+    /// <summary>
+    /// An <see langword="abstract"/> exception class that provides a formatted base for message with arguments.
+    /// </summary>
     public abstract class FormattedException : Exception
     {
         protected const string WithMessage = "{0}: {1}";
