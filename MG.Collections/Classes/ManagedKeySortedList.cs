@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using MG.Collections.Exceptions;
 using MG.Collections.Extensions;
 
 using Strings = MG.Collections.Properties.Resources;
@@ -750,6 +751,9 @@ namespace MG.Collections
         /// <exception cref="InvalidOperationException">
         ///     <see cref="KeySelector"/> threw an exception.
         /// </exception>
+        /// <exception cref="KeyAlreadyExistsException">
+        ///     The key resulting from <paramref name="value"/> was not unique.
+        /// </exception>
         protected virtual bool AddItem(TValue value)
         {
             TKey key = this.GetKey(value);
@@ -761,7 +765,7 @@ namespace MG.Collections
             catch (ArgumentException e)
             {
                 if (e.GetBaseException().Message.IndexOf("same key already exists") < 0)
-                    throw new ArgumentException("An error occured.  See inner exception for details.", e);
+                    throw new KeyAlreadyExistsException(key, e);
             }
             catch (Exception allOther)
             {
@@ -788,6 +792,10 @@ namespace MG.Collections
         /// <exception cref="InvalidOperationException">
         ///     <see cref="KeySelector"/> threw an exception.
         /// </exception>
+        /// <exception cref="KeyAlreadyExistsException">
+        ///     The resulting <typeparamref name="TKey"/> value from <paramref name="keySelector"/> and <paramref name="input"/>
+        ///     is not unique.
+        /// </exception>
         protected virtual bool AddItem<TInput>(TInput input, TValue value, Func<TInput, TKey> keySelector)
         {
             if (null == input)
@@ -806,7 +814,7 @@ namespace MG.Collections
             catch (ArgumentException e)
             {
                 if (e.GetBaseException().Message.IndexOf("same key already exists") < 0)
-                    throw new ArgumentException("An error occured.  See inner exception for details.", e);
+                    throw new KeyAlreadyExistsException(key, e);
             }
             catch (Exception allOther)
             {
@@ -834,7 +842,7 @@ namespace MG.Collections
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
         /// <exception cref="InvalidOperationException">
-        ///     The <see cref="KeySelector"/> threw an <see cref="Exception"/> when fed
+        ///     The <see cref="KeySelector"/> threw an <see cref="Exception"/> when supplied
         ///     <paramref name="value"/>.
         /// </exception>
         /// <exception cref="KeyNotFoundException"><paramref name="key"/> was not found in the <see cref="ManagedKeySortedList{TKey, TValue}"/>.</exception>
