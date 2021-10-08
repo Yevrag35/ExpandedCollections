@@ -12,8 +12,9 @@
     <Version>1.0.2</Version>
     <FileVersion>1.0.2</FileVersion>
     <AssemblyVersion>1.0.2</AssemblyVersion>
+	  <AssemblyName>MG.Collections.Wpf</AssemblyName>
 	  <AssemblyTitle>
-		  MG.Collections .NETCore3.1
+		  MG.Collections.Wpf .NETCore3.1
 	  </AssemblyTitle>
 	  <PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/Yevrag35/ExpandedCollections.git</RepositoryUrl>
