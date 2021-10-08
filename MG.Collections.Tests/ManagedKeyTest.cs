@@ -9,6 +9,7 @@ using MG.Collections;
 using MG.Collections.Mocks;
 using Xunit;
 using Moq;
+using MG.Collections.Exceptions;
 
 namespace MG.Collections.Tests
 {
@@ -40,7 +41,7 @@ namespace MG.Collections.Tests
             Assert.True(col.Contains(mock));
             Assert.True(col.ContainsKey(24));
 
-            Assert.Throws<ArgumentException>(() => col.Add(mock));
+            Assert.Throws<KeyAlreadyExistsException>(() => col.Add(mock));
             Assert.Single(col);
 
             Assert.Throws<InvalidOperationException>(() => col.Add(null));

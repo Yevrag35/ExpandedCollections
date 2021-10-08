@@ -1,22 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1-windows;net5.0-windows</TargetFrameworks>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <RootNamespace>MG.Collections.Wpf</RootNamespace>
     <UseWPF>true</UseWPF>
     <AssemblyName>MG.Collections.Wpf</AssemblyName>
     <Description>A library consisting of collections classes that can be used with .NET 5 WPF applications.</Description>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-	<AssemblyTitle>MG.Collections.Wpf Core</AssemblyTitle>
-    <FileVersion>1.0.1</FileVersion>
+    <AssemblyVersion>1.0.2</AssemblyVersion>
+	<AssemblyTitle>MG.Collections.Wpf .NET5</AssemblyTitle>
+    <FileVersion>1.0.2</FileVersion>
     <Copyright>Copyright © 2021 Yevrag35, LLC.  All rights reserved.</Copyright>
-    <Product>MG.Collections.Wpf Core</Product>
+    <Product>MG.Collections.Wpf .NET5</Product>
     <Company>Yevrag35, LLC.</Company>
     <Authors>Mike Garvey</Authors>
     <PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Yevrag35/ExpandedCollections.git</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <PackageIcon>Collections_Red.png</PackageIcon>
     <PackageIconUrl />
   </PropertyGroup>
@@ -25,16 +25,16 @@
 	  <Compile Include="..\MG.Collections.Wpf\**\*.cs" Exclude="..\MG.Collections.Wpf\Properties\**\*.cs;..\MG.Collections.Wpf\obj\**\*.*" />
   </ItemGroup>
 	
-  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0-windows'">
+  <ItemGroup>
     <ProjectReference Include="..\MG.Collections-DotNet5\MG.Collections-NET5.csproj" />
   </ItemGroup>
 	
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1-windows'">
+  <!--<ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1-windows'">
 	  <ProjectReference Include="..\MG.Collections\MG.Collections.csproj" />
-  </ItemGroup>
+  </ItemGroup>-->
 	
   <ItemGroup>
-    <None Include="E:\Local_Repos\MG.Collections\assets\Collections_Red.png">
+    <None Include="..\assets\Collections_Red.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
@@ -48,7 +48,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
-    <DocumentationFile>C:\Users\Mike\source\repos\MG.Collections\MG.Collections.Wpf-NET5\MG.Collections.Wpf.xml</DocumentationFile>
+    <DocumentationFile>MG.Collections.Wpf.xml</DocumentationFile>
   </PropertyGroup>
 
 </Project>
