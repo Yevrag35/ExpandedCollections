@@ -1,0 +1,478 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MG.Collections.Wpf-NETCore3.1</name>
+    </assembly>
+    <members>
+        <member name="T:MG.Collections.Wpf.ObservableViewedCollection`1">
+            <summary>
+            A dynamic data collection that is inherited from <see cref="T:System.Collections.ObjectModel.ObservableCollection`1"/> which provides
+            notifications when items get added, removed, or when the collection is refreshed.  Its members can also 
+            generate and store a <see cref="T:System.Windows.Data.ListCollectionView"/> that represents it.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+        </member>
+        <member name="E:MG.Collections.Wpf.ObservableViewedCollection`1.ViewGenerated">
+            <summary>
+            Occurs when a new <see cref="T:System.Windows.Data.ListCollectionView"/> is generated for the <see cref="T:MG.Collections.Wpf.ObservableViewedCollection`1"/>.
+            </summary>
+        </member>
+        <member name="E:MG.Collections.Wpf.ObservableViewedCollection`1.ViewGenerating">
+            <summary>
+            Occurs when a new <see cref="T:System.Windows.Data.ListCollectionView"/> is currently being generated for <see cref="T:MG.Collections.Wpf.ObservableViewedCollection`1"/>.
+            </summary>
+        </member>
+        <member name="P:MG.Collections.Wpf.ObservableViewedCollection`1.IsViewGenerated">
+            <summary>
+            Indicates whether <see cref="P:MG.Collections.Wpf.ObservableViewedCollection`1.View"/> has been generated.
+            </summary>
+        </member>
+        <member name="P:MG.Collections.Wpf.ObservableViewedCollection`1.View">
+            <summary>
+            Represents the current <see cref="T:MG.Collections.Wpf.ObservableViewedCollection`1"/> as a collection view for grouping, sorting,
+            filtering, and navigating as a data collection.
+            </summary>
+            <remarks>
+                This is <see langword="null"/> until after calling <see cref="M:MG.Collections.Wpf.ObservableViewedCollection`1.GenerateView"/>.
+            </remarks>
+        </member>
+        <member name="M:MG.Collections.Wpf.ObservableViewedCollection`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MG.Collections.Wpf.ObservableViewedCollection`1"/> class that is empty.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Wpf.ObservableViewedCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MG.Collections.Wpf.ObservableViewedCollection`1"/> class that contains elements
+            copied from the specified collection.
+            </summary>
+            <param name="collection">The collection from which the elements are copied.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="collection"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:MG.Collections.Wpf.ObservableViewedCollection`1.#ctor(System.Collections.Generic.List{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MG.Collections.Wpf.ObservableViewedCollection`1"/> class that contains elements
+            copied from the specified <see cref="T:System.Collections.Generic.List`1"/>.
+            </summary>
+            <param name="list">The list from which the elements are copied.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="list"/> is <see langword="null"/>.</exception>
+        </member>
+        <member name="M:MG.Collections.Wpf.ObservableViewedCollection`1.GenerateView">
+            <summary>
+            Generates the <see cref="T:System.Windows.Data.ListCollectionView"/> and defines it as <see cref="P:MG.Collections.Wpf.ObservableViewedCollection`1.View"/> for the current 
+            <see cref="T:MG.Collections.Wpf.ObservableViewedCollection`1"/>.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Wpf.ObservableViewedCollection`1.OnViewGenerated">
+            <summary>
+            An overridable method that is called after the <see cref="P:MG.Collections.Wpf.ObservableViewedCollection`1.View"/> is generated.
+            </summary>
+            <remarks>
+                By default, it simply calls the <see cref="E:MG.Collections.Wpf.ObservableViewedCollection`1.ViewGenerated"/> event.
+            </remarks>
+        </member>
+        <member name="M:MG.Collections.Wpf.ObservableViewedCollection`1.OnViewGenerating">
+            <summary>
+            An overridable method that is called before the <see cref="P:MG.Collections.Wpf.ObservableViewedCollection`1.View"/> is generated.
+            </summary>
+            <remarks>
+                By default, it simply calls the <see cref="E:MG.Collections.Wpf.ObservableViewedCollection`1.ViewGenerating"/> event.
+            </remarks>
+        </member>
+        <member name="T:MG.Collections.Wpf.UniqueObservableList`1">
+            <summary>
+            A list class for WPF applications that provides the same functionality as would a combined 
+            <see cref="T:System.Collections.ObjectModel.ObservableCollection`1"/> and  <see cref="T:System.Collections.Generic.List`1"/> implementation, but also enforces every 
+            element to be unique according to a custom or the default <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> allowing it 
+            to provide access to the non-modifying <see cref="T:System.Collections.Generic.ISet`1"/> methods.
+            </summary>
+            <typeparam name="T">The element type in the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/>.</typeparam>
+        </member>
+        <member name="E:MG.Collections.Wpf.UniqueObservableList`1.CollectionChanged">
+            <summary>
+            Occurs when the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/> changes.
+            </summary>
+        </member>
+        <member name="E:MG.Collections.Wpf.UniqueObservableList`1.PropertyChanged">
+            <summary>
+            Occurs when a property value changes.
+            </summary>
+        </member>
+        <member name="E:MG.Collections.Wpf.UniqueObservableList`1.ViewGenerated">
+            <summary>
+            Occurs when a new <see cref="T:System.Windows.Data.ListCollectionView"/> is generated for the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/>.
+            </summary>
+        </member>
+        <member name="E:MG.Collections.Wpf.UniqueObservableList`1.ViewGenerating">
+            <summary>
+            Occurs when a new <see cref="T:System.Windows.Data.ListCollectionView"/> is currently being generated for the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/>.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            Calls the <see cref="E:MG.Collections.Wpf.UniqueObservableList`1.CollectionChanged"/> event (if defined) passing the specified event arguments.
+            </summary>
+            <param name="e">The event arguments to pass to <see cref="E:MG.Collections.Wpf.UniqueObservableList`1.CollectionChanged"/>.</param>
+        </member>
+        <member name="P:MG.Collections.Wpf.UniqueObservableList`1.IsViewGenerated">
+            <summary>
+            Indicates whether <see cref="P:MG.Collections.Wpf.UniqueObservableList`1.View"/> has been generated.
+            </summary>
+        </member>
+        <member name="P:MG.Collections.Wpf.UniqueObservableList`1.StartingFilter">
+            <summary>
+            An optional starting filter for the <see cref="P:MG.Collections.Wpf.UniqueObservableList`1.View"/> to use immediately after initialization.
+            </summary>
+        </member>
+        <member name="P:MG.Collections.Wpf.UniqueObservableList`1.StartingLiveFilteringProperties">
+            <summary>
+            Optional starting property names for <see cref="P:MG.Collections.Wpf.UniqueObservableList`1.View"/> that participate in filtering data in real time.
+            </summary>
+            <remarks>
+                Default is an empty <see cref="T:System.String"/> array.
+            </remarks>
+        </member>
+        <member name="P:MG.Collections.Wpf.UniqueObservableList`1.StartingLiveGroupingProperties">
+            <summary>
+            Optional starting property names for <see cref="P:MG.Collections.Wpf.UniqueObservableList`1.View"/> that participate in grouping data in real time.
+            </summary>
+            <remarks>
+                Default is an empty <see cref="T:System.String"/> array.
+            </remarks>
+        </member>
+        <member name="P:MG.Collections.Wpf.UniqueObservableList`1.StartingLiveSortingProperties">
+            <summary>
+            Optional starting property names for <see cref="P:MG.Collections.Wpf.UniqueObservableList`1.View"/> that participate in sorting data in real time.
+            </summary>
+            <remarks>
+                Default is an empty <see cref="T:System.String"/> array.
+            </remarks>
+        </member>
+        <member name="P:MG.Collections.Wpf.UniqueObservableList`1.View">
+            <summary>
+            Represents the current <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/> as a collection view for grouping, sorting,
+            filtering, and navigating as a data collection.
+            </summary>
+            <remarks>
+                This is <see langword="null"/> until after calling <see cref="M:MG.Collections.Wpf.UniqueObservableList`1.GenerateView"/>.
+            </remarks>
+        </member>
+        <member name="P:MG.Collections.Wpf.UniqueObservableList`1.ViewIsFiltered">
+            <summary>
+            Indicates whether the current <see cref="P:MG.Collections.Wpf.UniqueObservableList`1.View"/> is being filtered.
+            </summary>
+        </member>
+        <member name="P:MG.Collections.Wpf.UniqueObservableList`1.ViewNeedsRefresh">
+            <summary>
+            Indicates whether <see cref="P:MG.Collections.Wpf.UniqueObservableList`1.View"/> needs to be refreshed.
+            </summary>
+            <returns>
+                <see langword="true"/> if the view needs to be refreshed; otherwise, <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/> class that is empty
+            and has the default initial capacity and default equality comparer for <typeparamref name="T"/>.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/> class that is empty
+            and has the specified initial capacity and default equality comparer for <typeparamref name="T"/>.
+            </summary>
+            <param name="capacity">The number of elements that the new collection can initially store.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="capacity"/> is less than 0.</exception>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/> instance that contains elements copied from the specified
+            collection and has sufficient capacity to accomodate the number of unique elements copied.
+            </summary>
+            <remarks>
+                <paramref name="items"/> will be enumerated for uniqueness according to the default
+                <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> for type <typeparamref name="T"/>.
+                
+                If <paramref name="items"/> is null, no exception is thrown, and, instead, an empty
+                <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/> instance is initialized.
+            </remarks>
+            <param name="items">
+                The collection whose elements will be enumerated for uniqueness and added
+                to the list.
+            </param>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.#ctor(System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/> class that is empty
+            and has the default initial capacity and the specified equality comparer for <typeparamref name="T"/>.
+            </summary>
+            <param name="equalityComparer">
+                The <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> implementation to use when comparing values in the list, or
+                <see langword="null"/> to use the default <see cref="T:System.Collections.Generic.EqualityComparer`1"/> implementation for the
+                type <typeparamref name="T"/>.
+            </param>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.#ctor(System.Int32,System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/> class that is empty, has the specified
+            initial capacity, and uses the specified equality comparer for the <typeparamref name="T"/> type.
+            </summary>
+            <param name="capacity">The number of elements that the new collection can initially store.</param>
+            <param name="equalityComparer">
+                The <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> implementation to use when comparing values in the list, or
+                <see langword="null"/> to use the default <see cref="T:System.Collections.Generic.EqualityComparer`1"/> implementation for the
+                type <typeparamref name="T"/>.
+            </param>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="capacity"/> is less than 0.</exception>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/> class that uses the specified comparer for 
+            the <typeparamref name="T"/> type, contains elements copied from the specified collection, and sufficient capacity
+            to accommodate the number of elements copied.
+            </summary>
+            <remarks>
+                If <paramref name="items"/> is null, no exception is thrown, and, instead, an empty
+                <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/> instance is initialized.
+            </remarks>
+            <param name="items">The collection whose elements are copied to the new list.</param>
+            <param name="equalityComparer">
+                The <see cref="T:System.Collections.Generic.IEqualityComparer`1"/> implementation to use when comparing values in the list, or
+                <see langword="null"/> to use the default <see cref="T:System.Collections.Generic.EqualityComparer`1"/> implementation for the
+                type <typeparamref name="T"/>.
+            </param>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.AddItem(`0)">
+            <summary>
+            Adds an object to the end of the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/>.
+            </summary>
+            <param name="item">The object to add.</param>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.ClearItems">
+            <summary>
+            Removes all elements from the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/>.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.InsertItem(System.Int32,`0)">
+            <summary>
+            Inserts an elements into the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which <paramref name="item"/> should be inserted.</param>
+            <param name="item">The object to insert.</param>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.RemoveItem(`0)">
+            <summary>
+            Removes the specified element from the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/>.
+            </summary>
+            <param name="item">The element to remove.</param>
+            <returns>
+                <see langword="true"/> if <paramref name="item"/> is successfully removed; otherwise <see langword="false"/>.
+                This method also returns <see langword="false"/> if <paramref name="item"/> was not found in 
+                the <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/>.
+            </returns>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.RemoveItemAt(System.Int32)">
+            <summary>
+            Removes the element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the element to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <paramref name="index"/> is less than 0.
+                -or-
+                <paramref name="index"/> is equal to or greater than <see cref="P:MG.Collections.UniqueListBase`1.Count"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.SetItem(System.Int32,`0)">
+            <summary>
+            Replaces the item at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the element to replace.</param>
+            <param name="item"></param>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.GenerateView">
+            <summary>
+            Generates the <see cref="T:System.Windows.Data.ListCollectionView"/> and defines it as <see cref="P:MG.Collections.Wpf.UniqueObservableList`1.View"/> for the current <see cref="T:MG.Collections.Wpf.UniqueObservableList`1"/>.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.OnViewGenerated">
+            <summary>
+            A definable method that is called after the <see cref="P:MG.Collections.Wpf.UniqueObservableList`1.View"/> is generated.
+            </summary>
+            <remarks>
+                By default, it simply calls the <see cref="E:MG.Collections.Wpf.UniqueObservableList`1.ViewGenerated"/> event.
+            </remarks>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.OnViewGenerating">
+            <summary>
+            A definable method that is called before the <see cref="P:MG.Collections.Wpf.UniqueObservableList`1.View"/> is generated.
+            </summary>
+            <remarks>
+                By default, it simply calls the <see cref="E:MG.Collections.Wpf.UniqueObservableList`1.ViewGenerating"/> event.
+            </remarks>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.NegatePredicate(System.Predicate{`0})">
+            <summary>
+            Takes a given <see cref="T:System.Predicate`1"/> and simply negates the <see cref="T:System.Boolean"/> result.
+            </summary>
+            <param name="predicate">The predicate to negate.</param>
+            <returns>
+                A <see cref="T:System.Boolean"/> value that is opposite to the resolved value of <paramref name="predicate"/>.
+            </returns>
+        </member>
+        <member name="M:MG.Collections.Wpf.UniqueObservableList`1.NotifyChange(System.String)">
+            <summary>
+            Calls the <see cref="E:MG.Collections.Wpf.UniqueObservableList`1.PropertyChanged"/> event if defined for the specified property name.
+            </summary>
+            <remarks>
+                Simply a convenience method that is equivalent to 
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            </remarks>
+            <param name="propertyName">The name of the property to notify on.</param>
+        </member>
+        <member name="T:MG.Collections.Wpf.ViewGeneratedEventHandler">
+            <summary>
+            Represents a method that handles the ? event.
+            </summary>
+            <param name="sender">The object that raised the event.</param>
+            <param name="e">Information about the <see cref="T:System.ComponentModel.ICollectionView"/> that was generated.</param>
+        </member>
+        <member name="T:MG.Collections.Wpf.ViewGeneratedEventArgs">
+            <summary>
+            An <see cref="T:System.EventArgs"/> class containing information that an <see cref="T:MG.Collections.Wpf.IViewableList"/> generated
+            an <see cref="T:System.ComponentModel.ICollectionView"/>.
+            </summary>
+        </member>
+        <member name="P:MG.Collections.Wpf.ViewGeneratedEventArgs.ViewType">
+            <summary>
+            Indicates the type of view that was generated.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Wpf.ViewGeneratedEventArgs.#ctor(MG.Collections.Wpf.GeneratedViewType)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MG.Collections.Wpf.ViewGeneratedEventArgs"/> class with the optional information
+            about what kind of view was generated.
+            </summary>
+            <param name="viewType">The type of view that was generated.  The default is <see cref="F:MG.Collections.Wpf.GeneratedViewType.Unknown"/>.</param>
+        </member>
+        <member name="T:MG.Collections.Wpf.GeneratedViewType">
+            <summary>
+            Describes the type of <see cref="T:System.ComponentModel.ICollectionView"/> generated.
+            </summary>
+        </member>
+        <member name="F:MG.Collections.Wpf.GeneratedViewType.Unknown">
+            <summary>
+            No information about the <see cref="T:System.ComponentModel.ICollectionView"/> was provided.
+            </summary>
+        </member>
+        <member name="F:MG.Collections.Wpf.GeneratedViewType.List">
+            <summary>
+            The view is of the <see cref="T:System.Windows.Data.ListCollectionView"/> type.
+            </summary>
+        </member>
+        <member name="F:MG.Collections.Wpf.GeneratedViewType.BindingList">
+            <summary>
+            The view is of the <see cref="T:System.Windows.Data.BindingListCollectionView"/> type.
+            </summary>
+        </member>
+        <member name="F:MG.Collections.Wpf.GeneratedViewType.ItemCollection">
+            <summary>
+            The view is of the <see cref="T:System.Windows.Controls.ItemCollection"/> type.
+            </summary>
+        </member>
+        <member name="T:MG.Collections.Wpf.INotifyViewGenerated">
+            <summary>
+            Notifies listeners when a new <see cref="T:System.ComponentModel.ICollectionView"/> is generated.
+            </summary>
+        </member>
+        <member name="E:MG.Collections.Wpf.INotifyViewGenerated.ViewGenerated">
+            <summary>
+            Occurs when a new <see cref="T:System.ComponentModel.ICollectionView"/> is generated.
+            </summary>
+        </member>
+        <member name="T:MG.Collections.Wpf.INotifyViewGenerating">
+            <summary>
+            Notifies listeners when a new <see cref="T:System.ComponentModel.ICollectionView"/> is in the process of being generated.
+            </summary>
+        </member>
+        <member name="E:MG.Collections.Wpf.INotifyViewGenerating.ViewGenerating">
+            <summary>
+            Occurs when a new <see cref="T:System.ComponentModel.ICollectionView"/> is currently being generated.
+            </summary>
+        </member>
+        <member name="T:MG.Collections.Wpf.Interfaces.IViewableBindingList">
+            <summary>
+            An interface representing a non-generic list for WPF applications that hosts its own 
+            <see cref="T:System.Windows.Data.BindingListCollectionView"/> of itself.
+            </summary>
+        </member>
+        <member name="P:MG.Collections.Wpf.Interfaces.IViewableBindingList.IsViewGenerated">
+            <summary>
+            Indicates whether <see cref="P:MG.Collections.Wpf.Interfaces.IViewableBindingList.View"/> has been generated.
+            </summary>
+        </member>
+        <member name="P:MG.Collections.Wpf.Interfaces.IViewableBindingList.View">
+            <summary>
+            Represents the current <see cref="T:MG.Collections.Wpf.Interfaces.IViewableBindingList"/> as a list view for grouping, sorting,
+            filtering, and navigating as a data collection.
+            </summary>
+            <remarks>
+                This is <see langword="null"/> until after calling <see cref="M:MG.Collections.Wpf.Interfaces.IViewableBindingList.GenerateView"/>.
+            </remarks>
+        </member>
+        <member name="M:MG.Collections.Wpf.Interfaces.IViewableBindingList.GenerateView">
+            <summary>
+            Generates the <see cref="T:System.Windows.Data.BindingListCollectionView"/> and defines it as <see cref="P:MG.Collections.Wpf.Interfaces.IViewableBindingList.View"/>.
+            </summary>
+        </member>
+        <member name="T:MG.Collections.Wpf.IViewableCollection">
+            <summary>
+            An interface representing a generic collection for WPF applications that hosts its own 
+            <see cref="T:System.ComponentModel.ICollectionView"/> of itself.
+            </summary>
+        </member>
+        <member name="P:MG.Collections.Wpf.IViewableCollection.IsViewGenerated">
+            <summary>
+            Indicates whether <see cref="P:MG.Collections.Wpf.IViewableCollection.View"/> has been generated.
+            </summary>
+        </member>
+        <member name="P:MG.Collections.Wpf.IViewableCollection.View">
+            <summary>
+            Represents the current <see cref="T:MG.Collections.Wpf.IViewableCollection"/> as view for grouping, sorting,
+            filtering, and navigating as a data collection.
+            </summary>
+            <remarks>
+                This is <see langword="null"/> until after calling <see cref="M:MG.Collections.Wpf.IViewableCollection.GenerateView"/>.
+            </remarks>
+        </member>
+        <member name="M:MG.Collections.Wpf.IViewableCollection.GenerateView">
+            <summary>
+            Generates the <see cref="T:System.ComponentModel.ICollectionView"/> and defines it as <see cref="P:MG.Collections.Wpf.IViewableCollection.View"/>.
+            </summary>
+        </member>
+        <member name="T:MG.Collections.Wpf.IViewableList">
+            <summary>
+            An interface representing a generic list for WPF applications that hosts its own 
+            <see cref="T:System.Windows.Data.ListCollectionView"/> of itself.
+            </summary>
+        </member>
+        <member name="P:MG.Collections.Wpf.IViewableList.IsViewGenerated">
+            <summary>
+            Indicates whether <see cref="P:MG.Collections.Wpf.IViewableList.View"/> has been generated.
+            </summary>
+        </member>
+        <member name="P:MG.Collections.Wpf.IViewableList.View">
+            <summary>
+            Represents the current <see cref="T:MG.Collections.Wpf.IViewableList"/> as a list view for grouping, sorting,
+            filtering, and navigating as a data collection.
+            </summary>
+            <remarks>
+                This is <see langword="null"/> until after calling <see cref="M:MG.Collections.Wpf.IViewableList.GenerateView"/>.
+            </remarks>
+        </member>
+        <member name="M:MG.Collections.Wpf.IViewableList.GenerateView">
+            <summary>
+            Generates the <see cref="T:System.Windows.Data.ListCollectionView"/> and defines it as <see cref="P:MG.Collections.Wpf.IViewableList.View"/>.
+            </summary>
+        </member>
+    </members>
+</doc>
