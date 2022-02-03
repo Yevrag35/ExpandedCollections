@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp3.1;netframework4.6.2</TargetFrameworks>
-    <AssemblyVersion>1.0.2</AssemblyVersion>
-    <FileVersion>1.0.2</FileVersion>
+    <AssemblyVersion>1.0.3</AssemblyVersion>
+    <FileVersion>1.0.3</FileVersion>
     <Company>Yevrag35, LLC.</Company>
     <Authors>Mike Garvey</Authors>
     <Description>A library consisting of specialized collection classes.</Description>
     <PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
-	<Copyright>Copyright © 2021 Yevrag35, LLC.  All rights reserved.</Copyright>
+	<Copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</Copyright>
 	<Product Condition=" '$(TargetFramework)' == 'netframework4.6.2' ">
 		MG.Collections .NETFramework
 	</Product>
@@ -27,7 +27,7 @@
 	<AssemblyTitle Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
 		MG.Collections .NET Core 3.1
 	</AssemblyTitle>
-	<Version>1.0.1</Version>
+	<Version>1.0.3</Version>
 	<PackageIcon>Collections_Red.png</PackageIcon>
 	<PackageIconUrl />
 	<RepositoryUrl>https://github.com/Yevrag35/ExpandedCollections.git</RepositoryUrl>
@@ -59,7 +59,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="E:\Local_Repos\MG.Collections\assets\Collections_Red.png">
+    <None Include="..\assets\Collections_Red.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

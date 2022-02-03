@@ -38,7 +38,7 @@ namespace MG.Collections.Tests
         public void TestReverse(string[] testData)
         {
             //string[] scrambled = ReorderDataRandomly(testData);
-            var preReversed = testData.Reverse().ToArray();
+            string[] preReversed = testData.Reverse().ToArray();
 
             var list = new ReadOnlySortableList<string>(testData);
 
@@ -63,8 +63,8 @@ namespace MG.Collections.Tests
             IComparer<string> comparer = ReverseStringSort.Normal;
             IComparer<string> reverse = new ReverseStringSort();
 
-            var preSorted = testData.OrderBy(x => x, comparer).ToArray();
-            var preReversed = testData.OrderBy(x => x, reverse).ToArray();
+            string[] preSorted = testData.OrderBy(x => x, comparer).ToArray();
+            string[] preReversed = testData.OrderBy(x => x, reverse).ToArray();
             var list = new ReadOnlySortableList<string>(testData, comparer);
 
             list.Sort();
