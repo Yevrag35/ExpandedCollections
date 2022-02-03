@@ -40,7 +40,7 @@
 		<file src="MG.Collections.Wpf\bin\Release\MG.Collections.Wpf.dll" target="lib\net462\MG.Collections.Wpf.dll" />
 		<file src="MG.Collections.Wpf-NET5\bin\Release\net5.0-windows\MG.Collections.Wpf.xml" target="lib\net5.0\MG.Collections.Wpf.xml" />
 		<file src="MG.Collections.Wpf-NET5\bin\Release\net5.0-windows\MG.Collections.Wpf.dll" target="lib\net5.0\MG.Collections.Wpf.dll" />
-		<file src="MG.Collections-Wpf-NET5\bin\Release\net6.0-windows\MG.Collections.Wpf.xml" target="lib\net6.0\MG.Collections.Wpf.xml" />
-		<file src="MG.Collections-Wpf-NET5\bin\Release\net6.0-windows\MG.Collections.Wpf.dll" target="lib\net6.0\MG.Collections.Wpf.dll" />
+		<file src="MG.Collections.Wpf-NET5\bin\Release\net6.0-windows\MG.Collections.Wpf.xml" target="lib\net6.0\MG.Collections.Wpf.xml" />
+		<file src="MG.Collections.Wpf-NET5\bin\Release\net6.0-windows\MG.Collections.Wpf.dll" target="lib\net6.0\MG.Collections.Wpf.dll" />
 	</files>
 </package>
