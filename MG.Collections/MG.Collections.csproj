@@ -8,7 +8,7 @@
     <Authors>Mike Garvey</Authors>
     <Description>A library consisting of specialized collection classes.</Description>
     <PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
-	<Copyright>Copyright © 2021 Yevrag35, LLC.  All rights reserved.</Copyright>
+	<Copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</Copyright>
 	<Product Condition=" '$(TargetFramework)' == 'netframework4.6.2' ">
 		MG.Collections .NETFramework
 	</Product>
