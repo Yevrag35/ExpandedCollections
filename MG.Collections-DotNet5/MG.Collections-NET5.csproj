@@ -1,38 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <RootNamespace>MG.Collections</RootNamespace>
     <PackageId>MG.Collections</PackageId>
     <Authors>Mike Garvey</Authors>
     <Company>Yevrag35, LLC.</Company>
-    <Copyright>Copyright © 2021 Yevrag35, LLC.  All rights reserved.</Copyright>
-    <AssemblyVersion>1.0.2</AssemblyVersion>
-    <FileVersion>1.0.2</FileVersion>
+    <Copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</Copyright>
+    <AssemblyVersion>1.0.3</AssemblyVersion>
+    <FileVersion>1.0.3</FileVersion>
     <AssemblyName>MG.Collections</AssemblyName>
-	<Product>MG.Collections .NET5</Product>
+	<!--<Product>MG.Collections .NET5</Product>
 	<AssemblyTitle>
 		MG.Collections .NET5
-	</AssemblyTitle>
+	</AssemblyTitle>-->
 	<PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/Yevrag35/ExpandedCollections.git</RepositoryUrl>
 	<RepositoryType>Git</RepositoryType>
-	<Version>1.0.2</Version>
+	<Version>1.0.3</Version>
 	<Description>A library consisting of specialized collection classes.</Description>
 	<PackageIcon>Collections_Red.png</PackageIcon>
 	<PackageIconUrl />
   </PropertyGroup>
+	
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+		<AssemblyTitle>MG.Collections .NET5</AssemblyTitle>
+		<Product>MG.Collections .NET5</Product>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+		<AssemblyTitle>MG.Collections .NET6</AssemblyTitle>
+		<Product>MG.Collections .NET6</Product>
+	</PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
-    <DocumentationFile>C:\Users\Mike\source\repos\MG.Collections\MG.Collections-DotNet5\MG.Collections.xml</DocumentationFile>
+    <DocumentationFile>MG.Collections.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <DocumentationFile>C:\Users\Mike\source\repos\MG.Collections\MG.Collections-DotNet5\MG.Collections.xml</DocumentationFile>
+    <DocumentationFile>MG.Collections.xml</DocumentationFile>
   </PropertyGroup>
 
 	<ItemGroup>

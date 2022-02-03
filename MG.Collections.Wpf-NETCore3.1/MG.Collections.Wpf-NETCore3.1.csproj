@@ -6,12 +6,12 @@
 	  <PackageId>MG.Collections</PackageId>
 	  <Authors>Mike Garvey</Authors>
 	  <Company>Yevrag35, LLC.</Company>
-	  <Copyright>Copyright © 2021 Yevrag35, LLC.  All rights reserved.</Copyright>
+	  <Copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</Copyright>
     <UseWPF>true</UseWPF>
 	  <Product>MG.Collections .NETCore3.1</Product>
-    <Version>1.0.2</Version>
-    <FileVersion>1.0.2</FileVersion>
-    <AssemblyVersion>1.0.2</AssemblyVersion>
+    <Version>1.0.3</Version>
+    <FileVersion>1.0.3</FileVersion>
+    <AssemblyVersion>1.0.3</AssemblyVersion>
 	  <AssemblyName>MG.Collections.Wpf</AssemblyName>
 	  <AssemblyTitle>
 		  MG.Collections.Wpf .NETCore3.1
@@ -28,10 +28,6 @@
 		<Compile Include="..\MG.Collections.Wpf\**\*.cs" Exclude="..\MG.Collections.Wpf\Properties\**\*.cs;..\MG.Collections.Wpf\obj\**\*.*" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\MG.Collections\MG.Collections.csproj" />
-	</ItemGroup>
-
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DebugType>full</DebugType>
 		<DebugSymbols>true</DebugSymbols>
@@ -42,6 +38,10 @@
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\MG.Collections\MG.Collections.csproj" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

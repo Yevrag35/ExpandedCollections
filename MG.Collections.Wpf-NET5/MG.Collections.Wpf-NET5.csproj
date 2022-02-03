@@ -1,25 +1,34 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFrameworks>net5.0-windows;net6.0-windows</TargetFrameworks>
     <RootNamespace>MG.Collections.Wpf</RootNamespace>
     <UseWPF>true</UseWPF>
     <AssemblyName>MG.Collections.Wpf</AssemblyName>
     <Description>A library consisting of collections classes that can be used with .NET 5 WPF applications.</Description>
-    <AssemblyVersion>1.0.2</AssemblyVersion>
-	<AssemblyTitle>MG.Collections.Wpf .NET5</AssemblyTitle>
-    <FileVersion>1.0.2</FileVersion>
-    <Copyright>Copyright © 2021 Yevrag35, LLC.  All rights reserved.</Copyright>
-    <Product>MG.Collections.Wpf .NET5</Product>
-    <Company>Yevrag35, LLC.</Company>
-    <Authors>Mike Garvey</Authors>
-    <PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Yevrag35/ExpandedCollections.git</RepositoryUrl>
-    <RepositoryType>Git</RepositoryType>
-    <Version>1.0.2</Version>
-    <PackageIcon>Collections_Red.png</PackageIcon>
-    <PackageIconUrl />
+    <AssemblyVersion>1.0.3</AssemblyVersion>
+
+	  <FileVersion>1.0.3</FileVersion>
+	  <Copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</Copyright>
+	  
+	  <Company>Yevrag35, LLC.</Company>
+	  <Authors>Mike Garvey</Authors>
+	  <PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/Yevrag35/ExpandedCollections.git</RepositoryUrl>
+	  <RepositoryType>Git</RepositoryType>
+	  <Version>1.0.3</Version>
+	  <PackageIcon>Collections_Red.png</PackageIcon>
+	  <PackageIconUrl />
   </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0-windows' ">
+	  <AssemblyTitle>MG.Collections.Wpf .NET5</AssemblyTitle>
+	  <Product>MG.Collections.Wpf .NET5</Product>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0-windows' ">
+		<AssemblyTitle>MG.Collections.Wpf .NET6</AssemblyTitle>
+		<Product>MG.Collections.Wpf .NET6</Product>
+	</PropertyGroup>
 	
   <ItemGroup>
 	  <Compile Include="..\MG.Collections.Wpf\**\*.cs" Exclude="..\MG.Collections.Wpf\Properties\**\*.cs;..\MG.Collections.Wpf\obj\**\*.*" />

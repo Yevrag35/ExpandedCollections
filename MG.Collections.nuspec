@@ -3,7 +3,7 @@
 	<metadata>
 		<id>MG.Collections</id>
 		<title>MG.Collections</title>
-		<version>1.0.2</version>
+		<version>1.0.3</version>
 		<authors>Mike Garvey</authors>
 		<owners>Yevrag35, LLC.</owners>
 		<icon>images\Collections_Red.png</icon>
@@ -12,7 +12,7 @@
 		<language>en-US</language>
 		<projectUrl>https://github.com/Yevrag35/ExpandedCollections</projectUrl>
 		<description>A library consisting of specialized collection classes for general purposes.</description>
-		<copyright>Copyright © 2021 Yevrag35, LLC.  All rights reserved.</copyright>
+		<copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</copyright>
 		<repository type="Git" url="https://github.com/Yevrag35/ExpandedCollections.git" />
 		<summary>A library consisting of specialized collection classes.</summary>
 		<releaseNotes>Adding ListCollection class for combined List and Collection behavior for derived classes.</releaseNotes>
@@ -21,6 +21,7 @@
 			<group targetFramework=".NETStandard2.0"/>
 			<group targetFramework=".NETCoreApp3.1"/>
 			<group targetFramework=".NET5"/>
+			<group targetFramework=".NET6"/>
 		</dependencies>
 	</metadata>
 	<files>
@@ -34,5 +35,7 @@
 		<file src="MG.Collections\bin\Release\netframework4.6.2\MG.Collections.dll" target="lib\net462\MG.Collections.dll" />
 		<file src="MG.Collections-DotNet5\bin\Release\net5.0\MG.Collections.xml" target="lib\net5.0\MG.Collections.xml" />
 		<file src="MG.Collections-DotNet5\bin\Release\net5.0\MG.Collections.dll" target="lib\net5.0\MG.Collections.dll" />
+		<file src="MG.Collections-DotNet5\bin\Release\net6.0\MG.Collections.xml" target="lib\net6.0\MG.Collections.xml" />
+		<file src="MG.Collections-DotNet5\bin\Release\net6.0\MG.Collections.dll" target="lib\net6.0\MG.Collections.dll" />
 	</files>
 </package>
