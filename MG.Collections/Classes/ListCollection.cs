@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace MG.Collections.Classes
+namespace MG.Collections
 {
     /// <summary>
     /// An indentical implementation to <see cref="List{T}"/> but with the ability for derived classes to override

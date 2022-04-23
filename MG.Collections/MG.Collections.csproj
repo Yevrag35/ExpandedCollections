@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1;netframework4.6.2</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
+	<LangVersion>8.0</LangVersion>
     <AssemblyVersion>1.0.3</AssemblyVersion>
     <FileVersion>1.0.3</FileVersion>
     <Company>Yevrag35, LLC.</Company>
@@ -9,18 +10,12 @@
     <Description>A library consisting of specialized collection classes.</Description>
     <PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
 	<Copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</Copyright>
-	<Product Condition=" '$(TargetFramework)' == 'netframework4.6.2' ">
-		MG.Collections .NETFramework
-	</Product>
 	<Product Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
 		MG.Collections .NET Core 2.0
 	</Product>
 	<Product Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
 		MG.Collections .NET Core 3.1
 	</Product>
-	<AssemblyTitle Condition=" '$(TargetFramework)' == 'netframework4.6.2' ">
-		MG.Collections .NETFramework
-    </AssemblyTitle>
 	<AssemblyTitle Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
 		MG.Collections .NET Core 2.1
     </AssemblyTitle>
@@ -44,25 +39,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\assets\Collections_Red.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MG.Collections.Resources\MG.Collections.Resources.csproj">
+      <CopyLocal>True</CopyLocal>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

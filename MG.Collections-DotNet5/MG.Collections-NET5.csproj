@@ -56,4 +56,10 @@
 	  </None>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\MG.Collections.Resources\MG.Collections.Resources.csproj">
+	    <CopyLocal>True</CopyLocal>
+	  </ProjectReference>
+	</ItemGroup>
+
 </Project>

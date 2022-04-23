@@ -5,8 +5,6 @@ using System.Linq;
 using MG.Collections.Exceptions;
 using MG.Collections.Extensions;
 
-using Strings = MG.Collections.Properties.Resources;
-
 #pragma warning disable IDE0130
 
 namespace MG.Collections
