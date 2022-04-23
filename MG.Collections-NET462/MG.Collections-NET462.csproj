@@ -6,6 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4D8E9FC3-A193-493C-BB70-AD450EB56187}</ProjectGuid>
     <LangVersion>8.0</LangVersion>
+	  <Nullable>enable</Nullable>
     <AssemblyVersion>1.0.3</AssemblyVersion>
     <FileVersion>1.0.3</FileVersion>
     <Company>Yevrag35, LLC.</Company>
