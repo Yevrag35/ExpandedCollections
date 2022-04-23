@@ -935,7 +935,7 @@
                 derived types.
             </remarks>
         </member>
-        <member name="P:MG.Collections.ManagedKeySortedList`2.IsSynchronized">
+        <member name="P:MG.Collections.ManagedKeySortedList`2.System#Collections#ICollection#IsSynchronized">
             <summary>
             Gets a value indicating whether access to the <see cref="T:MG.Collections.ManagedKeySortedList`2"/>
             is synchronized (thread safe).
@@ -950,7 +950,7 @@
             in sorted order.
             </summary>
         </member>
-        <member name="P:MG.Collections.ManagedKeySortedList`2.SyncRoot">
+        <member name="P:MG.Collections.ManagedKeySortedList`2.System#Collections#ICollection#SyncRoot">
             <summary>
             Gets an object that can be used to synchronize access to the <see cref="T:MG.Collections.ManagedKeySortedList`2"/>.
             </summary>

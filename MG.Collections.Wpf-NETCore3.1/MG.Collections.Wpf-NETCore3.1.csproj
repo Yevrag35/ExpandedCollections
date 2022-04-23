@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1-windows</TargetFramework>
     <RootNamespace>MG.Collections.Wpf</RootNamespace>
+	  <Nullable>enable</Nullable>
 	  <PackageId>MG.Collections</PackageId>
 	  <Authors>Mike Garvey</Authors>
 	  <Company>Yevrag35, LLC.</Company>

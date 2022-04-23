@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <RootNamespace>MG.Collections</RootNamespace>
+	  <Nullable>enable</Nullable>
     <PackageId>MG.Collections</PackageId>
     <Authors>Mike Garvey</Authors>
     <Company>Yevrag35, LLC.</Company>

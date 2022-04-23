@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable IDE0130
 
@@ -43,6 +44,7 @@ namespace MG.Collections
         ///     The <see cref="Func{T, TResult}"/> delegate that defines the conditions of the
         ///     elements to search for.
         /// </param>
+        [return: MaybeNull]
         T Find(Func<T, bool> match);
         /// <summary>
         /// Retrieves all of the elements that match the conditions defined by the specified condition.
@@ -77,6 +79,7 @@ namespace MG.Collections
         /// entire <see cref="ISearchableList{T}"/>.
         /// </summary>
         /// <param name="match">The <see cref="Func{T, TResult}"/> delegate the defines the conditions of the elements to search for.</param>
+        [return: MaybeNull]
         T FindLast(Func<T, bool> match);
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified condition, and returns the zero-based index of the

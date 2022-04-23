@@ -18,7 +18,7 @@ namespace MG.Collections
     {
         #region PRIVATE FIELDS/CONSTANTS
         private const int DEFAULT_CAPACITY = 0;
-        private IComparer<T> _sortComparer;
+        private IComparer<T> _sortComparer = GetDefaultComparer();
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace MG.Collections
         /// </returns>
         public virtual IComparer<T> DefaultComparer
         {
-            get => _sortComparer ?? GetDefaultComparer();
+            get => _sortComparer;
             set
             {
                 if (null == value)
@@ -216,11 +216,14 @@ namespace MG.Collections
         public void Sort(int index)
         {
             if (index < 0 || index >= this.Count)
-                throw FormattedException.NewFormat<ArgumentOutOfRangeException>(
-                    Strings.ArgumentOutOfRange_NoCount_SortableList,
+                throw new ArgumentOutOfRangeException(
                     nameof(index),
-                    nameof(ReadOnlySortableList<T>),
-                    this.Count
+                    string.Format(
+                        Strings.ArgumentOutOfRange_NoCount_SortableList,
+                        nameof(index),
+                        nameof(ReadOnlySortableList<T>),
+                        this.Count
+                    )
                 );
 
             this.Sort(index, this.Count - index, this.DefaultComparer);

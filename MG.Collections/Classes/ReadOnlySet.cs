@@ -139,7 +139,7 @@ namespace MG.Collections
         {
             return _set.IsSupersetOf(other);
         }
-        public void OnDeserialization(object sender)
+        public void OnDeserialization(object? sender)
         {
             _set.OnDeserialization(sender);
         }

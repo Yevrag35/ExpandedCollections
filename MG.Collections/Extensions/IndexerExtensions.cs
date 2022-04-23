@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable IDE0065
 #pragma warning disable IDE0130
@@ -21,6 +22,7 @@ namespace MG.Collections.Extensions
 {
     internal static class ListInterfaceExtensions
     {
+        [return: MaybeNull]
         internal static T GetByIndex<T>(this IList<T> list, int index)
         {
             index = IndexHelper.GetPositiveIndex(index, list.Count);
@@ -58,6 +60,7 @@ namespace MG.Collections.Extensions.NonGeneric
         ///     The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
         ///     if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
         /// </returns>
+        [return: MaybeNull]
         public static TItem GetByIndex<TItem, TList>(this TList list, int index)
             where TList : IList<TItem>
         {
@@ -88,6 +91,7 @@ namespace MG.Collections.Extensions.NonGeneric
         ///     The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
         ///     if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
         /// </returns>
+        [return: MaybeNull]
         public static TItem GetFromProperIndex<TCollection, TItem>(this TCollection collection, int index)
             where TCollection : Collection<TItem>
         {
@@ -113,7 +117,7 @@ namespace MG.Collections.Extensions.NonGeneric
         ///     The <see cref="object"/> at the specified proper index position; otherwise, 
         ///     if the index is determined to be out-of-range, then <see langword="null"/>.
         /// </returns>
-        public static object GetFromProperIndex(IList list, int index)
+        public static object? GetFromProperIndex(IList list, int index)
         {
             index = IndexHelper.GetPositiveIndex(index, list.Count);
 
@@ -155,6 +159,7 @@ namespace MG.Collections.Extensions.List
         ///     The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
         ///     if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
         /// </returns>
+        [return: MaybeNull]
         public static TItem GetByIndex<TItem>(this List<TItem> list, int index)
         {
             index = IndexHelper.GetPositiveIndex(index, list.Count);
@@ -190,6 +195,7 @@ namespace MG.Collections.Extensions.ReadOnly
         ///     The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
         ///     if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
         /// </returns>
+        [return: MaybeNull]
         public static TItem GetFromProperIndex<TReadOnlyList, TItem>(this TReadOnlyList list, int index)
             where TReadOnlyList : IReadOnlyList<TItem>
         {

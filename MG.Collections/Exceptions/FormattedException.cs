@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace MG.Collections.Exceptions
@@ -20,10 +21,12 @@ namespace MG.Collections.Exceptions
         {
         }
 
+        [Obsolete]
+        [return: MaybeNull]
         public static T NewFormat<T>(string message, params object[] arguments)
             where T : Exception
         {
-            return (T)Activator.CreateInstance(typeof(T), string.Format(message, arguments));
+            return Activator.CreateInstance(typeof(T), string.Format(message, arguments)) as T;
         }
     }
 }
