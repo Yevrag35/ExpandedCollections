@@ -3,7 +3,7 @@
 	<metadata>
 		<id>MG.Collections</id>
 		<title>MG.Collections</title>
-		<version>1.0.3</version>
+		<version>1.1.0</version>
 		<authors>Mike Garvey</authors>
 		<owners>Yevrag35, LLC.</owners>
 		<icon>images\Collections_Red.png</icon>
@@ -15,7 +15,7 @@
 		<copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</copyright>
 		<repository type="Git" url="https://github.com/Yevrag35/ExpandedCollections.git" />
 		<summary>A library consisting of specialized collection classes.</summary>
-		<releaseNotes>Adding ListCollection class for combined List and Collection behavior for derived classes.</releaseNotes>
+		<releaseNotes>Adding Nullability support; Fix for UniqueListBase</releaseNotes>
 		<dependencies>
 			<group targetFramework=".NETFramework4.6.2"/>
 			<group targetFramework=".NETStandard2.0"/>
@@ -29,13 +29,18 @@
 		<file src="assets\Collections_Red.png" target="images\"/>
 		<file src="MG.Collections\bin\Release\netstandard2.0\MG.Collections.dll" target="lib\netstandard2.0\MG.Collections.dll" />
 		<file src="MG.Collections\bin\Release\netstandard2.0\MG.Collections.xml" target="lib\netstandard2.0\MG.Collections.xml" />
+		<file src="MG.Collections.Resources\bin\Release\netstandard1.0\MG.Collections.Resources.dll" target="lib\netstandard2.0\MG.Collections.Resources.dll"/>
 		<file src="MG.Collections\bin\Release\netcoreapp3.1\MG.Collections.dll" target="lib\netcoreapp3.1\MG.Collections.dll" />
 		<file src="MG.Collections\bin\Release\netcoreapp3.1\MG.Collections.xml" target="lib\netcoreapp3.1\MG.Collections.xml" />
-		<file src="MG.Collections\bin\Release\netframework4.6.2\MG.Collections.xml" target="lib\net462\MG.Collections.xml" />
-		<file src="MG.Collections\bin\Release\netframework4.6.2\MG.Collections.dll" target="lib\net462\MG.Collections.dll" />
+		<file src="MG.Collections.Resources\bin\Release\netstandard1.0\MG.Collections.Resources.dll" target="lib\netcoreapp3.1\MG.Collections.Resources.dll"/>
+		<file src="MG.Collections-NET462\bin\Release\MG.Collections.xml" target="lib\net462\MG.Collections.xml" />
+		<file src="MG.Collections-NET462\bin\Release\MG.Collections.dll" target="lib\net462\MG.Collections.dll" />
+		<file src="MG.Collections.Resources\bin\Release\netstandard1.0\MG.Collections.Resources.dll" target="lib\net462\MG.Collections.Resources.dll"/>
 		<file src="MG.Collections-DotNet5\bin\Release\net5.0\MG.Collections.xml" target="lib\net5.0\MG.Collections.xml" />
 		<file src="MG.Collections-DotNet5\bin\Release\net5.0\MG.Collections.dll" target="lib\net5.0\MG.Collections.dll" />
+		<file src="MG.Collections.Resources\bin\Release\netstandard1.0\MG.Collections.Resources.dll" target="lib\net5.0\MG.Collections.Resources.dll"/>
 		<file src="MG.Collections-DotNet5\bin\Release\net6.0\MG.Collections.xml" target="lib\net6.0\MG.Collections.xml" />
 		<file src="MG.Collections-DotNet5\bin\Release\net6.0\MG.Collections.dll" target="lib\net6.0\MG.Collections.dll" />
+		<file src="MG.Collections.Resources\bin\Release\netstandard1.0\MG.Collections.Resources.dll" target="lib\net6.0\MG.Collections.Resources.dll"/>
 	</files>
 </package>

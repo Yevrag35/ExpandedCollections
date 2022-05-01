@@ -3,7 +3,7 @@
 	<metadata>
 		<id>MG.Collections.Wpf</id>
 		<title>MG.Collections.Wpf</title>
-		<version>1.0.3</version>
+		<version>1.1.0</version>
 		<authors>Mike Garvey</authors>
 		<owners>Yevrag35, LLC.</owners>
 		<icon>images\Collections_Red.png</icon>
@@ -14,20 +14,20 @@
 		<description>A library consisting of list, collection, and set classes that can be used with WPF applications.</description>
 		<copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</copyright>
 		<repository type="Git" url="https://github.com/Yevrag35/ExpandedCollections.git" />
-		<summary>Adding ListCollection class for combined List and Collection behavior for derived classes.</summary>
+		<summary>Updated version of MG.Collections to 1.1.0.</summary>
 		<releaseNotes>Initial Release</releaseNotes>
 		<dependencies>
 			<group targetFramework=".NETFramework4.6.2">
-				<dependency id="MG.Collections" version="1.0.3"/>
+				<dependency id="MG.Collections" version="1.1.0"/>
 			</group>
 			<group targetFramework=".NETCoreApp3.1">
-				<dependency id="MG.Collections" version="1.0.3"/>
+				<dependency id="MG.Collections" version="1.1.0"/>
 			</group>
 			<group targetFramework=".NET5">
-				<dependency id="MG.Collections" version="1.0.3"/>
+				<dependency id="MG.Collections" version="1.1.0"/>
 			</group>
 			<group targetFramework=".NET6">
-				<dependency id="MG.Collections" version="1.0.3"/>
+				<dependency id="MG.Collections" version="1.1.0"/>
 			</group>
 		</dependencies>
 	</metadata>
