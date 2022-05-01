@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable IDE0130
 
@@ -43,6 +44,7 @@ namespace MG.Collections
         ///     The <see cref="Func{T, TResult}"/> delegate that defines the conditions of the
         ///     elements to search for.
         /// </param>
+        [return: MaybeNull]
         T Find(Func<T, bool> match);
         /// <summary>
         /// Retrieves all of the elements that match the conditions defined by the specified condition.
@@ -77,6 +79,7 @@ namespace MG.Collections
         /// entire <see cref="ISearchableList{T}"/>.
         /// </summary>
         /// <param name="match">The <see cref="Func{T, TResult}"/> delegate the defines the conditions of the elements to search for.</param>
+        [return: MaybeNull]
         T FindLast(Func<T, bool> match);
         /// <summary>
         /// Searches for an elements that matches the conditions defined by the specified condition, and returns the zero-based index of the
@@ -107,14 +110,6 @@ namespace MG.Collections
         /// <param name="index">The zero-based index at which the range starts.</param>
         /// <param name="count">The number of elements in the range.</param>
         IList<T> GetRange(int index, int count);
-        /// <summary>
-        /// Searches for the specified object and returns the zero-based index of the first occurrence
-        /// within the entire <see cref="ISearchableList{T}"/>.
-        /// </summary>
-        /// <param name="item">
-        ///     The object to locate in the <see cref="ISearchableList{T}"/>.  
-        ///     The value can be <see langword="null"/> for reference types.
-        /// </param>
         /// /// <summary>
         /// Searches for the specified object and returns the zero-based index of the first occurrence
         /// within the range of elements in the <see cref="ISearchableList{T}"/> that extends from the specified index to the last element.
@@ -134,6 +129,7 @@ namespace MG.Collections
         ///     The value can be <see langword="null"/> for reference types.
         /// </param>
         /// <param name="index">The zero-based starting index of the search.  0 (zero) is valid in an empty list.</param>
+        /// <param name="count">The number of elements in the section to search.</param>
         int IndexOf(T item, int index, int count);
         /// <summary>
         /// Searches for the specified object and returns the zero-based index of the last occurrence

@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable CA1010 // Collections should implement generic interface
 #pragma warning disable CA1710 // Identifiers should have correct suffix
@@ -34,9 +35,10 @@ namespace MG.Collections
         ///     For the get accessor, the element at the specified proper index if found; otherwise,
         ///         the default value of <typeparamref name="T"/>.
         /// </returns>
+        [MaybeNull]
         public T this[int index]
         {
-            get => base.GetByIndex(index);
+            get => base.GetByIndex(index) ?? default;
             set
             {
                 if (base.TryIsValidIndex(index, out int positiveIndex))

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MG.Collections.Wpf")]
-[assembly: AssemblyDescription("A library consisting of collections classes that can be used with WPF applications.")]
+[assembly: AssemblyTitle("MG.Collections")]
+[assembly: AssemblyDescription("A library consisting of specialized collection classes.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yevrag35, LLC.")]
-[assembly: AssemblyProduct("MG.Collections.Wpf")]
+[assembly: AssemblyProduct("MG.Collections - .NET Framework")]
 [assembly: AssemblyCopyright("Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("84725a76-3b45-4dae-8d35-8009113517f1")]
+[assembly: Guid("4d8e9fc3-a193-493c-bb70-ad450eb56187")]
 
 // Version information for an assembly consists of the following four values:
 //

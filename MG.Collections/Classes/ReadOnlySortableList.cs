@@ -4,8 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-using Strings = MG.Collections.Properties.Resources;
-
 #pragma warning disable CA1010 // Collections should implement generic interface
 #pragma warning disable CA1710 // Identifiers should have correct suffix
 #pragma warning disable IDE0130
@@ -20,23 +18,23 @@ namespace MG.Collections
     {
         #region PRIVATE FIELDS/CONSTANTS
         private const int DEFAULT_CAPACITY = 0;
-        private IComparer<T> _sortComparer;
+        private IComparer<T> _sortComparer = GetDefaultComparer();
 
         #endregion
 
         #region PROPERTIES
         /// <summary>
         /// The default <see cref="IComparer{T}"/> implementation that the <see cref="ReadOnlySortableList{T}"/>
-        /// uses to execute <see cref="Sort"/> when one is not provided.
+        /// uses to execute <see cref="Sort()"/> when one is not provided.
         /// </summary>
         /// <returns>
-        ///     The <see cref="IComparer{T}"/> implements the list uses to execute <see cref="Sort"/>.
+        ///     The <see cref="IComparer{T}"/> implements the list uses to execute <see cref="Sort()"/>.
         ///     If the set accessor was passed a <see langword="null"/> value, then the default comparer for type 
         ///     <typeparamref name="T"/> is set instead.
         /// </returns>
         public virtual IComparer<T> DefaultComparer
         {
-            get => _sortComparer ?? GetDefaultComparer();
+            get => _sortComparer;
             set
             {
                 if (null == value)
@@ -168,7 +166,7 @@ namespace MG.Collections
         /// Sorts the elements in the entire <see cref="ReadOnlyList{T}"/> using the default comparer.
         /// </summary>
         /// <exception cref="ArgumentException">
-        ///     The implementation of <paramref name="comparer"/> caused an error during the sort.  For example, <paramref name="comparer"/>
+        ///     The implementation of <see cref="DefaultComparer"/> caused an error during the sort.  For example, <see cref="DefaultComparer"/>
         ///     might not return 0 when comparing an item with itself.
         /// </exception>
         /// <exception cref="InvalidOperationException">
@@ -218,11 +216,14 @@ namespace MG.Collections
         public void Sort(int index)
         {
             if (index < 0 || index >= this.Count)
-                throw FormattedException.NewFormat<ArgumentOutOfRangeException>(
-                    Strings.ArgumentOutOfRange_NoCount_SortableList,
+                throw new ArgumentOutOfRangeException(
                     nameof(index),
-                    nameof(ReadOnlySortableList<T>),
-                    this.Count
+                    string.Format(
+                        Strings.ArgumentOutOfRange_NoCount_SortableList,
+                        nameof(index),
+                        nameof(ReadOnlySortableList<T>),
+                        this.Count
+                    )
                 );
 
             this.Sort(index, this.Count - index, this.DefaultComparer);

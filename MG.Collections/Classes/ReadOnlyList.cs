@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 
 #pragma warning disable CA1010 // Collections should implement generic interface
 #pragma warning disable CA1710 // Identifiers should have correct suffix
@@ -210,6 +211,7 @@ namespace MG.Collections
         ///     The first element that matches the conditions if found; otherwise the default value for <typeparamref name="T"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        [return: MaybeNull]
         public T Find(Func<T, bool> match)
         {
             return this.InnerList.Find(ToPredicate(match));
@@ -295,6 +297,7 @@ namespace MG.Collections
         ///     type <typeparamref name="T"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        [return: MaybeNull]
         public T FindLast(Func<T, bool> match)
         {
             return this.InnerList.FindLast(ToPredicate(match));

@@ -3,12 +3,13 @@
   <PropertyGroup>
     <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
     <RootNamespace>MG.Collections</RootNamespace>
+	  <Nullable>enable</Nullable>
     <PackageId>MG.Collections</PackageId>
     <Authors>Mike Garvey</Authors>
     <Company>Yevrag35, LLC.</Company>
     <Copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</Copyright>
-    <AssemblyVersion>1.0.3</AssemblyVersion>
-    <FileVersion>1.0.3</FileVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <FileVersion>1.1.0</FileVersion>
     <AssemblyName>MG.Collections</AssemblyName>
 	<!--<Product>MG.Collections .NET5</Product>
 	<AssemblyTitle>
@@ -17,7 +18,7 @@
 	<PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/Yevrag35/ExpandedCollections.git</RepositoryUrl>
 	<RepositoryType>Git</RepositoryType>
-	<Version>1.0.3</Version>
+	<Version>1.1.0</Version>
 	<Description>A library consisting of specialized collection classes.</Description>
 	<PackageIcon>Collections_Red.png</PackageIcon>
 	<PackageIconUrl />
@@ -54,6 +55,12 @@
 	    <Pack>True</Pack>
 	    <PackagePath></PackagePath>
 	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\MG.Collections.Resources\MG.Collections.Resources.csproj">
+	    <CopyLocal>True</CopyLocal>
+	  </ProjectReference>
 	</ItemGroup>
 
 </Project>

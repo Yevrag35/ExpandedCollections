@@ -2,8 +2,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
-namespace MG.Collections.Classes
+namespace MG.Collections
 {
     /// <summary>
     /// An indentical implementation to <see cref="List{T}"/> but with the ability for derived classes to override
@@ -23,11 +24,11 @@ namespace MG.Collections.Classes
         /// <summary>
         /// An event that occurs when the <see cref="ListCollection{T}"/> is reversed through the 'Reverse' methods.
         /// </summary>
-        public event ReversedEventHandler Reversed;
+        public event ReversedEventHandler? Reversed;
         /// <summary>
         /// An event that occurs when the <see cref="ListCollection{T}"/> is sorted through the 'Sort' methods.
         /// </summary>
-        public event SortedEventHandler<T> Sorted;
+        public event SortedEventHandler<T>? Sorted;
 
         #endregion
 
@@ -505,6 +506,7 @@ namespace MG.Collections.Classes
         ///     The first element that matches the conditions if found; otherwise the default value for <typeparamref name="T"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        [return: MaybeNull]
         public T Find(Func<T, bool> match)
         {
             return this.InnerList.Find(ToPredicate(match));
@@ -594,6 +596,7 @@ namespace MG.Collections.Classes
         ///     type <typeparamref name="T"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="match"/> is <see langword="null"/>.</exception>
+        [return: MaybeNull]
         public T FindLast(Func<T, bool> match)
         {
             return this.InnerList.FindLast(ToPredicate(match));
@@ -949,7 +952,7 @@ namespace MG.Collections.Classes
         #region NON-GENERIC ILIST INTERFACE EXPLICITS
 
         #region EXPLICIT INDEXER
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get => this[index];
             set
@@ -970,7 +973,7 @@ namespace MG.Collections.Classes
         #endregion
 
         #region EXPLICIT METHODS
-        int IList.Add(object value)
+        int IList.Add(object? value)
         {
             int index = -1;
             if (value is T item)
@@ -981,7 +984,7 @@ namespace MG.Collections.Classes
 
             return index;
         }
-        bool IList.Contains(object value)
+        bool IList.Contains(object? value)
         {
             return value is T item && this.Contains(item);
         }
@@ -989,18 +992,18 @@ namespace MG.Collections.Classes
         {
             ((ICollection)InnerList).CopyTo(array, index);
         }
-        int IList.IndexOf(object value)
+        int IList.IndexOf(object? value)
         {
             return ((IList)this.InnerList).IndexOf(value);
         }
-        void IList.Insert(int index, object value)
+        void IList.Insert(int index, object? value)
         {
             if (value is T item)
             {
                 this.Insert(index, item);
             }
         }
-        void IList.Remove(object value)
+        void IList.Remove(object? value)
         {
             if (value is T item)
             {

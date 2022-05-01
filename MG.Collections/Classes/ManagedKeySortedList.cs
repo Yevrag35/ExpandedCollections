@@ -1,11 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using MG.Collections.Exceptions;
 using MG.Collections.Extensions;
-
-using Strings = MG.Collections.Properties.Resources;
 
 #pragma warning disable IDE0130
 
@@ -19,6 +18,7 @@ namespace MG.Collections
     /// <typeparam name="TValue"></typeparam>
     public class ManagedKeySortedList<TKey, TValue> : IDictionary<TKey, TValue>, IList<TValue>, IDictionary,
         IList, IEnumerable<TValue>
+        where TKey : notnull
     {
         #region PRIVATE FIELDS/CONSTANTS
         private readonly SortedList<TKey, TValue> InnerList;
@@ -48,7 +48,7 @@ namespace MG.Collections
         /// <exception cref="KeyNotFoundException"><paramref name="key"/> was not found in the <see cref="ManagedKeySortedList{TKey, TValue}"/>.</exception>
         public TValue this[TKey key]
         {
-            get => this.GetValueOrDefault(key);
+            get => this.GetValueOrDefault(key) ?? throw new InvalidOperationException("Somehow a null result was returned even though it's disallowed.");
             set
             {
                 if (!this.SetItem(key, value))
@@ -76,6 +76,7 @@ namespace MG.Collections
         ///     The <see cref="KeySelector"/> threw an <see cref="Exception"/> when fed
         ///     <paramref name="value"/>.
         /// </exception>
+        [MaybeNull]
         public TValue this[int index]
         {
             get => InnerList.Values.GetByIndex(index);
@@ -92,13 +93,13 @@ namespace MG.Collections
         }
 
         #region NON-GENERIC DICTIONARY INDEXER
-        object IDictionary.this[object key]
+        object? IDictionary.this[object key]
         {
             get
             {
                 return key is TKey tKey
                     ? this[tKey]
-                    : (object)null;
+                    : (object?)null;
             }
             set => throw new NotSupportedException(Strings.NotSupportedException_SortedListSet);
         }
@@ -106,7 +107,7 @@ namespace MG.Collections
         #endregion
 
         #region NON-GENERIC LIST INDEXER
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get => this[index];
             set => throw new NotSupportedException(Strings.NotSupportedException_SortedListSet);
@@ -171,7 +172,7 @@ namespace MG.Collections
         /// <returns>
         ///     This value will always return <see langword="false"/>.
         /// </returns>
-        public bool IsSynchronized => false;
+        bool ICollection.IsSynchronized => ((ICollection)this.InnerList).IsSynchronized;
         /// <summary>
         /// Gets a collection containing the keys in the <see cref="ManagedKeySortedList{TKey, TValue}"/>
         /// in sorted order.
@@ -186,9 +187,9 @@ namespace MG.Collections
         /// <returns>
         ///     The current instance.
         /// </returns>
-        public object SyncRoot
+        object ICollection.SyncRoot
         {
-            get => this;
+            get => ((ICollection)this.InnerList).SyncRoot;
         }
 
         #region PROTECTED
@@ -220,7 +221,7 @@ namespace MG.Collections
         }
         ICollection IDictionary.Values
         {
-            get => this.Cast<object>().ToArray();
+            get => this.InnerList.Values.Cast<object>().ToArray();
         }
 
         #endregion
@@ -410,9 +411,12 @@ namespace MG.Collections
         ///     it returns the default value for <typeparamref name="TValue"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
+        [return: MaybeNull]
         public TValue GetValueOrDefault(TKey key)
         {
-            return this.GetValueOrDefault(key, default);
+            return this.TryGetValue(key, out TValue result)
+                ? result
+                : default;
         }
         /// <summary>
         /// Tries to get the value associated with the specified key in the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
@@ -428,7 +432,8 @@ namespace MG.Collections
         ///     it returns <paramref name="defaultValue"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
-        public TValue GetValueOrDefault(TKey key, TValue defaultValue)
+        [return: NotNullIfNotNull("defaultValue")]
+        public TValue GetValueOrDefault(TKey key, [MaybeNull] TValue defaultValue)
         {
             return this.TryGetValue(key, out TValue result)
                 ? result
@@ -481,10 +486,9 @@ namespace MG.Collections
         ///     an element with the specified key; otherwise, <see langword="false"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool TryGetValue(TKey key, [NotNullWhen(true)] out TValue value)
         {
-            
-            return InnerList.TryGetValue(key, out value);
+            return InnerList.TryGetValue(key, out value) && !(value is null);
         }
 
         #region IDICTIONARY EXPLICITS
@@ -526,18 +530,18 @@ namespace MG.Collections
         #endregion
 
         #region NON-GENERIC DICTIONARY METHODS
-        void IDictionary.Add(object key, object value)
+        void IDictionary.Add(object? key, object? value)
         {
             if (value is TValue tVal)
             {
                 this.Add(tVal);
             }
         }
-        bool IDictionary.Contains(object key)
+        bool IDictionary.Contains(object? key)
         {
             return key is TKey tKey && this.ContainsKey(tKey);
         }
-        void IDictionary.Remove(object key)
+        void IDictionary.Remove(object? key)
         {
             if (key is TKey tKey)
             {
@@ -548,7 +552,7 @@ namespace MG.Collections
         #endregion
 
         #region NON-GENERIC LIST METHODS
-        int IList.Add(object value)
+        int IList.Add(object? value)
         {
             if (value is TValue tVal)
             {
@@ -560,7 +564,7 @@ namespace MG.Collections
                 return -1;
             }
         }
-        bool IList.Contains(object value)
+        bool IList.Contains(object? value)
         {
             return value is TValue tVal && this.Contains(tVal);
         }
@@ -575,20 +579,20 @@ namespace MG.Collections
                 throw new InvalidCastException(nameof(array));
             }
         }
-        int IList.IndexOf(object value)
+        int IList.IndexOf(object? value)
         {
             return value is TValue tVal
                 ? this.IndexOf(tVal)
                 : -1;
         }
-        void IList.Insert(int index, object value)
+        void IList.Insert(int index, object? value)
         {
             if (value is TValue tVal)
             {
                 this.Add(tVal);
             }
         }
-        void IList.Remove(object value)
+        void IList.Remove(object? value)
         {
             if (value is TValue tVal)
             {
@@ -687,7 +691,7 @@ namespace MG.Collections
             public object Current => this.Entry;
             public DictionaryEntry Entry => new DictionaryEntry(this.Enumerator.Current.Key, this.Enumerator.Current.Value);
             public object Key => this.Enumerator.Current.Key;
-            public object Value => this.Enumerator.Current.Value;
+            public object? Value => this.Enumerator.Current.Value;
 
             public NonGenericDictionaryEnumerator(IEnumerator<KeyValuePair<TKey, TValue>> enumerator)
             {
@@ -849,7 +853,7 @@ namespace MG.Collections
         protected virtual bool SetItem(TKey key, TValue value)
         {
             TKey origKey = this.GetKey(value);
-            if (!key.Equals(origKey))
+            if (key is null || !key.Equals(origKey))
                 return false;
                 
             InnerList[key] = value;
