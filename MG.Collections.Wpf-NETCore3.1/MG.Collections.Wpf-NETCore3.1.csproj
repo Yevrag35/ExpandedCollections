@@ -10,9 +10,9 @@
 	  <Copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</Copyright>
     <UseWPF>true</UseWPF>
 	  <Product>MG.Collections .NETCore3.1</Product>
-    <Version>1.0.3</Version>
-    <FileVersion>1.0.3</FileVersion>
-    <AssemblyVersion>1.0.3</AssemblyVersion>
+    <Version>1.1.0</Version>
+    <FileVersion>1.1.0</FileVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
 	  <AssemblyName>MG.Collections.Wpf</AssemblyName>
 	  <AssemblyTitle>
 		  MG.Collections.Wpf .NETCore3.1
@@ -20,7 +20,7 @@
 	  <PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/Yevrag35/ExpandedCollections.git</RepositoryUrl>
 	  <RepositoryType>Git</RepositoryType>
-	  <Version>1.0.2</Version>
+	  <Version>1.1.0</Version>
 	  <Description>A library consisting of collections classes that can be used with .NETCore 3.1 WPF applications.</Description>
 	<PackageIcon>Collections_Red.png</PackageIcon>
   </PropertyGroup>

@@ -4,8 +4,8 @@
     <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
 	<LangVersion>8.0</LangVersion>
 	  <Nullable>enable</Nullable>
-    <AssemblyVersion>1.0.3</AssemblyVersion>
-    <FileVersion>1.0.3</FileVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <FileVersion>1.1.0</FileVersion>
     <Company>Yevrag35, LLC.</Company>
     <Authors>Mike Garvey</Authors>
     <Description>A library consisting of specialized collection classes.</Description>
@@ -23,7 +23,7 @@
 	<AssemblyTitle Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
 		MG.Collections .NET Core 3.1
 	</AssemblyTitle>
-	<Version>1.0.3</Version>
+	<Version>1.1.0</Version>
 	<PackageIcon>Collections_Red.png</PackageIcon>
 	<PackageIconUrl />
 	<RepositoryUrl>https://github.com/Yevrag35/ExpandedCollections.git</RepositoryUrl>

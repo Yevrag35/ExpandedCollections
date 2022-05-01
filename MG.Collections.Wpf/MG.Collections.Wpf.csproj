@@ -54,15 +54,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MG.Collections\MG.Collections.csproj">
-      <Project>{18777b4f-53aa-418b-8217-0fa25376cf6a}</Project>
-      <Name>MG.Collections</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MG.Collections-NET462\MG.Collections-NET462.csproj">
+      <Project>{4d8e9fc3-a193-493c-bb70-ad450eb56187}</Project>
+      <Name>MG.Collections-NET462</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

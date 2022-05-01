@@ -6,9 +6,9 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>MG.Collections.Wpf</AssemblyName>
     <Description>A library consisting of collections classes that can be used with .NET 5 WPF applications.</Description>
-    <AssemblyVersion>1.0.3</AssemblyVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
 
-	  <FileVersion>1.0.3</FileVersion>
+	  <FileVersion>1.1.0</FileVersion>
 	  <Copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</Copyright>
 	  
 	  <Company>Yevrag35, LLC.</Company>
@@ -16,7 +16,7 @@
 	  <PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/Yevrag35/ExpandedCollections.git</RepositoryUrl>
 	  <RepositoryType>Git</RepositoryType>
-	  <Version>1.0.3</Version>
+	  <Version>1.1.0</Version>
 	  <PackageIcon>Collections_Red.png</PackageIcon>
 	  <PackageIconUrl />
   </PropertyGroup>
