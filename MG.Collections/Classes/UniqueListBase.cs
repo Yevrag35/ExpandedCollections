@@ -587,7 +587,7 @@ namespace MG.Collections
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is <see langword="null"/>.</exception>
         public bool IsSubsetOf(IEnumerable<T> other)
         {
-            return this.IsSubsetOf(other);
+            return InnerSet.IsSubsetOf(other);
         }
         /// <summary>
         /// Determines whether this <see cref="UniqueListBase{T}"/> object is a superset of the specified collection.
@@ -628,7 +628,7 @@ namespace MG.Collections
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is <see langword="null"/>.</exception>
         public bool SetEquals(IEnumerable<T> other)
         {
-            return this.SetEquals(other);
+            return InnerSet.SetEquals(other);
         }
 
         #endregion
