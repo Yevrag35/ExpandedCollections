@@ -1,5 +1,6 @@
 # <img src="assets/Collections_Red.png" width="40" height="40"> Expanded Specialized Collections
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/3fb950ee50af4288a00805b857e16611)](https://app.codacy.com/gh/Yevrag35/ExpandedCollections?utm_source=github.com&utm_medium=referral&utm_content=Yevrag35/ExpandedCollections&utm_campaign=Badge_Grade_Settings)
 [![version](https://img.shields.io/nuget/v/MG.Collections?style=flat-square)](https://www.nuget.org/packages/MG.Collections) [![downloads](https://img.shields.io/nuget/dt/MG.Collections?style=flat-square&color=darkgreen)](https://www.nuget.org/packages/MG.Collections)
 
 Helper libraries that provide some collection classes that I use in my projects.  Some examples include:
