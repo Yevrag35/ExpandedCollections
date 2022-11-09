@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MG.Collections.Extensions.Arrays;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -88,27 +89,6 @@ namespace MG.Collections.Wpf
 
         #endregion
 
-        ///// <summary>
-        ///// Gets or sets a value that indicates whether the <see cref="UniqueObservableList{T}"/> (after applying the sort
-        ///// and filters, if any) is already in the correct order for grouping.
-        ///// </summary>
-        ///// <returns>
-        /////     <see langword="true"/> if the <see cref="UniqueObservableList{T}"/> is already in the correct order for grouping;
-        /////     otherwise, <see langword="false"/>.
-        ///// </returns>
-        ///// <exception cref="InvalidOperationException"><see cref="View"/> is <see langword="null"/>.</exception>
-        //public bool IsDataInGroupOrder
-        //{
-        //    get => (this.View?.IsDataInGroupOrder).GetValueOrDefault();
-        //    set
-        //    {
-        //        if (!this.IsViewGenerated)
-        //            throw new InvalidOperationException("View properties cannot be set until a View is generated.");
-
-        //        this.View.IsDataInGroupOrder = value;
-        //        this.NotifyChange(nameof(IsDataInGroupOrder));
-        //    }
-        //}
         /// <summary>
         /// Indicates whether <see cref="View"/> has been generated.
         /// </summary>
@@ -154,63 +134,7 @@ namespace MG.Collections.Wpf
         /// Indicates whether the current <see cref="View"/> is being filtered.
         /// </summary>
         public bool ViewIsFiltered => null != this.View?.Filter;
-        ///// <summary>
-        ///// Gets or sets a value that indicates whether <see cref="View"/> is enabled to filter data in real time.
-        ///// </summary>
-        ///// <remarks>
-        /////     If <see cref="StartingLiveFilteringProperties"/> is not empty, then this will default to <see langword="true"/>.
-        ///// </remarks>
-        ///// <exception cref="InvalidOperationException"><see cref="View"/> is <see langword="null"/>.</exception>
-        //public bool ViewIsLiveFiltering
-        //{
-        //    get => (this.View?.IsLiveFiltering).GetValueOrDefault();
-        //    set
-        //    {
-        //        if (!this.IsViewGenerated)
-        //            throw new InvalidOperationException("View properties cannot be set until a View is generated.");
 
-        //        this.View.IsLiveFiltering = value;
-        //        this.NotifyChange(nameof(ViewIsLiveFiltering));
-        //    }
-        //}
-        ///// <summary>
-        ///// Gets or sets a value that indicates whether <see cref="View"/> is enabled to group data in real time.
-        ///// </summary>
-        ///// <remarks>
-        /////     If <see cref="StartingLiveGroupingProperties"/> is not empty, then this will default to <see langword="true"/>.
-        ///// </remarks>
-        ///// <exception cref="InvalidOperationException"><see cref="View"/> is <see langword="null"/>.</exception>
-        //public bool ViewIsLiveGrouping
-        //{
-        //    get => (this.View?.IsLiveGrouping).GetValueOrDefault();
-        //    set
-        //    {
-        //        if (!this.IsViewGenerated)
-        //            throw new InvalidOperationException("View properties cannot be set until a View is generated.");
-
-        //        this.View.IsLiveGrouping = value;
-        //        this.NotifyChange(nameof(ViewIsLiveGrouping));
-        //    }
-        //}
-        ///// <summary>
-        ///// Gets or sets a value that indicates whether <see cref="View"/> is enabled to sort data in real time.
-        ///// </summary>
-        ///// <remarks>
-        /////     If <see cref="StartingLiveSortingProperties"/> is not empty, then this will default to <see langword="true"/>.
-        ///// </remarks>
-        ///// <exception cref="InvalidOperationException"><see cref="View"/> is <see langword="null"/>.</exception>
-        //public bool ViewIsLiveSorting
-        //{
-        //    get => (this.View?.IsLiveSorting).GetValueOrDefault();
-        //    set
-        //    {
-        //        if (!this.IsViewGenerated)
-        //            throw new InvalidOperationException("View properties cannot be set until a View is generated.");
-
-        //        this.View.IsLiveSorting = value;
-        //        this.NotifyChange(nameof(ViewIsLiveSorting));
-        //    }
-        //}
         /// <summary>
         /// Indicates whether <see cref="View"/> needs to be refreshed.
         /// </summary>
@@ -227,9 +151,7 @@ namespace MG.Collections.Wpf
         /// and has the default initial capacity and default equality comparer for <typeparamref name="T"/>.
         /// </summary>
         public UniqueObservableList()
-            : base()
         {
-            //this.GenerateView();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueObservableList{T}"/> class that is empty
@@ -240,7 +162,6 @@ namespace MG.Collections.Wpf
         public UniqueObservableList(int capacity)
             : base(capacity)
         {
-            //this.GenerateView();
         }
         /// <summary>
         /// Initializes a new <see cref="UniqueObservableList{T}"/> instance that contains elements copied from the specified
@@ -260,7 +181,6 @@ namespace MG.Collections.Wpf
         public UniqueObservableList(IEnumerable<T> items)
             : base(items)
         {
-            //this.GenerateView();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueObservableList{T}"/> class that is empty
@@ -274,7 +194,6 @@ namespace MG.Collections.Wpf
         public UniqueObservableList(IEqualityComparer<T> equalityComparer)
             : base(equalityComparer)
         {
-            //this.GenerateView();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueObservableList{T}"/> class that is empty, has the specified
@@ -290,7 +209,6 @@ namespace MG.Collections.Wpf
         public UniqueObservableList(int capacity, IEqualityComparer<T> equalityComparer)
             : base(capacity, equalityComparer)
         {
-            //this.GenerateView();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="UniqueObservableList{T}"/> class that uses the specified comparer for 
@@ -310,7 +228,6 @@ namespace MG.Collections.Wpf
         public UniqueObservableList(IEnumerable<T> items, IEqualityComparer<T> equalityComparer)
             : base(items, equalityComparer)
         {
-            //this.GenerateView();
         }
 
         #endregion
@@ -339,12 +256,18 @@ namespace MG.Collections.Wpf
         /// <param name="item">The object to insert.</param>
         protected override void InsertItem(int index, T item)
         {
-            _ = this.InsertItem(index, item, true);
+            _ = this.InsertItem(index, item, inserting: true);
         }
         private int InsertItem(int index, T item, bool inserting)
         {
+            int retIndex = -1;
+            if (!inserting)
+            {
+                return retIndex;
+            }
+
             base.InsertItem(index, item);
-            int retIndex = this.IndexOf(item);
+            retIndex = this.IndexOf(item);
             if (retIndex > -1)
             {
                 this.OnAdd(item, retIndex);
@@ -378,10 +301,7 @@ namespace MG.Collections.Wpf
         protected override void RemoveItemAt(int index)
         {
             T item = this[index];
-            if (null != item)
-            {
-                _ = this.RemoveItem(item, index);
-            }
+            _ = this.RemoveItem(item, index);
         }
         private bool RemoveItem(T item, int index)
         {
@@ -409,9 +329,9 @@ namespace MG.Collections.Wpf
             return result;
         }
 
-        #endregion
+#endregion
 
-        #region ILIST EXPLICIT METHODS
+#region ILIST EXPLICIT METHODS
         int IList.Add(object value)
         {
             int index = -1;
@@ -435,17 +355,21 @@ namespace MG.Collections.Wpf
         void IList.Insert(int index, object value)
         {
             if (value is T item)
+            {
                 this.Insert(index, item);
+            }
         }
         void IList.Remove(object value)
         {
             if (value is T item)
+            {
                 _ = this.Remove(item);
+            }
         }
 
-        #endregion
+#endregion
 
-        #region VIEW METHODS
+#region VIEW METHODS
         /// <summary>
         /// Generates the <see cref="ListCollectionView"/> and defines it as <see cref="View"/> for the current <see cref="UniqueObservableList{T}"/>.
         /// </summary>
@@ -479,34 +403,52 @@ namespace MG.Collections.Wpf
 
         private static bool ApplyProperties(IList<string> propList, string[] propsToAdd)
         {
-            bool result = false;
-            if (null != propsToAdd && propsToAdd.Length <= 0)
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(propList);
+#endif
+            if (propsToAdd.IsNullOrEmpty())
             {
-                Array.ForEach(propsToAdd, (p) =>
-                {
-                    propList.Add(p);
-                });
-
-                result = true;
+                return false;
             }
 
-            return result;
+            for (int i = 0; i < propsToAdd.Length; i++)
+            {
+                propList.Add(propsToAdd[i]);
+            }
+
+            return true;
         }
         private void ApplyStartingProperties(ListCollectionView view)
         {
-            if (ApplyProperties(view.LiveFilteringProperties, this.StartingLiveFilteringProperties))
+#if NET6_0_OR_GREATER
+            ArgumentNullException.ThrowIfNull(view);
+#endif
+
+            if (ApplyProperties(
+                propList: view.LiveFilteringProperties, 
+                propsToAdd: this.StartingLiveFilteringProperties))
+            {
                 view.IsLiveFiltering = true;
+            }
 
-            if (ApplyProperties(view.LiveGroupingProperties, this.StartingLiveGroupingProperties))
+            if (ApplyProperties(
+                propList: view.LiveGroupingProperties,
+                propsToAdd: this.StartingLiveGroupingProperties))
+            {
                 view.IsLiveGrouping = true;
+            }
 
-            if (ApplyProperties(view.LiveSortingProperties, this.StartingLiveSortingProperties))
+            if (ApplyProperties(
+                propList: view.LiveSortingProperties,
+                propsToAdd: this.StartingLiveSortingProperties))
+            {
                 view.IsLiveSorting = true;
+            }
         }
 
-        #endregion
+#endregion
 
-        #region OTHER METHODS
+#region OTHER METHODS
         /// <summary>
         /// Takes a given <see cref="Predicate{T}"/> and simply negates the <see cref="bool"/> result.
         /// </summary>
@@ -531,6 +473,6 @@ namespace MG.Collections.Wpf
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        #endregion
+#endregion
     }
 }

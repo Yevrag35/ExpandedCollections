@@ -85,10 +85,14 @@ namespace MG.Collections
                 int realIndex = IndexHelper.GetPositiveIndex(index, this.Count);
                 TKey key = this.GetKey(value);
                 if (null == key || !InnerList.ContainsKey(key) || InnerList.IndexOfKey(key) != realIndex)
+                {
                     throw new KeyNotFoundException(string.Format("No matching key at index {0} was found.", realIndex));
+                }
 
                 if (!this.SetItem(key, value))
+                {
                     throw new ArgumentException("The new value's key does not equate to the output of the managed key function.");
+                }
             }
         }
 

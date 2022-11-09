@@ -78,6 +78,14 @@ namespace MG.Collections
         ///     The number of elements contained in the <see cref="ListCollection{T}"/>.
         /// </returns>
         public int Count => this.InnerList.Count;
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="ListCollection{T}"/> is read-only.
+        /// </summary>
+        /// <returns>
+        ///     <see langword="true"/> if the <see cref="ListCollection{T}"/> is read-only;
+        ///     otherwise, <see langword="false"/>.
+        /// </returns>
         public bool IsReadOnly { get; protected set; }
 
         #endregion

@@ -1,66 +1,68 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
-    <RootNamespace>MG.Collections</RootNamespace>
-	  <Nullable>enable</Nullable>
-    <PackageId>MG.Collections</PackageId>
-    <Authors>Mike Garvey</Authors>
-    <Company>Yevrag35, LLC.</Company>
-    <Copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</Copyright>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
-    <FileVersion>1.1.0</FileVersion>
-    <AssemblyName>MG.Collections</AssemblyName>
-	<!--<Product>MG.Collections .NET5</Product>
-	<AssemblyTitle>
-		MG.Collections .NET5
-	</AssemblyTitle>-->
-	<PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
-	<RepositoryUrl>https://github.com/Yevrag35/ExpandedCollections.git</RepositoryUrl>
-	<RepositoryType>Git</RepositoryType>
-	<Version>1.1.0</Version>
-	<Description>A library consisting of specialized collection classes.</Description>
-	<PackageIcon>Collections_Red.png</PackageIcon>
-	<PackageIconUrl />
-  </PropertyGroup>
-	
+	<PropertyGroup>
+		<TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
+		<RootNamespace>MG.Collections</RootNamespace>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageId>MG.Collections</PackageId>
+		<Authors>Mike Garvey</Authors>
+		<Company>Yevrag35, LLC.</Company>
+		<Copyright>Copyright © 2021-2022 Yevrag35, LLC.  All rights reserved.</Copyright>
+		<AssemblyVersion>1.2.0</AssemblyVersion>
+		<FileVersion>1.2.0</FileVersion>
+		<AssemblyName>MG.Collections</AssemblyName>
+		<PackageProjectUrl>https://github.com/Yevrag35/ExpandedCollections</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Yevrag35/ExpandedCollections.git</RepositoryUrl>
+		<RepositoryType>Git</RepositoryType>
+		<Version>1.2.0</Version>
+		<Description>A library consisting of specialized collection classes.</Description>
+		<PackageIcon>Collections_Red.png</PackageIcon>
+		<PackageIconUrl />
+	</PropertyGroup>
+
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
 		<AssemblyTitle>MG.Collections .NET5</AssemblyTitle>
 		<Product>MG.Collections .NET5</Product>
 	</PropertyGroup>
-	
+
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
 		<AssemblyTitle>MG.Collections .NET6</AssemblyTitle>
 		<Product>MG.Collections .NET6</Product>
 	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-    <DocumentationFile>MG.Collections.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+		<AssemblyTitle>MG.Collections .NET7</AssemblyTitle>
+		<Product>MG.Collections .NET7</Product>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <DocumentationFile>MG.Collections.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+		<DocumentationFile>MG.Collections.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DebugType>full</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+		<DocumentationFile>MG.Collections.xml</DocumentationFile>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<Compile Include="..\MG.Collections\**\*.cs" Exclude="..\MG.Collections\obj\**\*.*;..\MG.Collections\bin\**\*.*;..\MG.Collections\**\IReadOnlySet.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="..\assets\Collections_Red.png">
-	    <Pack>True</Pack>
-	    <PackagePath></PackagePath>
-	  </None>
+		<None Include="..\assets\Collections_Red.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\MG.Collections.Resources\MG.Collections.Resources.csproj">
-	    <CopyLocal>True</CopyLocal>
-	  </ProjectReference>
+		<ProjectReference Include="..\MG.Collections.Resources\MG.Collections.Resources.csproj">
+			<CopyLocal>True</CopyLocal>
+		</ProjectReference>
 	</ItemGroup>
 
 </Project>

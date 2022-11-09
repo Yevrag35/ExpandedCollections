@@ -54,7 +54,6 @@ namespace MG.Collections.Wpf
         /// Initializes a new instance of the <see cref="ObservableViewedCollection{T}"/> class that is empty.
         /// </summary>
         public ObservableViewedCollection()
-            : base()
         {
         }
         /// <summary>

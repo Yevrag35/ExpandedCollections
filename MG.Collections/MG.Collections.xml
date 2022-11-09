@@ -58,6 +58,15 @@
                 The number of elements contained in the <see cref="T:MG.Collections.ListCollection`1"/>.
             </returns>
         </member>
+        <member name="P:MG.Collections.ListCollection`1.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:MG.Collections.ListCollection`1"/> is read-only.
+            </summary>
+            <returns>
+                <see langword="true"/> if the <see cref="T:MG.Collections.ListCollection`1"/> is read-only;
+                otherwise, <see langword="false"/>.
+            </returns>
+        </member>
         <member name="M:MG.Collections.ListCollection`1.#ctor">
             <summary>
             The default constructor.  Initializes an empty <see cref="T:MG.Collections.ListCollection`1"/> with the default capacity.

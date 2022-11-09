@@ -4,6 +4,172 @@
         <name>MG.Collections</name>
     </assembly>
     <members>
+        <member name="T:MG.Collections.Extensions.ForEach.Ref.ForEachExtensions">
+            <summary>
+            An extension class allowing 'foreach' loops on <see cref="T:System.Range"/> and <see cref="T:System.Int32"/> structs.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Extensions.ForEach.Ref.ForEachExtensions.GetEnumerator(System.Range)">
+            <summary>
+            Creates a ref struct enumerator allowing for enumeration on <see cref="T:System.Range"/>
+            structs.
+            </summary>
+            <param name="range">The range of indexes to enumerator through.</param>
+            <returns>
+                An <see cref="T:MG.Collections.Extensions.ForEach.Ref.IntRefEnumerator"/> struct.
+            </returns>
+        </member>
+        <member name="M:MG.Collections.Extensions.ForEach.Ref.ForEachExtensions.GetEnumerator(System.Int32)">
+            <summary>
+            Creates a ref struct enumerator allowing for enumeration on <see cref="T:System.Int32"/>
+            structs.
+            </summary>
+            <param name="exclusiveEnd">The exclusive end of the range of indicies to enumerate through.</param>
+            <remarks>
+                The <paramref name="exclusiveEnd"/> can simply be the <see cref="P:System.Collections.ICollection.Count"/> or <see cref="P:System.Array.Length"/> property of a collection or array.
+                Also, as <see cref="T:MG.Collections.Extensions.ForEach.Ref.IntRefEnumerator"/> is a ref struct, it *cannot* be 
+                used directly within an <see langword="async"/> method.
+            </remarks>
+            <returns>
+                An <see cref="T:MG.Collections.Extensions.ForEach.Ref.IntRefEnumerator"/> struct.
+            </returns>
+        </member>
+        <member name="T:MG.Collections.Extensions.ForEach.Ref.IntRefEnumerator">
+            <summary>
+            An enumerator that supports enumerating through a selected <see cref="T:System.Range"/>.
+            </summary>
+            <remarks>
+                This enumerator was inspired entirely by Nick Chapsas - <see href="https://youtu.be/jmmz1cInNow"/>.
+                
+                Link to his website - <see href="https://nickchapsas.com"/>.
+            </remarks>
+        </member>
+        <member name="P:MG.Collections.Extensions.ForEach.Ref.IntRefEnumerator.Current">
+            <summary>
+            Gets the current index representing the current position of the 
+            <see cref="T:MG.Collections.Extensions.ForEach.Ref.IntRefEnumerator"/>.
+            </summary>
+        </member>
+        <member name="M:MG.Collections.Extensions.ForEach.Ref.IntRefEnumerator.#ctor(System.Range)">
+            <summary>
+            
+            </summary>
+            <param name="range"></param>
+            <exception cref="T:System.NotSupportedException"><see cref="P:System.Index.IsFromEnd"/> is 
+            <see langword="true"/>.
+            </exception>
+        </member>
+        <member name="M:MG.Collections.Extensions.ForEach.Ref.IntRefEnumerator.MoveNext">
+            <summary>
+            Advances the <see cref="T:MG.Collections.Extensions.ForEach.Ref.IntRefEnumerator"/> to the next index.
+            </summary>
+            <returns>
+                <see langword="true"/> if the advanced index counter is still less than
+                the configured end of the <see cref="T:System.Range"/>; otherwise, 
+                <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:MG.Collections.Extensions.NonGeneric.ListIndexExtensions.GetByIndex``2(``1,System.Int32)">
+            <summary>
+            Transforms and verifies the specified negative or positive index into a proper <see cref="T:System.Int32"/> value
+            returning the element of type <typeparamref name="TItem"/> at the proper index location.
+            </summary>
+            <remarks>
+                Used for transforming negative index <see cref="T:System.Int32"/> values into postive index positions.  When
+                negative indicies are specified, instead of starting the zero-based position, it will begin at the 
+                index of the last element of the <see cref="T:System.Collections.Generic.IList`1"/> and count backwards.
+            </remarks>
+            <typeparam name="TList">
+                The type of <see cref="T:System.Collections.Generic.IList`1"/> where <paramref name="index"/> 
+                will be used on.
+            </typeparam>
+            <typeparam name="TItem">The element type of <paramref name="list"/>.</typeparam>
+            <param name="list">The list which the index will be verified against.</param>
+            <param name="index">The negative or positive index value.</param>
+            <returns>
+                The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
+                if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
+            </returns>
+        </member>
+        <member name="M:MG.Collections.Extensions.NonGeneric.ListIndexExtensions.GetFromProperIndex``2(``0,System.Int32)">
+            <summary>
+            Transforms and verifies the specified negative or positive index into a proper <see cref="T:System.Int32"/> value
+            returning the element of type <typeparamref name="TItem"/> at the proper index location.
+            </summary>
+            <remarks>
+                Used for transforming negative index <see cref="T:System.Int32"/> values into postive index positions.  When
+                negative indicies are specified, instead of starting the zero-based position, it will begin at the 
+                index of the last element of the <see cref="T:System.Collections.ObjectModel.Collection`1"/> and count backwards.
+            </remarks>
+            <typeparam name="TCollection">
+                The type of <see cref="T:System.Collections.ObjectModel.Collection`1"/> where <paramref name="index"/> 
+                will be used on.
+            </typeparam>
+            <typeparam name="TItem">The element type of <paramref name="collection"/>.</typeparam>
+            <param name="collection">The collection which the index will be verified against.</param>
+            <param name="index">The negative or positive index value.</param>
+            <returns>
+                The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
+                if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
+            </returns>
+        </member>
+        <member name="M:MG.Collections.Extensions.NonGeneric.ListIndexExtensions.GetFromProperIndex(System.Collections.IList,System.Int32)">
+            <summary>
+            Transforms and verifies the specified negative or positive index into a proper <see cref="T:System.Int32"/> value
+            returning the <see cref="T:System.Object"/> at the proper index location.
+            </summary>
+            <remarks>
+                Used for transforming negative index <see cref="T:System.Int32"/> values into postive index positions.  When
+                negative indicies are specified, instead of starting the zero-based position, it will begin at the 
+                index of the last element of the <see cref="T:System.Collections.IList"/> and count backwards.
+            </remarks>
+            <param name="list">The list which the index will be verified against.</param>
+            <param name="index">The negative or positive index value.</param>
+            <returns>
+                The <see cref="T:System.Object"/> at the specified proper index position; otherwise, 
+                if the index is determined to be out-of-range, then <see langword="null"/>.
+            </returns>
+        </member>
+        <member name="M:MG.Collections.Extensions.List.ListOnlyIndexExtensions.GetByIndex``1(System.Collections.Generic.List{``0},System.Int32)">
+            <summary>
+            Transforms and verifies the specified negative or positive index into a proper <see cref="T:System.Int32"/> value
+            returning the element of type <typeparamref name="TItem"/> at the proper index location.
+            </summary>
+            <remarks>
+                Used for transforming negative index <see cref="T:System.Int32"/> values into postive index positions.  When
+                negative indicies are specified, instead of starting the zero-based position, it will begin at the 
+                index of the last element of the <see cref="T:System.Collections.Generic.IList`1"/> and count backwards.
+            </remarks>
+            <typeparam name="TItem">The element type of <paramref name="list"/>.</typeparam>
+            <param name="list">The list which the index will be verified against.</param>
+            <param name="index">The negative or positive index value.</param>
+            <returns>
+                The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
+                if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
+            </returns>
+        </member>
+        <member name="M:MG.Collections.Extensions.ReadOnly.InterfaceReadOnlyListIndexExtensions.GetFromProperIndex``2(``0,System.Int32)">
+            <summary>
+            Transforms and verifies the specified negative or positive index into a proper <see cref="T:System.Int32"/> value
+            returning the <typeparamref name="TItem"/> item at the proper index location.
+            </summary>
+            <remarks>
+                Used for transforming negative index <see cref="T:System.Int32"/> values into postive index positions.  When
+                negative indicies are specified, instead of starting the zero-based position, it will begin at the 
+                index of the last element of the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> and count backwards.
+            </remarks>
+            <typeparam name="TReadOnlyList">
+                The type of <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> where <paramref name="index"/> 
+                will be used on.
+            </typeparam>
+            <typeparam name="TItem">The element type of <paramref name="list"/>.</typeparam>
+            <param name="list">The list which the index will be verified against.</param>
+            <param name="index">The negative or positive index value.</param>
+            <returns>
+                The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
+                if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
+            </returns>
+        </member>
         <member name="T:MG.Collections.ListCollection`1">
             <summary>
             An indentical implementation to <see cref="T:System.Collections.Generic.List`1"/> but with the ability for derived classes to override
@@ -56,6 +222,15 @@
             </summary>
             <returns>
                 The number of elements contained in the <see cref="T:MG.Collections.ListCollection`1"/>.
+            </returns>
+        </member>
+        <member name="P:MG.Collections.ListCollection`1.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:MG.Collections.ListCollection`1"/> is read-only.
+            </summary>
+            <returns>
+                <see langword="true"/> if the <see cref="T:MG.Collections.ListCollection`1"/> is read-only;
+                otherwise, <see langword="false"/>.
             </returns>
         </member>
         <member name="M:MG.Collections.ListCollection`1.#ctor">
@@ -2709,107 +2884,6 @@
             cause of this exception.
             </summary>
             <param name="inner">The exception that is the cause of the current exception.</param>
-        </member>
-        <member name="M:MG.Collections.Extensions.NonGeneric.ListIndexExtensions.GetByIndex``2(``1,System.Int32)">
-            <summary>
-            Transforms and verifies the specified negative or positive index into a proper <see cref="T:System.Int32"/> value
-            returning the element of type <typeparamref name="TItem"/> at the proper index location.
-            </summary>
-            <remarks>
-                Used for transforming negative index <see cref="T:System.Int32"/> values into postive index positions.  When
-                negative indicies are specified, instead of starting the zero-based position, it will begin at the 
-                index of the last element of the <see cref="T:System.Collections.Generic.IList`1"/> and count backwards.
-            </remarks>
-            <typeparam name="TList">
-                The type of <see cref="T:System.Collections.Generic.IList`1"/> where <paramref name="index"/> 
-                will be used on.
-            </typeparam>
-            <typeparam name="TItem">The element type of <paramref name="list"/>.</typeparam>
-            <param name="list">The list which the index will be verified against.</param>
-            <param name="index">The negative or positive index value.</param>
-            <returns>
-                The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
-                if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
-            </returns>
-        </member>
-        <member name="M:MG.Collections.Extensions.NonGeneric.ListIndexExtensions.GetFromProperIndex``2(``0,System.Int32)">
-            <summary>
-            Transforms and verifies the specified negative or positive index into a proper <see cref="T:System.Int32"/> value
-            returning the element of type <typeparamref name="TItem"/> at the proper index location.
-            </summary>
-            <remarks>
-                Used for transforming negative index <see cref="T:System.Int32"/> values into postive index positions.  When
-                negative indicies are specified, instead of starting the zero-based position, it will begin at the 
-                index of the last element of the <see cref="T:System.Collections.ObjectModel.Collection`1"/> and count backwards.
-            </remarks>
-            <typeparam name="TCollection">
-                The type of <see cref="T:System.Collections.ObjectModel.Collection`1"/> where <paramref name="index"/> 
-                will be used on.
-            </typeparam>
-            <typeparam name="TItem">The element type of <paramref name="collection"/>.</typeparam>
-            <param name="collection">The collection which the index will be verified against.</param>
-            <param name="index">The negative or positive index value.</param>
-            <returns>
-                The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
-                if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
-            </returns>
-        </member>
-        <member name="M:MG.Collections.Extensions.NonGeneric.ListIndexExtensions.GetFromProperIndex(System.Collections.IList,System.Int32)">
-            <summary>
-            Transforms and verifies the specified negative or positive index into a proper <see cref="T:System.Int32"/> value
-            returning the <see cref="T:System.Object"/> at the proper index location.
-            </summary>
-            <remarks>
-                Used for transforming negative index <see cref="T:System.Int32"/> values into postive index positions.  When
-                negative indicies are specified, instead of starting the zero-based position, it will begin at the 
-                index of the last element of the <see cref="T:System.Collections.IList"/> and count backwards.
-            </remarks>
-            <param name="list">The list which the index will be verified against.</param>
-            <param name="index">The negative or positive index value.</param>
-            <returns>
-                The <see cref="T:System.Object"/> at the specified proper index position; otherwise, 
-                if the index is determined to be out-of-range, then <see langword="null"/>.
-            </returns>
-        </member>
-        <member name="M:MG.Collections.Extensions.List.ListOnlyIndexExtensions.GetByIndex``1(System.Collections.Generic.List{``0},System.Int32)">
-            <summary>
-            Transforms and verifies the specified negative or positive index into a proper <see cref="T:System.Int32"/> value
-            returning the element of type <typeparamref name="TItem"/> at the proper index location.
-            </summary>
-            <remarks>
-                Used for transforming negative index <see cref="T:System.Int32"/> values into postive index positions.  When
-                negative indicies are specified, instead of starting the zero-based position, it will begin at the 
-                index of the last element of the <see cref="T:System.Collections.Generic.IList`1"/> and count backwards.
-            </remarks>
-            <typeparam name="TItem">The element type of <paramref name="list"/>.</typeparam>
-            <param name="list">The list which the index will be verified against.</param>
-            <param name="index">The negative or positive index value.</param>
-            <returns>
-                The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
-                if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
-            </returns>
-        </member>
-        <member name="M:MG.Collections.Extensions.ReadOnly.InterfaceReadOnlyListIndexExtensions.GetFromProperIndex``2(``0,System.Int32)">
-            <summary>
-            Transforms and verifies the specified negative or positive index into a proper <see cref="T:System.Int32"/> value
-            returning the <typeparamref name="TItem"/> item at the proper index location.
-            </summary>
-            <remarks>
-                Used for transforming negative index <see cref="T:System.Int32"/> values into postive index positions.  When
-                negative indicies are specified, instead of starting the zero-based position, it will begin at the 
-                index of the last element of the <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> and count backwards.
-            </remarks>
-            <typeparam name="TReadOnlyList">
-                The type of <see cref="T:System.Collections.Generic.IReadOnlyList`1"/> where <paramref name="index"/> 
-                will be used on.
-            </typeparam>
-            <typeparam name="TItem">The element type of <paramref name="list"/>.</typeparam>
-            <param name="list">The list which the index will be verified against.</param>
-            <param name="index">The negative or positive index value.</param>
-            <returns>
-                The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
-                if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
-            </returns>
         </member>
         <member name="T:MG.Collections.IReadOnlySortableList`1">
             <summary>
