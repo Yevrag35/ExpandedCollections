@@ -86,3 +86,16 @@ namespace Test
 * A List and a Set readonly wrapper (similiar to <code>System.Collections.ObjectModel.ReadOnlyCollection\<T\></code>) exposing only the 'readonly' methods of the corresponding collection types.
 
     * _\*NOTE\*_ - In .NET5 projects, <code>ReadOnlySet\<T\></code> implements <code>System.Collections.Generic.IReadOnlySet\<T\></code>.  All other target frameworks, it implements a custom <code>MG.Collections.IReadOnly\<T\></code>. 
+    
+## __ForEach Extensions in .NET 5+ ##
+```csharp
+
+using MG.Collections.Extensions.ForEach.Ref;
+
+var greetings = new List<string>() { "hi", "hello", "what up" };
+var newArray = new string[greetings.Count];
+
+foreach (int i in greetings.Count) {
+    newArray[i] = greetings[i];
+}
+```
