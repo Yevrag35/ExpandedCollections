@@ -87,7 +87,7 @@ namespace Test
 
     * _\*NOTE\*_ - In .NET5 projects, <code>ReadOnlySet\<T\></code> implements <code>System.Collections.Generic.IReadOnlySet\<T\></code>.  All other target frameworks, it implements a custom <code>MG.Collections.IReadOnly\<T\></code>. 
     
-## __ForEach Extensions in .NET 5+ ##
+## __ForEach Extensions in .NET 5+__ ##
 ```csharp
 
 using MG.Collections.Extensions.ForEach.Ref;
