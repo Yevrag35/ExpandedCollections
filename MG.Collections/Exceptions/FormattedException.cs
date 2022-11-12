@@ -19,7 +19,7 @@ namespace MG.Collections.Exceptions
         {
         }
 
-        protected FormattedException(Exception innerException, string message, params object?[] arguments)
+        protected FormattedException(Exception? innerException, string message, params object?[] arguments)
             : base(string.Format(CultureInfo.CurrentCulture, message, arguments), innerException)
         {
         }

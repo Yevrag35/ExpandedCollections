@@ -8,7 +8,7 @@ namespace MG.Collections
     /// Represents a read-only indexable collection whose contents don't change but can still be reversed and sorted.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IReadOnlySortableList<T> : IReadOnlyList<T>
+    public interface IReadOnlySortableList<out T> : IReadOnlyList<T>
     {
         /// <summary>
         /// Reverses the order of the elements in the entire <see cref="IReadOnlySortableList{T}"/>.

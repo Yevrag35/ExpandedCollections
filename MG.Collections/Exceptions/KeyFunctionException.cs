@@ -26,8 +26,8 @@ namespace MG.Collections.Exceptions
             : base(WithMessage, BASE_MSG, innerExceptionMessage)
         {
         }
-        public KeyFunctionException(Exception innerException)
-            : base(innerException, WithMessage, BASE_MSG, innerException.Message)
+        public KeyFunctionException(Exception? innerException)
+            : base(innerException, WithMessage, BASE_MSG, innerException?.Message)
         {
         }
         public KeyFunctionException(object? function)
@@ -35,7 +35,7 @@ namespace MG.Collections.Exceptions
         {
             this.Function = function;
         }
-        public KeyFunctionException(object? function, Exception innerException)
+        public KeyFunctionException(object? function, Exception? innerException)
             : this(innerException)
         {
             this.Function = function;

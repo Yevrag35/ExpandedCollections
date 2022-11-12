@@ -10,7 +10,7 @@ namespace MG.Collections
     /// Provides a readonly abstraction of a set.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IReadOnlySet<T> : IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
+    public interface IReadOnlySet<T> : IReadOnlyCollection<T>
     {
         /// <summary>
         /// Determines if the set contains a specific item.
