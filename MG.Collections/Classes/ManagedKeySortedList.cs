@@ -322,17 +322,18 @@ namespace MG.Collections
         /// Searches for the specified value and returns the zero-based index of the first
         /// occurrence within the entire <see cref="ManagedKeySortedList{TKey, TValue}"/>.
         /// </summary>
-        /// <param name="value">
+        /// <param name="item">
         ///     The value to locate in the <see cref="ManagedKeySortedList{TKey, TValue}"/>. The value
         ///     can be <see langword="null"/> for reference types.
         /// </param>
         /// <returns>
-        ///     The zero-based index of the first occurrence of value within the entire 
-        ///     <see cref="ManagedKeySortedList{TKey, TValue}"/>, if found; otherwise, -1.
+        ///     The zero-based index of the first occurrence of <paramref name="item"/>
+        ///     within the entire <see cref="ManagedKeySortedList{TKey, TValue}"/>, 
+        ///     if found; otherwise, -1.
         /// </returns>
-        public int IndexOf(TValue value)
+        public int IndexOf(TValue item)
         {
-            return InnerList.IndexOfValue(value);
+            return InnerList.IndexOfValue(item);
         }
         /// <summary>
         /// Removes the element at the specified index of the <see cref="ManagedKeySortedList{TKey, TValue}"/>.
@@ -624,11 +625,16 @@ namespace MG.Collections
         public List<TValue> GetRange(int index, int count)
         {
             if (index < 0 || count < 0)
-                throw new ArgumentOutOfRangeException(string.Format("{0} -or- {1} is less than 0.", nameof(index), nameof(count)));
+            {
+            throw new ArgumentOutOfRangeException(
+                paramName: string.Format("{0} -or- {1} is less than 0.", nameof(index), nameof(count)));
+            }
 
             int endingIndex = index + (count - 1);
             if (count < index || this.Count <= endingIndex)
+            {
                 throw new ArgumentException(string.Format("{0} and {1} do not denote a valid range of elements", nameof(index), nameof(count)));
+            }
 
             var list = new List<TValue>(count);
             for (int i = index; i <= endingIndex; i++)

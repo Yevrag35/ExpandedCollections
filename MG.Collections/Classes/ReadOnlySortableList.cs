@@ -1,8 +1,5 @@
-﻿using MG.Collections.Exceptions;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 #pragma warning disable CA1010 // Collections should implement generic interface
 #pragma warning disable CA1710 // Identifiers should have correct suffix
@@ -38,7 +35,9 @@ namespace MG.Collections
             set
             {
                 if (null == value)
+                {
                     value = GetDefaultComparer();
+                }
 
                 _sortComparer = value;
             }
@@ -158,7 +157,9 @@ namespace MG.Collections
         public void Reverse(int index, int count)
         {
             if (this.Count <= 1)
+            {
                 return;
+            }
 
             InnerList.Reverse(index, count);
         }
@@ -216,17 +217,19 @@ namespace MG.Collections
         public void Sort(int index)
         {
             if (index < 0 || index >= this.Count)
+            {
                 throw new ArgumentOutOfRangeException(
-                    nameof(index),
-                    string.Format(
-                        Strings.ArgumentOutOfRange_NoCount_SortableList,
-                        nameof(index),
-                        nameof(ReadOnlySortableList<T>),
-                        this.Count
+                    paramName: nameof(index),
+                    message: string.Format(
+                        format: Strings.ArgumentOutOfRange_NoCount_SortableList,
+                        arg0: nameof(index),
+                        arg1: nameof(ReadOnlySortableList<T>),
+                        arg2: this.Count
                     )
                 );
+            }
 
-            this.Sort(index, this.Count - index, this.DefaultComparer);
+            this.InnerList.Sort(index, this.Count - index, this.DefaultComparer);
         }
         /// <summary>
         /// Sorts the elements in the range of elements in <see cref="ReadOnlySortableList{T}"/> using 
@@ -248,7 +251,7 @@ namespace MG.Collections
         /// </exception>
         public void Sort(int index, int count)
         {
-            this.Sort(index, count, this.DefaultComparer);
+            this.InnerList.Sort(index, count, this.DefaultComparer);
         }
         /// <summary>
         /// Sorts the elements in the range of elements in <see cref="ReadOnlySortableList{T}"/> using the specified 
@@ -275,9 +278,11 @@ namespace MG.Collections
         public void Sort(int index, int count, IComparer<T> comparer)
         {
             if (this.Count <= 1)
+            {
                 return;
+            }
 
-            InnerList.Sort(index, count, comparer);
+            this.InnerList.Sort(index, count, comparer);
         }
 
         #endregion
@@ -285,9 +290,12 @@ namespace MG.Collections
         #region PRIVATE METHODS
         private static IComparer<T> GetDefaultComparer()
         {
-            return !typeof(T).Equals(typeof(string))
-                ? Comparer<T>.Default
-                : (IComparer<T>)StringComparer.CurrentCultureIgnoreCase;
+            if (typeof(T).Equals(typeof(string)))
+            {
+                return (IComparer<T>)StringComparer.CurrentCultureIgnoreCase;
+            }
+
+            return Comparer<T>.Default;
         }
 
         #endregion

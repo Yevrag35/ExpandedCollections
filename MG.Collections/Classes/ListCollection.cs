@@ -890,7 +890,7 @@ namespace MG.Collections
         /// </exception>
         public void Sort(int index, int count, IComparer<T> comparer)
         {
-            this.Sort(index, count, comparer);
+            this.InnerList.Sort(index, count, comparer);
             this.OnSorted(comparer, index, count);
         }
 
@@ -1134,7 +1134,9 @@ namespace MG.Collections
         protected virtual void OnSorted(IComparer<T> comparerUsed, int index = -1, int count = -1)
         {
             if (null == comparerUsed)
+            {
                 comparerUsed = Comparer<T>.Default;
+            }
 
             this.Sorted?.Invoke(this, new SortedEventArgs<T>(index, count, comparerUsed));
         }

@@ -1,32 +1,44 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 
 namespace MG.Collections.Exceptions
 {
     /// <summary>
-    /// An <see langword="abstract"/> exception class that provides a formatted base for message with arguments.
+    /// An exception class that provides a formatted base for message with arguments.
     /// </summary>
+    [Serializable]
     public abstract class FormattedException : Exception
     {
-        protected const string WithMessage = "{0}: {1}";
+        protected static readonly string WithMessage = "{0}: {1}";
 
-        public FormattedException(string message, params object[] arguments)
+        protected FormattedException(string message, params object?[] arguments)
             : base(string.Format(CultureInfo.CurrentCulture, message, arguments))
         {
         }
 
-        public FormattedException(Exception innerException, string message, params object[] arguments)
+        protected FormattedException(Exception innerException, string message, params object?[] arguments)
             : base(string.Format(CultureInfo.CurrentCulture, message, arguments), innerException)
         {
         }
 
-        [Obsolete]
-        [return: MaybeNull]
-        public static T NewFormat<T>(string message, params object[] arguments)
-            where T : Exception
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+        protected FormattedException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
-            return Activator.CreateInstance(typeof(T), string.Format(message, arguments)) as T;
+        }
+
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            if (null == info)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
+            base.GetObjectData(info, context);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace MG.Collections
         /// Initializes a new instance of the <see cref="UniqueListBase{T}"/> class that is empty
         /// and has the default initial capacity and default equality comparer for <typeparamref name="T"/>.
         /// </summary>
-        public UniqueListBase()
+        protected UniqueListBase()
             : this(0)
         {
         }
@@ -57,7 +57,7 @@ namespace MG.Collections
         /// </summary>
         /// <param name="capacity">The number of elements that the new collection can initially store.</param>
         /// <exception cref="ArgumentOutOfRangeException"/>
-        public UniqueListBase(int capacity)
+        protected UniqueListBase(int capacity)
             : this(capacity, GetDefaultComparer())
         {
         }
@@ -70,7 +70,7 @@ namespace MG.Collections
         /// </summary>
         /// <param name="collection">The collection whose elements are copied to the new list.</param>
         /// <exception cref="ArgumentNullException"/>
-        public UniqueListBase(IEnumerable<T> collection)
+        protected UniqueListBase(IEnumerable<T> collection)
             : this(collection, GetDefaultComparer())
         {
         }
@@ -84,7 +84,7 @@ namespace MG.Collections
         ///     <see langword="null"/> to use the default <see cref="EqualityComparer{T}"/> implementation for the
         ///     type <typeparamref name="T"/>.
         /// </param>
-        public UniqueListBase(IEqualityComparer<T> equalityComparer)
+        protected UniqueListBase(IEqualityComparer<T> equalityComparer)
             : this(0, equalityComparer)
         {
         }
@@ -100,7 +100,7 @@ namespace MG.Collections
         ///     type <typeparamref name="T"/>.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity"/> is less than 0.</exception>
-        public UniqueListBase(int capacity, IEqualityComparer<T> equalityComparer)
+        protected UniqueListBase(int capacity, IEqualityComparer<T> equalityComparer)
         {
             InnerList = new List<T>(capacity);
             InnerSet = new HashSet<T>(equalityComparer);
@@ -121,7 +121,7 @@ namespace MG.Collections
         ///     <see langword="null"/> to use the default <see cref="EqualityComparer{T}"/> implementation for the
         ///     type <typeparamref name="T"/>.
         /// </param>
-        public UniqueListBase(IEnumerable<T> collection, IEqualityComparer<T> equalityComparer)
+        protected UniqueListBase(IEnumerable<T> collection, IEqualityComparer<T> equalityComparer)
         {
             if (null != collection)
             {

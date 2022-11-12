@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace MG.Collections.Exceptions
 {
@@ -6,6 +7,7 @@ namespace MG.Collections.Exceptions
     /// The exception that is thrown indicating that a modifying operation was attempted against a 
     /// read-only collection.
     /// </summary>
+    [Serializable]
     public class ReadOnlyException : FormattedException
     {
         private const string DEF_MSG = "Collection was of a fixed size";
@@ -28,6 +30,11 @@ namespace MG.Collections.Exceptions
         /// <param name="inner">The exception that is the cause of the current exception.</param>
         public ReadOnlyException(Exception inner)
             : base(inner, WithMessage, DEF_MSG, inner.Message)
+        {
+        }
+
+        protected ReadOnlyException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
     }

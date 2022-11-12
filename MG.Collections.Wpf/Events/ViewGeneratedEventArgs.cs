@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.ComponentModel;
-using System.Linq;
-using System.Windows.Controls;
 using System.Windows.Data;
 
 #pragma warning disable IDE0130

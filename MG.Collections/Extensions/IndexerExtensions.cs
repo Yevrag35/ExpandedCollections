@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -22,9 +23,17 @@ namespace MG.Collections.Extensions
 {
     internal static class ListInterfaceExtensions
     {
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="list"/> is <see langword="null"/>.
+        /// </exception>
         [return: MaybeNull]
         internal static T GetByIndex<T>(this IList<T> list, int index)
         {
+            if (null == list)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
             index = IndexHelper.GetPositiveIndex(index, list.Count);
 
             return index >= 0 && index < list.Count
@@ -60,10 +69,15 @@ namespace MG.Collections.Extensions.NonGeneric
         ///     The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
         ///     if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
         /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="list"/> is <see langword="null"/>.
+        /// </exception>
         [return: MaybeNull]
         public static TItem GetByIndex<TItem, TList>(this TList list, int index)
             where TList : IList<TItem>
         {
+            CheckIfNull(list, nameof(list));
+
             index = IndexHelper.GetPositiveIndex(index, list.Count);
 
             return index >= 0 && index < list.Count
@@ -91,10 +105,15 @@ namespace MG.Collections.Extensions.NonGeneric
         ///     The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
         ///     if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
         /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="collection"/> is <see langword="null"/>.
+        /// </exception>
         [return: MaybeNull]
         public static TItem GetFromProperIndex<TCollection, TItem>(this TCollection collection, int index)
             where TCollection : Collection<TItem>
         {
+            CheckIfNull(collection, nameof(collection));
+
             index = IndexHelper.GetPositiveIndex(index, collection.Count);
 
             return index >= 0 && index < collection.Count
@@ -117,13 +136,26 @@ namespace MG.Collections.Extensions.NonGeneric
         ///     The <see cref="object"/> at the specified proper index position; otherwise, 
         ///     if the index is determined to be out-of-range, then <see langword="null"/>.
         /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="list"/> is <see langword="null"/>.
+        /// </exception>
         public static object? GetFromProperIndex(IList list, int index)
         {
+            CheckIfNull(list, nameof(list));
+
             index = IndexHelper.GetPositiveIndex(index, list.Count);
 
             return index >= 0 && index < list.Count
                 ? list[index]
                 : null;
+        }
+
+        private static void CheckIfNull(object? parameter, string paramName)
+        {
+            if (null == parameter)
+            {
+                throw new ArgumentNullException(paramName);
+            }
         }
     }
 }
@@ -132,15 +164,17 @@ namespace MG.Collections.Extensions.List
 {
     public static class ListOnlyIndexExtensions
     {
-        public static bool IsValidIndex<TItem>(this List<TItem> collection, int index)
+        public static bool IsValidIndex<TItem>(this List<TItem>? collection, int index)
         {
-            return TryIsValidIndex(collection, index, out int throwAway);
+            return TryIsValidIndex(collection, index, out int _);
         }
 
-        public static bool TryIsValidIndex<TItem>(this List<TItem> collection, int index, out int positiveIndex)
+        public static bool TryIsValidIndex<TItem>(this List<TItem>? collection, int index, out int positiveIndex)
         {
-            positiveIndex = IndexHelper.GetPositiveIndex(index, collection.Count);
-            return positiveIndex >= 0 && positiveIndex < collection.Count;
+            int count = collection?.Count ?? 0;
+
+            positiveIndex = IndexHelper.GetPositiveIndex(index, count);
+            return positiveIndex >= 0 && positiveIndex < count;
         }
 
         /// <summary>
@@ -159,14 +193,27 @@ namespace MG.Collections.Extensions.List
         ///     The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
         ///     if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
         /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="list"/> is <see langword="null"/>.
+        /// </exception>
         [return: MaybeNull]
         public static TItem GetByIndex<TItem>(this List<TItem> list, int index)
         {
+            CheckIfNull(list, nameof(list));
+
             index = IndexHelper.GetPositiveIndex(index, list.Count);
 
             return index >= 0 && index < list.Count
                 ? list[index]
                 : default;
+        }
+
+        private static void CheckIfNull(object? parameter, string paramName)
+        {
+            if (null == parameter)
+            {
+                throw new ArgumentNullException(paramName);
+            }
         }
     }
 }
@@ -195,15 +242,28 @@ namespace MG.Collections.Extensions.ReadOnly
         ///     The element of type <typeparamref name="TItem"/> at the specified proper index position; otherwise, 
         ///     if the index is determined to be out-of-range, then the default value of <typeparamref name="TItem"/>.
         /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="list"/> is <see langword="null"/>.
+        /// </exception>
         [return: MaybeNull]
         public static TItem GetFromProperIndex<TReadOnlyList, TItem>(this TReadOnlyList list, int index)
             where TReadOnlyList : IReadOnlyList<TItem>
         {
+            CheckIfNull(list, nameof(list));
+
             index = IndexHelper.GetPositiveIndex(index, list.Count);
 
             return index >= 0 && index < list.Count
                 ? list[index]
                 : default;
+        }
+
+        private static void CheckIfNull(object? parameter, string paramName)
+        {
+            if (null == parameter)
+            {
+                throw new ArgumentNullException(paramName);
+            }
         }
     }
 }

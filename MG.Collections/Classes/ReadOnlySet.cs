@@ -34,15 +34,15 @@ namespace MG.Collections
 #endif
         public int Count
         {
-            get => _set.Count;
+            get => this.InnerSet.Count;
         }
         bool ICollection.IsSynchronized
         {
-            get => false;
+            get => ((ICollection)this.InnerSet).IsSynchronized;
         }
-        object ICollection.SyncRoot
+        object? ICollection.SyncRoot
         {
-            get => _set;
+            get => ((ICollection)this.InnerSet).SyncRoot;
         }
 
         /// <summary>
@@ -63,6 +63,11 @@ namespace MG.Collections
         public ReadOnlySet(IEnumerable<T> items, IEqualityComparer<T> comparer)
         {
             _set = new HashSet<T>(items, comparer);
+        }
+
+        protected ReadOnlySet(SerializationInfo info, StreamingContext context)
+        {
+            _set = new HashSet<T>();
         }
 
         #region ENUMERATORS

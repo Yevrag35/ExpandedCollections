@@ -1,6 +1,4 @@
-﻿using MG.Collections.Extensions;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -41,11 +39,12 @@ namespace MG.Collections
             get => base.GetByIndex(index) ?? default;
             set
             {
-                if (base.TryIsValidIndex(index, out int positiveIndex))
-                    this.SetItem(positiveIndex, value);
-                
-                else
-                    throw new ArgumentOutOfRangeException();
+                if (!base.TryIsValidIndex(index, out int positiveIndex))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(index));
+                }
+
+                this.SetItem(positiveIndex, value);
             }
         }
 
@@ -138,13 +137,22 @@ namespace MG.Collections
 
         #endregion
 
+        protected IList<T> FindAllValues(Func<T, bool> match)
+        {
+            return base.FindAll(match);
+        }
+        protected IList<T> GetRangeOfValues(int index, int count)
+        {
+            return base.GetRange(index, count);
+        }
+
         IList<T> ISearchableList<T>.FindAll(Func<T, bool> match)
         {
-            return this.FindAll(match);
+            return this.FindAllValues(match);
         }
         IList<T> ISearchableList<T>.GetRange(int index, int count)
         {
-            return this.GetRange(index, count);
+            return this.GetRangeOfValues(index, count);
         }
 
         #region EXTRA ILIST METHODS
