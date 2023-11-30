@@ -329,9 +329,9 @@ namespace MG.Collections.Wpf
             return result;
         }
 
-#endregion
+        #endregion
 
-#region ILIST EXPLICIT METHODS
+        #region ILIST EXPLICIT METHODS
         int IList.Add(object value)
         {
             int index = -1;
@@ -367,9 +367,9 @@ namespace MG.Collections.Wpf
             }
         }
 
-#endregion
+        #endregion
 
-#region VIEW METHODS
+        #region VIEW METHODS
         /// <summary>
         /// Generates the <see cref="ListCollectionView"/> and defines it as <see cref="View"/> for the current <see cref="UniqueObservableList{T}"/>.
         /// </summary>
@@ -446,9 +446,9 @@ namespace MG.Collections.Wpf
             }
         }
 
-#endregion
+        #endregion
 
-#region OTHER METHODS
+        #region OTHER METHODS
         /// <summary>
         /// Takes a given <see cref="Predicate{T}"/> and simply negates the <see cref="bool"/> result.
         /// </summary>
@@ -473,6 +473,6 @@ namespace MG.Collections.Wpf
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-#endregion
+        #endregion
     }
 }

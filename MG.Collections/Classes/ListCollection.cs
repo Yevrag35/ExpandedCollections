@@ -266,7 +266,7 @@ namespace MG.Collections
         /// </exception>
         public int BinarySearch(T item)
         {
-            return this.BinarySearch(item);
+            return this.InnerList.BinarySearch(item);
         }
         /// <summary>
         /// Searches the entire sorted <see cref="ListCollection{T}"/> for an element using the specified comparer and
@@ -291,7 +291,7 @@ namespace MG.Collections
         /// </exception>
         public int BinarySearch(T item, IComparer<T> comparer)
         {
-            return this.BinarySearch(item, comparer);
+            return this.InnerList.BinarySearch(item, comparer);
         }
         /// <summary>
         ///     Searches a range of elements in the sorted <see cref="ListCollection{T}"/>
@@ -328,7 +328,7 @@ namespace MG.Collections
         /// </exception>
         public int BinarySearch(int index, int count, T item, IComparer<T> comparer)
         {
-            return this.BinarySearch(index, count, item, comparer);
+            return this.InnerList.BinarySearch(index, count, item, comparer);
         }
         /// <summary>
         /// Converts the elements in the current <see cref="ListCollection{T}"/> to another
@@ -367,7 +367,7 @@ namespace MG.Collections
         /// </exception>
         public void CopyTo(T[] array)
         {
-            this.CopyTo(array);
+            this.InnerList.CopyTo(array);
         }
         /// <summary>
         /// Copies a range of elements from the <see cref="ListCollection{T}"/> to a compatible one-dimensional array,
@@ -909,7 +909,7 @@ namespace MG.Collections
         /// </summary>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return this.InnerList.GetEnumerator();
         }
 
         #endregion
@@ -921,7 +921,7 @@ namespace MG.Collections
         }
         IList<T> ISearchableList<T>.GetRange(int index, int count)
         {
-            return this.GetRange(index, count);
+            return this.InnerList.GetRange(index, count);
         }
 
         #endregion

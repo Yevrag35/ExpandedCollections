@@ -63,7 +63,7 @@ namespace MG.Collections.Exceptions
             }
 
             info.AddValue("FunctionAsString", this.Function?.ToString());
-            object? serialized = this.GetSerializedFunction();
+            object? serialized = this.SerializeFunction();
             if (null != serialized)
             {
                 info.AddValue(nameof(Function), serialized);
@@ -80,7 +80,7 @@ namespace MG.Collections.Exceptions
         ///     Without overriding, this method returns <see langword="null"/>; otherwise, 
         ///     the serializable object representing the function used.
         /// </returns>
-        protected virtual object? GetSerializedFunction()
+        protected virtual object? SerializeFunction()
         {
             return null;
         }

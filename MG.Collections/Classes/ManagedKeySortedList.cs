@@ -52,7 +52,9 @@ namespace MG.Collections
             set
             {
                 if (!this.SetItem(key, value))
+                {
                     throw new ArgumentException("The new value's key does not equate to the output of the managed key function.");
+                }
             }
         }
         /// <summary>
